@@ -1,0 +1,59 @@
+/* Design tokens. Every color, size and spacing value in the site comes from here. */
+:root {
+  /* Colors */
+  --color-orange: #DD7520;
+  --color-orange-burnt: #A9560F;
+  --color-charcoal: #161A1F;
+  --color-teal: #1E6F6B;
+  --color-teal-light: #4DB3AB;
+  --color-offwhite: #FAFAF8;
+  --color-paper: #F3EEE6;
+  --color-orange-tint: #FCEFE3;
+  --color-teal-tint: #E6F2F0;
+  --color-steel: #5B636B;
+  --color-rule: #E2DED6;
+  --color-white: #FFFFFF;
+
+  /* Corners: 12px on the bottom-left only, 2px on the other three. Inputs 6px. */
+  --radius-corner: 12px;
+  --radius-sharp: 2px;
+  --radius-input: 6px;
+
+  /* The only shadow */
+  --shadow-card: 0 1px 2px rgba(22, 26, 31, 0.08);
+
+  /* Spacing: 8px steps */
+  --space: 8px;
+
+  /* Layout (phone values; desktop overrides below) */
+  --content-max: 1160px;
+  --gutter: 20px;
+  --section-y: 64px;
+  --prose-max: 68ch;
+
+  /* Fonts */
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Type scale (phone) */
+  --text-h1: 36px;
+  --text-h2: 28px;
+  --text-h3: 20px;
+  --text-body: 17px;
+  --text-small: 15px;
+  --leading-h1: 1.05;
+  --leading-h2: 1.15;
+  --leading-body: 1.6;
+  --tracking-h1: -0.01em;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+    --section-y: 96px;
+    --text-h1: 56px;
+    --text-h2: 38px;
+    --text-h3: 22px;
+    --text-body: 18px;
+  }
+}

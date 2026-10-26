@@ -1,0 +1,48 @@
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/manrope/800.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { background: var(--color-offwhite); }
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-charcoal);
+    background: var(--color-offwhite);
+  }
+  h1, h2, h3 { font-family: var(--font-display); color: var(--color-charcoal); }
+  h1 { font-weight: 800; font-size: var(--text-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
+  h2 { font-weight: 800; font-size: var(--text-h2); line-height: var(--leading-h2); }
+  h3 { font-weight: 700; font-size: var(--text-h3); }
+  p { max-width: var(--prose-max); }
+  small, .text-secondary { font-family: var(--font-body); font-weight: 500; font-size: var(--text-small); color: var(--color-steel); }
+  ::selection { background: var(--color-orange-tint); }
+}
+
+@layer components {
+  .price { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
+  .container-content { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--gutter); }
+  .section { padding-block: var(--section-y); }
+  .skip-link {
+    position: absolute;
+    left: var(--gutter);
+    top: calc(var(--space) * -8);
+    padding: var(--space) calc(var(--space) * 2);
+    background: var(--color-charcoal);
+    color: var(--color-offwhite);
+    font-weight: 600;
+    font-size: var(--text-small);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    z-index: 50;
+  }
+  .skip-link:focus { top: var(--space); }
+}

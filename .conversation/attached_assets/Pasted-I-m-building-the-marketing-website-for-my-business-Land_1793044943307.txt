@@ -1,0 +1,37 @@
+I'm building the marketing website for my business, Landed Local. Do not write code yet. Read this brief and reply with a build plan.
+
+THE BUSINESS
+- Landed Local LLC, Columbus, Ohio. A one-person web studio run by George Callendine.
+- I build fast, phone-first websites for local service businesses: plumbers, electricians, HVAC, tree service and other trades.
+- Main offer: a custom website for $997 one time. The first 3 founding clients pay $500 in exchange for an honest review. The client owns the site and the domain. Live within 7 days of getting their content. Up to 5 pages, 2 revision rounds, 30 days of free call tracking. Payment: 50% to start and 50% at launch, or 3 monthly payments. Guarantee: if they don't like the first draft, I refund the deposit.
+- Optional care plan: $49/month (updates, hosting management, monthly call report).
+- The one call to action everywhere: "Get my free mockup" = the visitor asks me to build a free custom preview of their own website.
+- Visitors are trade business owners, usually on a phone, often right after I cold-called them. They are checking three things: is this guy real, is he local, and is his work good.
+
+WHAT THE SITE MUST DO
+1. Prove I build excellent websites. This site is my portfolio, so it must be fast, polished and flawless on phones.
+2. Build trust: real person, local phone number, price shown openly, plain language.
+3. Turn visitors into mockup requests.
+
+PAGES FOR THIS VERSION
+/ (Home), /websites, /about, /get-a-mockup, /thanks, /privacy, and a custom 404.
+
+TECH
+- A static site built with Astro that outputs plain HTML, CSS and JS to a dist folder. It will be published as a Replit Static Deployment, so it has no backend server and no database.
+- Tailwind CSS, mapped to CSS custom properties (design tokens), so colors and sizes live in one place.
+- Fonts self-hosted with Fontsource: Manrope (700, 800) for headings, Inter (400, 500, 600) for body text.
+- Icons: Lucide, bold stroke.
+- Every business detail, price, link and on/off switch lives in one file: src/config/site.ts.
+- The lead form posts from the browser to Web3Forms.
+- Target: Lighthouse mobile score 90+ for performance, accessibility, best practices and SEO.
+
+DESIGN DIRECTION: "Measured, not hyped"
+Light, warm and plain-spoken, like a well-run job site, not a tech startup. The logo is a carpenter's square shaped like an L with tick marks, plus a check mark. The visual language is measuring and proof: ruler tick marks, job tickets, check marks. No gradients, glows, glassmorphism, robots, monospace "code" text or parallax.
+Colors: Orange #DD7520 (buttons, ruler motif), Charcoal #161A1F (text, dark bands), Teal #1E6F6B (check marks, proof, secondary buttons), Light teal #4DB3AB (checks on dark backgrounds), Off-white #FAFAF8 (page background), plus helpers: Burnt orange #A9560F, Job-ticket paper #F3EEE6, Orange tint #FCEFE3, Teal tint #E6F2F0, Steel gray #5B636B.
+
+Please reply with:
+1. An ordered build plan: foundation, shared components, header and footer, then each page section by section, then the form, then SEO and publishing.
+2. The folder structure you'll use.
+3. The list of shared components you'll create.
+4. Any risks or questions.
+Keep it to one screen. I'll send each step as its own prompt.

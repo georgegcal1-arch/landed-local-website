@@ -1,0 +1,38 @@
+Build step 1: the foundation. The logo and favicon files are already uploaded to /public/brand/ (if any are attached to this message instead, move them there).
+
+1. Set up the Astro project with Tailwind CSS, @fontsource/manrope (700, 800), @fontsource/inter (400, 500, 600) and lucide icons. Static output only.
+
+2. Keep all 11 files in /public/brand/ with their original names. Wire the favicons and apple-touch-icon into the shared <head>.
+
+3. Create src/styles/tokens.css with these CSS variables and map them in tailwind.config so I can use classes like bg-paper or text-teal:
+- Colors: orange #DD7520, orange-burnt #A9560F, charcoal #161A1F, teal #1E6F6B, teal-light #4DB3AB, offwhite #FAFAF8, paper #F3EEE6, orange-tint #FCEFE3, teal-tint #E6F2F0, steel #5B636B, rule #E2DED6, white #FFFFFF.
+- Corner: --radius-corner 12px (used on the bottom-left corner only; the other three corners are 2px). Inputs use 6px.
+- Shadow: --shadow-card 0 1px 2px rgba(22,26,31,0.08). No other shadows.
+- Layout: content max width 1160px, side padding 20px on phones and 32px on desktop. Section padding 96px top and bottom on desktop, 64px on phones. Spacing steps of 8px.
+
+4. Typography (global styles):
+- h1: Manrope 800, 56px desktop / 36px phone, line-height 1.05, letter-spacing -0.01em, color charcoal.
+- h2: Manrope 800, 38px / 28px, line-height 1.15.
+- h3: Manrope 700, 22px / 20px.
+- Body: Inter 400, 18px desktop / 17px phone, line-height 1.6, color charcoal. Paragraphs max 68 characters wide.
+- Small and secondary text: Inter 500, 15px, color steel.
+- A .price class: Manrope 800, tabular numbers.
+- Page background offwhite. Text selection color orange-tint.
+
+5. Create src/config/site.ts exporting one typed object, with a comment on every field:
+business: name "Landed Local", legalName "Landed Local LLC", tagline "Land more local jobs.", owner "George Callendine", ownerFirst "George", city "Columbus", state "Ohio", serviceArea "Columbus and Central Ohio".
+contact: phoneDisplay "614-321-8001", phoneHref "tel:+16143218001", smsHref "sms:+16143218001", email "george@landedlocal.com", bookingUrl "https://calendar.app.google/czz2D9uJiQhCZsVB9".
+pricing: standard 997, founding 500, foundingSpotsTotal 3, foundingSpotsLeft 3, showSpotsLeft false, carePlanMonthly 49, paymentOptions ["50% to start, 50% at launch", "Or 3 monthly payments"], guarantee "Don't like the first draft? I refund your deposit."
+offer: liveInDays 7, maxPages 5, revisionRounds 2, callTrackingDays 30.
+forms: web3formsKey "0ca06fe0-1bac-4a90-9e7c-699654b767fa", responseTime "within one business day".
+hero: mode "workorder" (allowed: "workorder", "devices", "photo"), devicePhoneImage null, deviceLaptopImage null, sampleUrl null.
+photos: founderHero null, founderAbout null.
+samples: [] (each item: name, trade, url, image).
+afterLaunch: pageLive false.
+analytics: cloudflareToken null.
+
+6. Create a shared BaseLayout with <head> (title, meta description, canonical URL using https://www.landedlocal.com, Open Graph tags, theme-color #FAFAF8), a "Skip to content" link, and a <main> slot. Create the pages /, /websites, /about, /get-a-mockup, /thanks, /privacy and 404 with just an h1 each for now.
+
+Every color, font size and spacing value must come from the tokens. No hard-coded hex values in components.
+
+Acceptance check: all 7 routes load, the favicon shows in the browser tab, headings use Manrope and body text uses Inter, and changing --color-orange in tokens.css changes it everywhere. When done, list the files you created and explain how I edit site.ts.

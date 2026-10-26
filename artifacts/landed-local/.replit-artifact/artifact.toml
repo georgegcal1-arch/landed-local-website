@@ -1,0 +1,24 @@
+kind = "web"
+previewPath = "/"
+title = "Landed Local"
+description = "Static Astro marketing website for Landed Local, a Columbus web studio serving local trades. Foundation only: shared tokens, brand assets, configuration, and placeholder pages."
+version = "1.0.0"
+id = "artifacts/landed-local"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20014
+
+[services.development]
+run = "pnpm --filter @workspace/landed-local run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/landed-local", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/landed-local/dist"
+
+[services.env]
+PORT = "20014"
+BASE_PATH = "/"
