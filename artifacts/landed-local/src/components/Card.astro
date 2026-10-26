@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"div"> & { as?: "div" | "article" | "section" | "li" };
+const { as: Tag = "div", class: extra, ...rest } = Astro.props;
+---
+<Tag class:list={["card", extra]} data-tone="light" {...rest}><slot /></Tag>
+
+<style>
+  .card {
+    background: var(--color-white); color: var(--color-charcoal);
+    border: var(--stroke-hair) solid var(--color-rule);
+    padding: var(--card-pad);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    box-shadow: var(--shadow-card);
+  }
+  /* Local foreground reset: white card stays light-on-dark-proof inside charcoal Sections. */
+  .card[data-tone="light"] :global(:is(h1, h2, h3, p, li, strong)) { color: var(--color-charcoal); }
+  .card[data-tone="light"] :global(a:not(.btn)) { color: var(--color-teal); }
+  .card[data-tone="light"] :global(:is(small, .text-secondary)) { color: var(--color-steel); }
+  .card { overflow-wrap: anywhere; }
+</style>

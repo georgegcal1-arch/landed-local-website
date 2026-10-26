@@ -1,0 +1,78 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+export interface TicketItem { label: string; value?: string }
+interface Props {
+  number: string;
+  title: string;
+  items: TicketItem[];
+  total?: { label?: string; value: string };
+  stamp?: boolean | string;
+  class?: string;
+}
+const { number, title, items, total, stamp = false, class: extra } = Astro.props;
+const stampText = typeof stamp === "string" ? stamp : "APPROVED";
+---
+<article class:list={["ticket", extra]} data-tone="light">
+  <header class="ticket__head">
+    <Eyebrow as="span">Work order</Eyebrow>
+    <span class="ticket__num">No. {number}</span>
+  </header>
+  <h3 class="ticket__title">{title}</h3>
+  <ul class="ticket__items" data-reveal>
+    {items.map((item, i) => (
+      <li class="ticket__item" style={`--i:${i}`}>
+        <svg class="ticket__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" pathLength="1" /></svg>
+        <span class="ticket__label">{item.label}</span>
+        <span class="ticket__leader" aria-hidden="true"></span>
+        {item.value && <span class="ticket__value price">{item.value}</span>}
+      </li>
+    ))}
+  </ul>
+  {total && (
+    <div class="ticket__total">
+      <span>{total.label ?? "Total"}</span>
+      <span class="price">{total.value}</span>
+    </div>
+  )}
+  {stamp && <div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div>}
+</article>
+<script>import "../scripts/motion";</script>
+
+<style>
+  .ticket {
+    position: relative; background: var(--color-paper); color: var(--color-charcoal);
+    border: var(--stroke-hair) solid var(--color-rule);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    box-shadow: var(--shadow-card); padding: var(--card-pad);
+  }
+  /* Local foreground reset so dark Section selectors never leak onto paper. */
+  .ticket :global(:is(h1, h2, h3, p, li, span)) { color: var(--color-charcoal); }
+  .ticket .ticket__num { color: var(--color-steel); }
+  .ticket :global(.eyebrow), .ticket :global(.eyebrow span) { color: var(--color-orange-burnt); }
+  .ticket .ticket__stamp, .ticket .ticket__stamp span { color: var(--color-teal); }
+  .ticket__label { overflow-wrap: anywhere; }
+  .ticket__head { display: flex; justify-content: space-between; align-items: center; gap: calc(var(--space) * 2);
+    padding-bottom: calc(var(--space) * 2); border-bottom: var(--stroke-hair) dashed var(--color-steel); }
+  .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: var(--tracking-eyebrow); }
+  .ticket__title { margin: calc(var(--space) * 2) 0 calc(var(--space) * 2.5); font-size: var(--text-h3); line-height: var(--leading-tight); }
+  .ticket__items { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.25); }
+  .ticket__item { display: flex; align-items: baseline; gap: var(--space); }
+  .ticket__check { flex: none; width: var(--check-size); height: var(--check-size); align-self: center; }
+  .ticket__check path { fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  :global(html.motion-ok) .ticket__items:not(.is-in) .ticket__check path { stroke-dashoffset: 1; }
+  :global(html.motion-ok) .ticket__items.is-in .ticket__check path { transition: stroke-dashoffset var(--dur-check) var(--ease-out); transition-delay: calc(var(--i, 0) * var(--stagger-check)); }
+  .ticket__label { flex: none; max-width: 70%; }
+  .ticket__leader { flex: 1; min-width: calc(var(--space) * 2); border-bottom: var(--leader-dot) dotted var(--color-steel); transform: translateY(calc(var(--space) * -0.5)); }
+  .ticket__value { flex: none; }
+  .ticket__total { display: flex; justify-content: space-between; align-items: baseline; margin-top: calc(var(--space) * 2.5); padding-top: calc(var(--space) * 2);
+    border-top: var(--stroke-outline) solid var(--color-charcoal); font-weight: var(--weight-semibold); }
+  .ticket__total .price { font-size: var(--text-h3); }
+  .ticket__stamp {
+    position: absolute; right: calc(var(--space) * 3); bottom: calc(var(--space) * 9);
+    transform: rotate(var(--stamp-rotate)); pointer-events: none;
+    border: var(--stroke-focus) solid var(--color-teal); background: var(--stamp-bg); color: var(--color-teal);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    padding: var(--space) calc(var(--space) * 2);
+    font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--text-stamp); letter-spacing: var(--tracking-stamp);
+  }
+</style>

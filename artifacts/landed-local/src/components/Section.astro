@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from "astro/types";
+export type SectionBg = "offwhite" | "paper" | "charcoal" | "orange-tint";
+type Props = HTMLAttributes<"section"> & {
+  bg?: SectionBg;
+  /** Overlay a 24px blueprint grid. */
+  blueprint?: boolean;
+  /** Wrap children in the content-width container. Default true. */
+  contained?: boolean;
+};
+const { bg = "offwhite", blueprint = false, contained = true, class: extra, ...rest } = Astro.props;
+---
+<section class:list={["sec", `sec--${bg}`, { "sec--blueprint": blueprint }, extra]} data-tone={bg === "charcoal" ? "dark" : "light"} {...rest}>
+  {contained ? <div class="container-content"><slot /></div> : <slot />}
+</section>
+
+<style>
+  .sec { position: relative; padding-block: var(--section-y); color: var(--color-charcoal); }
+  .sec--offwhite { background-color: var(--color-offwhite); }
+  .sec--paper { background-color: var(--color-paper); }
+  .sec--orange-tint { background-color: var(--color-orange-tint); }
+  .sec--charcoal { background-color: var(--color-charcoal); color: var(--color-offwhite); }
+  /* Only direct content, not light-toned components (Card, JobTicket) nested inside. */
+  .sec--charcoal :global(:is(h1, h2, h3):not([data-tone="light"] *)) { color: var(--color-offwhite); }
+  .sec--charcoal :global(:is(a:not(.btn), .accent):not([data-tone="light"] *)) { color: var(--color-teal-light); }
+  .sec--charcoal :global(:is(small, .text-secondary):not([data-tone="light"] *)) { color: var(--color-rule); }
+  .sec--blueprint {
+    background-image:
+      linear-gradient(var(--grid-line) var(--stroke-hair), transparent var(--stroke-hair)),
+      linear-gradient(90deg, var(--grid-line) var(--stroke-hair), transparent var(--stroke-hair));
+    background-size: var(--grid-cell) var(--grid-cell);
+  }
+</style>

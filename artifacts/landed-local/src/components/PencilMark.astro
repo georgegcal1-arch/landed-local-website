@@ -1,0 +1,18 @@
+---
+interface Props { class?: string }
+const { class: extra } = Astro.props;
+---
+<span class:list={["pencil", extra]} data-reveal><slot /><svg class="pencil__line" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 8.2 C 28 5.1, 52 9.4, 79 6.6 S 131 4.2, 156 7.1 S 186 6.3, 197 4.6" pathLength="1" /></svg></span>
+<script>import "../scripts/motion";</script>
+
+<style>
+  .pencil { position: relative; display: inline-block; white-space: nowrap; }
+  .pencil__line { position: absolute; left: 0; bottom: calc(var(--pencil-h) * -0.6); width: 100%; height: var(--pencil-h); overflow: visible; }
+  .pencil__line path {
+    fill: none; stroke: var(--color-orange); stroke-width: var(--stroke-pencil);
+    stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 1; stroke-dashoffset: 0;
+  }
+  :global(html.motion-ok) .pencil:not(.is-in) .pencil__line path { stroke-dashoffset: 1; }
+  :global(html.motion-ok) .pencil.is-in .pencil__line path { transition: stroke-dashoffset var(--dur-pencil) var(--ease-out) var(--delay-pencil); }
+</style>

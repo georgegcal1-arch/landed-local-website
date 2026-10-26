@@ -1,0 +1,207 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import RulerDivider from "../components/RulerDivider.astro";
+import CornerFrame from "../components/CornerFrame.astro";
+import CheckList from "../components/CheckList.astro";
+import Card from "../components/Card.astro";
+import PencilMark from "../components/PencilMark.astro";
+import Section from "../components/Section.astro";
+import JobTicket from "../components/JobTicket.astro";
+import Pill from "../components/Pill.astro";
+import type { SectionBg } from "../components/Section.astro";
+import { site } from "../config/site";
+import tokens from "../styles/tokens.css?raw";
+
+// Read straight from tokens.css so swatches and labels never drift from the source.
+const colors = [...tokens.matchAll(/--color-([a-z-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()] as const);
+const { pricing, offer } = site;
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+const grounds: { bg: SectionBg; label: string }[] = [
+  { bg: "offwhite", label: "Offwhite" },
+  { bg: "paper", label: "Paper" },
+  { bg: "charcoal", label: "Charcoal" },
+];
+const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} days`, `${offer.revisionRounds} rounds of revisions`];
+---
+<BaseLayout title="Styleguide" noindex>
+  <Section bg="paper" blueprint>
+    <Eyebrow>Internal review, not linked</Eyebrow>
+    <h1 class="sg-title">Landed Local <PencilMark>shop drawings</PencilMark></h1>
+    <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
+    <nav class="sg-toc" aria-label="Styleguide sections">
+      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections"].map((s) => <a href={`#${s}`}>{s}</a>)}
+    </nav>
+  </Section>
+  <RulerDivider variant="orange" />
+
+  <Section id="colors">
+    <Eyebrow>01 Color tokens</Eyebrow>
+    <h2 class="sg-h">Palette</h2>
+    <ul class="sg-swatches">
+      {colors.map(([name, hex]) => (
+        <li class="sg-swatch">
+          <span class="sg-swatch__chip" style={`background: var(--color-${name})`}></span>
+          <span class="sg-token">--color-{name}</span>
+          <span class="sg-meta">{hex}</span>
+        </li>
+      ))}
+    </ul>
+  </Section>
+  <RulerDivider />
+
+  <div id="type">
+    {grounds.map(({ bg, label }) => (
+      <Section bg={bg}>
+        <Eyebrow>02 Type scale on {label}</Eyebrow>
+        <div class="sg-type">
+          <div><span class="sg-meta">h1 Manrope 800 var(--text-h1)</span><h1>Built square. Found first.</h1></div>
+          <div><span class="sg-meta">h2 Manrope 800 var(--text-h2)</span><h2>Websites for Columbus trades</h2></div>
+          <div><span class="sg-meta">h3 Manrope 700 var(--text-h3)</span><h3>Measured twice, launched once</h3></div>
+          <div><span class="sg-meta">body Inter 400 var(--text-body)</span><p>You fix roofs, wire panels and hang drywall. We build the site that sends the next call your way, then keep it plumb.</p></div>
+          <div><span class="sg-meta">small Inter 500 var(--text-small)</span><p><small>Serving Clintonville, Hilliard, Westerville and Grove City.</small></p></div>
+          <div><span class="sg-meta">price Manrope 800 tabular</span><p class="price sg-price">{usd(pricing.standard)}</p></div>
+        </div>
+      </Section>
+    ))}
+  </div>
+  <RulerDivider variant="orange" />
+
+  <div id="buttons">
+    {grounds.map(({ bg, label }) => (
+      <Section bg={bg}>
+        <Eyebrow>03 Buttons on {label}</Eyebrow>
+        <div class="sg-row">
+          <Button href="#buttons">Primary link</Button>
+          <Button>Primary button</Button>
+          <Button variant="secondary" href="#buttons">Secondary link</Button>
+          <Button variant="secondary">Secondary button</Button>
+          <Button variant="text-link" href="#buttons">Text link</Button>
+          <Button variant="text-link">Text button</Button>
+          <Button disabled>Disabled</Button>
+        </div>
+        <p class="sg-meta">Tab through to see the 3px teal focus ring. Hover primary for orange-burnt with offwhite text.</p>
+      </Section>
+    ))}
+  </div>
+
+  <Section id="labels" bg="offwhite">
+    <Eyebrow>04 Eyebrow and Pill</Eyebrow>
+    <h2 class="sg-h">Labels</h2>
+    <div class="sg-row">
+      <Pill>Roofing</Pill><Pill>Electrical</Pill><Pill>Founding price {usd(pricing.founding)}</Pill><Pill>Pill label</Pill>
+    </div>
+  </Section>
+  <RulerDivider />
+
+  <Section id="rulers" bg="offwhite">
+    <Eyebrow>05 RulerDivider</Eyebrow>
+    <h2 class="sg-h">Default and orange</h2>
+    <p class="sg-meta">variant="rule"</p>
+  </Section>
+  <RulerDivider />
+  <Section bg="offwhite"><p class="sg-meta">variant="orange"</p></Section>
+  <RulerDivider variant="orange" />
+  <Section bg="charcoal"><p class="sg-meta">On charcoal, both variants</p></Section>
+  <div data-tone="dark" class="sg-dark-strip"><RulerDivider /><RulerDivider variant="orange" /></div>
+
+  <div id="checks">
+    {grounds.map(({ bg, label }) => (
+      <Section bg={bg}>
+        <Eyebrow>06 CheckList on {label}</Eyebrow>
+        <div class="sg-split">
+          <CheckList items={items} onDark={bg === "charcoal"} />
+          <CheckList items={["Rich item via render slot", "Same drawn check, no extra markup"]} onDark={bg === "charcoal"}>
+            {(item: string) => <strong>{item}</strong>}
+          </CheckList>
+        </div>
+      </Section>
+    ))}
+  </div>
+
+  <Section id="cards" bg="paper">
+    <Eyebrow>07 Card and PencilMark</Eyebrow>
+    <div class="sg-split">
+      <Card>
+        <Pill>Plumbing</Pill>
+        <h3 class="sg-card-h">Card heading</h3>
+        <p>Demo body text inside a Card. White ground, rule border, one rounded corner.</p>
+        <Button variant="text-link" href="#cards">Text link in a card</Button>
+      </Card>
+      <Card as="article">
+        <h2>Get found by the <PencilMark>neighbors</PencilMark> first.</h2>
+      </Card>
+    </div>
+  </Section>
+
+  <Section id="frames" bg="offwhite">
+    <Eyebrow>08 CornerFrame</Eyebrow>
+    <div class="sg-split">
+      <CornerFrame class="sg-frame-img">
+        <img src={site.brand.profilePhoto} alt="Profile photo of the studio owner" width="1080" height="1080" loading="lazy" />
+      </CornerFrame>
+      <CornerFrame>
+        <Card><h3>Any content</h3><p>The square hugs the bottom-left corner, 12px out, 72px arms.</p></Card>
+      </CornerFrame>
+    </div>
+  </Section>
+
+  <Section id="tickets" bg="offwhite" blueprint>
+    <Eyebrow>09 JobTicket</Eyebrow>
+    <div class="sg-split">
+      <JobTicket number="0001" title="Demo ticket: values, total and stamp" stamp
+        items={[{ label: "Standard site", value: usd(pricing.standard) }, { label: "Founding discount", value: `-${usd(pricing.standard - pricing.founding)}` }, { label: "Revision rounds", value: String(offer.revisionRounds) }]}
+        total={{ value: usd(pricing.founding) }} />
+      <JobTicket number="0002" title="Demo ticket: no values, total or stamp"
+        items={[{ label: `Up to ${offer.maxPages} pages` }, { label: `${offer.callTrackingDays} days of call tracking` }, { label: "Line item label" }]} />
+    </div>
+  </Section>
+
+  <Section bg="charcoal" blueprint>
+    <Eyebrow>Light components inside a charcoal Section</Eyebrow>
+    <h2 class="sg-h">Foreground stays charcoal on white and paper</h2>
+    <div class="sg-split">
+      <Card>
+        <Eyebrow>Card eyebrow</Eyebrow>
+        <h3 class="sg-card-h">Card heading</h3>
+        <CheckList items={items} />
+        <div class="sg-row"><Button variant="secondary">Secondary</Button><Button variant="text-link" href="#tickets">Text link</Button></div>
+      </Card>
+      <JobTicket number="0003" title="Demo ticket on charcoal" stamp items={[{ label: "Line item", value: usd(pricing.carePlanMonthly) }]} total={{ label: "Monthly", value: usd(pricing.carePlanMonthly) }} />
+    </div>
+  </Section>
+
+  <div id="sections">
+    {(["offwhite", "paper", "charcoal", "orange-tint"] as SectionBg[]).map((bg) => [false, true].map((bp) => (
+      <Section bg={bg} blueprint={bp}>
+        <Eyebrow>10 Section bg="{bg}" blueprint={String(bp)}</Eyebrow>
+        <p>Body copy on this ground with an <a href="#sections" class="accent">accent link</a>.</p>
+      </Section>
+    )))}
+  </div>
+</BaseLayout>
+
+<style>
+  .sg-title { margin-top: calc(var(--space) * 2); }
+  .sg-lede { margin-top: calc(var(--space) * 2); }
+  .sg-h { margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 4); }
+  .sg-meta { display: block; font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-eyebrow); letter-spacing: var(--tracking-eyebrow); color: var(--color-steel); }
+  .sg-token { font-family: var(--font-body); font-weight: var(--weight-semibold); overflow-wrap: anywhere; }
+  :global([data-tone="dark"]) .sg-meta { color: var(--color-rule); }
+  .sg-toc { display: flex; flex-wrap: wrap; gap: var(--space) calc(var(--space) * 2); margin-top: calc(var(--space) * 3); font-weight: var(--weight-semibold); font-size: var(--text-small); text-transform: capitalize; }
+  .sg-toc a { color: var(--color-teal); }
+  .sg-swatches { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--space) * 20), 1fr)); gap: calc(var(--space) * 3); }
+  .sg-swatch { display: grid; gap: calc(var(--space) * 0.5); font-size: var(--text-small); }
+  .sg-swatch__chip { height: var(--swatch-h); border: var(--stroke-hair) solid var(--color-rule); border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner); margin-bottom: var(--space); }
+  .sg-type { display: grid; gap: calc(var(--space) * 3); margin-top: calc(var(--space) * 3); }
+  .sg-type > div { border-top: var(--stroke-hair) solid var(--color-rule); padding-top: var(--space); }
+  :global([data-tone="dark"]) .sg-type > div { border-color: var(--color-steel); }
+  .sg-price { font-size: var(--text-h2); margin: 0; }
+  .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 2); margin: calc(var(--space) * 3) 0; }
+  .sg-split { display: grid; gap: calc(var(--space) * 5); margin-top: calc(var(--space) * 3); align-items: start; }
+  @media (min-width: 768px) { .sg-split { grid-template-columns: 1fr 1fr; } }
+  .sg-card-h { margin: calc(var(--space) * 2) 0 var(--space); }
+  .sg-frame-img { max-width: calc(var(--space) * 40); }
+  .sg-dark-strip { background: var(--color-charcoal); display: grid; gap: calc(var(--space) * 3); padding-bottom: calc(var(--space) * 4); }
+</style>

@@ -1,0 +1,43 @@
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"ul"> & {
+  /**
+   * Items to list. Each gets a drawn check automatically. Pass a render function as
+   * the default slot for rich content: {(item) => <strong>{item}</strong>}
+   */
+  items: string[];
+  /** Use teal-light checks for dark backgrounds. */
+  onDark?: boolean;
+};
+const { items, onDark = false, class: extra, ...rest } = Astro.props;
+const hasRenderer = Astro.slots.has("default");
+const rendered = hasRenderer ? await Promise.all(items.map((item, i) => Astro.slots.render("default", [item, i]))) : null;
+---
+<ul class:list={["checklist", { "checklist--dark": onDark }, extra]} data-reveal {...rest}>
+  {items.map((item, i) => (
+        <li style={`--i:${i}`}>
+          <svg class="checklist__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 12.5 L9.5 18 L20 5" pathLength="1" />
+          </svg>
+          {rendered ? <span set:html={rendered[i]} /> : <span>{item}</span>}
+        </li>
+      ))}
+</ul>
+<script>import "../scripts/motion";</script>
+
+<style>
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.5); }
+  .checklist :global(li) { display: grid; grid-template-columns: var(--check-size) 1fr; gap: calc(var(--space) * 1.5); align-items: start; }
+  .checklist__mark { width: var(--check-size); height: var(--check-size); margin-top: calc(var(--space) * 0.25); }
+  .checklist__mark path {
+    fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check);
+    stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0;
+  }
+  .checklist--dark .checklist__mark path, :global([data-tone="dark"]) .checklist__mark path { stroke: var(--color-teal-light); }
+  :global([data-tone="dark"] [data-tone="light"]) .checklist:not(.checklist--dark) .checklist__mark path { stroke: var(--color-teal); }
+  :global(html.motion-ok) .checklist:not(.is-in) .checklist__mark path { stroke-dashoffset: 1; }
+  :global(html.motion-ok) .checklist.is-in .checklist__mark path {
+    transition: stroke-dashoffset var(--dur-check) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * var(--stagger-check));
+  }
+</style>

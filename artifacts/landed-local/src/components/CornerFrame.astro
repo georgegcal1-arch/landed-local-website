@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"div">;
+const { class: extra, ...rest } = Astro.props;
+---
+<div class:list={["corner-frame", extra]} {...rest}>
+  <div class="corner-frame__content"><slot /></div>
+  <span class="corner-frame__square" aria-hidden="true"></span>
+</div>
+
+<style>
+  .corner-frame {
+    position: relative; display: block;
+    margin: 0 0 calc(var(--square-offset) + var(--stroke-square)) calc(var(--square-offset) + var(--stroke-square));
+  }
+  .corner-frame__content > :global(img) { display: block; width: 100%; height: auto; }
+  .corner-frame__square {
+    position: absolute; pointer-events: none;
+    left: calc((var(--square-offset) + var(--stroke-square)) * -1);
+    bottom: calc((var(--square-offset) + var(--stroke-square)) * -1);
+    width: var(--square-arm); height: var(--square-arm);
+    border-left: var(--stroke-square) solid var(--color-orange);
+    border-bottom: var(--stroke-square) solid var(--color-orange);
+  }
+</style>

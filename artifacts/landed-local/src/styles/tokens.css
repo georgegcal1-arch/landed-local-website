@@ -45,6 +45,65 @@
   --leading-h2: 1.15;
   --leading-body: 1.6;
   --tracking-h1: -0.01em;
+
+  /* Component type */
+  --text-button: 17px;
+  --text-eyebrow: 13px;
+  --text-pill: 14px;
+  --text-stamp: 18px;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+  --tracking-eyebrow: 0.08em;
+  --tracking-stamp: 0.1em;
+  --leading-tight: 1.2;
+
+  /* Strokes and lines */
+  --stroke-hair: 1px;
+  --stroke-outline: 2px;
+  --stroke-focus: 3px;
+  --stroke-check: 3px;
+  --stroke-pencil: 4px;
+  --stroke-square: 6px;
+  --focus-offset: 2px;
+  --leader-dot: 2px;
+
+  /* Component sizes */
+  --button-min-h: 48px;
+  --button-pad-y: 14px;
+  --button-pad-x: 24px;
+  --eyebrow-tick-w: 16px;
+  --eyebrow-tick-h: 3px;
+  --eyebrow-gap: 8px;
+  --ruler-step: 24px;
+  --ruler-tick: 6px;
+  --ruler-tick-major: 12px;
+  --ruler-h: 13px;
+  --square-arm: 72px;
+  --square-offset: 12px;
+  --check-size: 22px;
+  --card-pad: 24px;
+  --card-pad-wide: 32px;
+  --pill-pad-y: 4px;
+  --pill-pad-x: 12px;
+  --radius-pill: 999px;
+  --grid-cell: 24px;
+  --grid-line: color-mix(in srgb, var(--color-charcoal) 4%, transparent);
+  --stamp-rotate: -8deg;
+  --stamp-bg: color-mix(in srgb, var(--color-teal-tint) 80%, transparent);
+  --pencil-h: 0.32em;
+  --swatch-h: 88px;
+
+  /* Motion */
+  --dur-ruler: 600ms;
+  --dur-check: 420ms;
+  --dur-pencil: 700ms;
+  --delay-pencil: 120ms;
+  --dur-hover: 160ms;
+  --stagger-check: 80ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (min-width: 768px) {
@@ -55,5 +114,6 @@
     --text-h2: 38px;
     --text-h3: 22px;
     --text-body: 18px;
+    --card-pad: var(--card-pad-wide);
   }
 }

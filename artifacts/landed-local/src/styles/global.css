@@ -4,6 +4,7 @@
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/600.css";
 @import "./tokens.css";
+@import "./motion.css";
 
 @tailwind base;
 @tailwind components;

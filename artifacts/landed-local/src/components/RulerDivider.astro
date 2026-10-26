@@ -1,0 +1,35 @@
+---
+interface Props { variant?: "rule" | "orange"; class?: string }
+const { variant = "rule", class: extra } = Astro.props;
+const id = `ruler-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class:list={["ruler", `ruler--${variant}`, extra]} data-reveal role="separator" aria-hidden="true">
+  <svg class="ruler__svg" width="100%" height="13" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <pattern id={id} x="0" y="0" width="120" height="13" patternUnits="userSpaceOnUse">
+        <rect class="ruler__tick" x="0" y="0" width="1" height="12" />
+        <rect class="ruler__tick" x="24" y="0" width="1" height="6" />
+        <rect class="ruler__tick" x="48" y="0" width="1" height="6" />
+        <rect class="ruler__tick" x="72" y="0" width="1" height="6" />
+        <rect class="ruler__tick" x="96" y="0" width="1" height="6" />
+      </pattern>
+    </defs>
+    <g class="ruler__ticks"><rect width="100%" height="12" fill={`url(#${id})`} /></g>
+    <rect class="ruler__line" x="0" y="12" width="100%" height="1" />
+  </svg>
+</div>
+<script>import "../scripts/motion";</script>
+
+<style>
+  /* Pattern geometry mirrors --ruler-step (24), --ruler-tick (6), --ruler-tick-major (12), --stroke-hair (1). */
+  .ruler { width: 100%; height: var(--ruler-h); overflow: hidden; color: var(--color-rule); }
+  .ruler--orange { color: var(--color-orange); }
+  .ruler__svg { display: block; width: 100%; height: var(--ruler-h); }
+  .ruler__tick { fill: currentColor; }
+  .ruler__line { fill: var(--color-rule); }
+  .ruler__ticks { transform-box: view-box; }
+  :global(html.motion-ok) .ruler:not(.is-in) .ruler__ticks { transform: translateX(-100%); }
+  :global(html.motion-ok) .ruler.is-in .ruler__ticks { transition: transform var(--dur-ruler) var(--ease-out); }
+  :global([data-tone="dark"]) .ruler__line { fill: var(--color-steel); }
+  :global([data-tone="dark"]) .ruler--rule { color: var(--color-steel); }
+</style>

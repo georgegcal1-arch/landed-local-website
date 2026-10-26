@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"p"> & { as?: "p" | "span" | "div" };
+const { as: Tag = "p", class: extra, ...rest } = Astro.props;
+---
+<Tag class:list={["eyebrow", extra]} {...rest}><span class="eyebrow__tick" aria-hidden="true"></span><span><slot /></span></Tag>
+
+<style>
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: var(--eyebrow-gap); margin: 0;
+    font-family: var(--font-body); font-weight: var(--weight-semibold);
+    font-size: var(--text-eyebrow); line-height: var(--leading-tight);
+    text-transform: uppercase; letter-spacing: var(--tracking-eyebrow);
+    color: var(--color-orange-burnt);
+  }
+  .eyebrow__tick { flex: none; width: var(--eyebrow-tick-w); height: var(--eyebrow-tick-h); background: var(--color-orange); }
+  :global([data-tone="dark"]) .eyebrow { color: var(--color-orange); }
+  :global([data-tone="dark"] [data-tone="light"]) .eyebrow { color: var(--color-orange-burnt); }
+</style>
