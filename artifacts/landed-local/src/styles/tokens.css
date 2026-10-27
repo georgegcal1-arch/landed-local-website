@@ -70,7 +70,7 @@
   --stroke-focus: 3px;
   --stroke-check: 3px;
   --stroke-pencil: 5px;
-  --stroke-square: 6px;
+  --stroke-square: 8px;
   --stroke-ruler: 1.5px;
   --stroke-underline: 1px;
   --focus-offset: 2px;
@@ -90,9 +90,9 @@
   --ruler-h: 15px;
   --underline-offset: 3px;
   --opacity-disabled: 45%;
-  --square-arm-min: 64px;
-  --square-arm-max: 140px;
-  --frame-inset: 10px;
+  --square-arm-min: 56px;
+  --square-arm-max: 120px;
+  --frame-inset: 8px;
   --check-size: 22px;
   --card-pad: 24px;
   --card-pad-wide: 32px;

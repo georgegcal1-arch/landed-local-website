@@ -1,11 +1,11 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-type Props = HTMLAttributes<"div">;
-const { class: extra, ...rest } = Astro.props;
+type Props = HTMLAttributes<"div"> & { hideBracket?: boolean };
+const { class: extra, hideBracket = false, ...rest } = Astro.props;
 ---
 <div class:list={["corner-frame", extra]} {...rest}>
   <div class="corner-frame__content"><slot /></div>
-  <span class="corner-frame__square" aria-hidden="true"></span>
+  {!hideBracket && <span class="corner-frame__square" aria-hidden="true"></span>}
 </div>
 
 <style>
@@ -20,8 +20,8 @@ const { class: extra, ...rest } = Astro.props;
   .corner-frame__square {
     position: absolute; z-index: 0; pointer-events: none;
     left: 0; bottom: 0;
-    width: clamp(var(--square-arm-min), 30cqi, var(--square-arm-max));
-    height: clamp(var(--square-arm-min), 30cqi, var(--square-arm-max));
+    width: clamp(var(--square-arm-min), 25cqi, var(--square-arm-max));
+    height: clamp(var(--square-arm-min), 25cqi, var(--square-arm-max));
     border-left: var(--stroke-square) solid var(--color-orange);
     border-bottom: var(--stroke-square) solid var(--color-orange);
     border-bottom-left-radius: var(--radius-square-corner);
