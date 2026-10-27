@@ -12,8 +12,10 @@ const { class: extra } = Astro.props;
   .pencil__line path {
     fill: none; stroke: var(--color-orange); stroke-width: var(--stroke-pencil);
     stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
-    stroke-dasharray: 1; stroke-dashoffset: 0;
   }
-  :global(html.motion-ok) .pencil:not(.is-in) .pencil__line path { stroke-dashoffset: 1; }
-  :global(html.motion-ok) .pencil.is-in .pencil__line path { transition: stroke-dashoffset var(--dur-pencil) var(--ease-out) var(--delay-pencil); }
+  :global(html.motion-ok) .pencil:not(.is-in) .pencil__line { clip-path: inset(-50% 100% -50% 0); }
+  :global(html.motion-ok) .pencil.is-in .pencil__line {
+    clip-path: inset(-50% -2% -50% -2%);
+    transition: clip-path var(--dur-pencil) var(--ease-out) var(--delay-pencil);
+  }
 </style>

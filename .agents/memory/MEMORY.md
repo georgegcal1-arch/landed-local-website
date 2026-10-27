@@ -1,1 +1,2 @@
 - [Astro managed workflows](astro-workflows.md) — Astro 7 auto-backgrounds in agent environments; managed workflows need foreground operation.
+- [SVG reveal sizing](svg-reveal-sizing.md) — non-scaling strokes need clip reveals; normalized dashes can leave stretched marks partially invisible.
