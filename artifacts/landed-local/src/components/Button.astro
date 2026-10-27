@@ -40,5 +40,28 @@ const cls = ["btn", `btn--${variant}`, extra].filter(Boolean).join(" ");
   :global([data-tone="dark"] [data-tone="light"]) .btn--secondary { color: var(--color-teal); border-color: var(--color-teal); }
   :global([data-tone="dark"] [data-tone="light"]) .btn--text-link { color: var(--color-teal); }
   :global([data-tone="dark"] [data-tone="light"]) .btn:focus-visible { outline-color: var(--color-teal); }
-  .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: var(--opacity-disabled); cursor: not-allowed; }
+  .btn--primary:disabled:hover, .btn--primary[aria-disabled="true"]:hover {
+    background: var(--color-orange); border-color: var(--color-orange); color: var(--color-charcoal);
+  }
+  .btn--secondary:disabled:hover, .btn--secondary[aria-disabled="true"]:hover {
+    background: transparent; color: var(--color-teal); border-color: var(--color-teal);
+  }
+  .btn--text-link:disabled:hover, .btn--text-link[aria-disabled="true"]:hover {
+    background: transparent; color: var(--color-teal); text-decoration: none;
+  }
+  :global([data-tone="dark"]) .btn--secondary:disabled:hover,
+  :global([data-tone="dark"]) .btn--secondary[aria-disabled="true"]:hover,
+  :global([data-tone="dark"]) .btn--text-link:disabled:hover,
+  :global([data-tone="dark"]) .btn--text-link[aria-disabled="true"]:hover {
+    color: var(--color-teal-light); border-color: currentColor;
+  }
+  :global([data-tone="dark"]) .btn--text-link:disabled:hover,
+  :global([data-tone="dark"]) .btn--text-link[aria-disabled="true"]:hover { border-color: transparent; }
+  :global([data-tone="dark"] [data-tone="light"]) .btn--secondary:disabled:hover,
+  :global([data-tone="dark"] [data-tone="light"]) .btn--secondary[aria-disabled="true"]:hover,
+  :global([data-tone="dark"] [data-tone="light"]) .btn--text-link:disabled:hover,
+  :global([data-tone="dark"] [data-tone="light"]) .btn--text-link[aria-disabled="true"]:hover {
+    color: var(--color-teal); border-color: currentColor;
+  }
 </style>

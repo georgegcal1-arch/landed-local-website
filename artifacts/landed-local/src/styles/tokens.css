@@ -12,6 +12,8 @@
   --color-teal-tint: #E6F2F0;
   --color-steel: #5B636B;
   --color-rule: #E2DED6;
+  --color-ruler-rule-light: #C9C3B8;
+  --color-ruler-rule-dark: #4A525B;
   --color-white: #FFFFFF;
 
   /* Corners: 12px on the bottom-left only, 2px on the other three. Inputs 6px. */
@@ -40,7 +42,7 @@
   --text-h2: 28px;
   --text-h3: 20px;
   --text-body: 17px;
-  --text-small: 15px;
+  --text-small: 16px;
   --leading-h1: 1.05;
   --leading-h2: 1.15;
   --leading-body: 1.6;
@@ -67,6 +69,8 @@
   --stroke-check: 3px;
   --stroke-pencil: 4px;
   --stroke-square: 6px;
+  --stroke-ruler: 1.5px;
+  --stroke-underline: 1px;
   --focus-offset: 2px;
   --leader-dot: 2px;
 
@@ -79,8 +83,11 @@
   --eyebrow-gap: 8px;
   --ruler-step: 24px;
   --ruler-tick: 6px;
-  --ruler-tick-major: 12px;
-  --ruler-h: 13px;
+  --ruler-tick-mid: 10px;
+  --ruler-tick-major: 14px;
+  --ruler-h: 15px;
+  --underline-offset: 3px;
+  --opacity-disabled: 45%;
   --square-arm: 72px;
   --square-offset: 12px;
   --check-size: 22px;
@@ -91,6 +98,7 @@
   --radius-pill: 999px;
   --grid-cell: 24px;
   --grid-line: color-mix(in srgb, var(--color-charcoal) 4%, transparent);
+  --grid-line-dark: color-mix(in srgb, var(--color-offwhite) 5%, transparent);
   --stamp-rotate: -8deg;
   --stamp-bg: color-mix(in srgb, var(--color-teal-tint) 80%, transparent);
   --pencil-h: 0.32em;
