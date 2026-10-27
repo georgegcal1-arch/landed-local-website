@@ -176,3 +176,9 @@
   }
 }
 @media (min-width: 900px) { :root { --hero-ticket-rotate: -1.5deg; } }
+
+/* Home proof strip and problem cards */
+:root {
+  --problem-icon-size: 48px;
+  --problem-closing-size: 22px;
+}
