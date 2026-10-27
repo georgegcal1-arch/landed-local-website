@@ -1,0 +1,22 @@
+---
+import Eyebrow from "../Eyebrow.astro";
+import Pill from "../Pill.astro";
+import Section from "../Section.astro";
+
+const trades = ["Plumbing", "Electrical", "HVAC", "Tree service", "Roofing", "Basement waterproofing", "Remodeling", "Landscaping", "Cleaning", "Pest control", "Garage doors", "Auto repair"];
+---
+
+<Section bg="paper" class="trades">
+  <Eyebrow>Who it's for</Eyebrow>
+  <h2 class="trades__heading">Built for local trades</h2>
+  <ul class="trades__list" role="list">
+    {trades.map((t) => <li><Pill>{t}</Pill></li>)}
+  </ul>
+  <p class="trades__note">Don't see your trade? If your customers call you for quotes, it'll work for you.</p>
+</Section>
+
+<style>
+  .trades__heading { margin: calc(var(--space) * 2) 0 0; }
+  .trades__list { list-style: none; margin: calc(var(--space) * 4) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: calc(var(--space) * 1.5); }
+  .trades__note { margin: calc(var(--space) * 4) 0 0; }
+</style>

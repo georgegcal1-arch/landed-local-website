@@ -4,7 +4,11 @@ import Eyebrow from "../Eyebrow.astro";
 import Section from "../Section.astro";
 import { faqItems } from "../../data/faq";
 
-const homeFAQs = faqItems.filter((item) => item.showOnHome);
+interface Props {
+  mode?: "home" | "all";
+}
+const { mode = "home" } = Astro.props;
+const visibleFAQs = mode === "home" ? faqItems.filter((item) => item.showOnHome) : faqItems;
 ---
 
 <Section id="faq" bg="offwhite" class="home-faq">
@@ -12,7 +16,7 @@ const homeFAQs = faqItems.filter((item) => item.showOnHome);
   <h2 class="home-faq__heading">Straight answers</h2>
 
   <div class="home-faq__list">
-    {homeFAQs.map(({ question, answer }) => (
+    {visibleFAQs.map(({ question, answer }) => (
       <details class="home-faq__item">
         <summary>
           <span>{question}</span>

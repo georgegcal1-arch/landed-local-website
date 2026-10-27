@@ -4,22 +4,22 @@ import Hero from "../components/home/Hero.astro";
 import ProofStrip from "../components/home/ProofStrip.astro";
 import ProblemSection from "../components/home/ProblemSection.astro";
 import WhatYouGet from "../components/home/WhatYouGet.astro";
-import SampleSites from "../components/home/SampleSites.astro";
-import HowItWorks from "../components/home/HowItWorks.astro";
-import PricingSection from "../components/home/PricingSection.astro";
+import SamplesSection from "../components/sections/SamplesSection.astro";
+import HowItWorksSection from "../components/sections/HowItWorksSection.astro";
+import PricingSection from "../components/sections/PricingSection.astro";
 import MeetGeorge from "../components/home/MeetGeorge.astro";
-import FAQSection from "../components/home/FAQSection.astro";
-import FinalCTA from "../components/home/FinalCTA.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import FinalCtaSection from "../components/sections/FinalCtaSection.astro";
 ---
 <BaseLayout title="Landed Local">
   <Hero />
   <ProofStrip />
   <ProblemSection />
   <WhatYouGet />
-  <SampleSites />
-  <HowItWorks />
+  <SamplesSection />
+  <HowItWorksSection />
   <PricingSection />
   <MeetGeorge />
-  <FAQSection />
-  <FinalCTA />
+  <FaqSection mode="home" />
+  <FinalCtaSection />
 </BaseLayout>
