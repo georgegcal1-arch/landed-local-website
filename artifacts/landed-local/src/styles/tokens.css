@@ -146,3 +146,33 @@
     --header-h: 76px;
   }
 }
+
+/* Home hero */
+:root {
+  --hero-pad-top: 24px;
+  --hero-pad-bottom: 64px;
+  --hero-gap: 40px;
+  --hero-text-lead: 18px;
+  --hero-h1: 36px;
+  --hero-stack: 16px;
+  --hero-ticket-rotate: 0deg;
+  --device-bezel: 8px;
+  --device-bezel-phone: 6px;
+  --device-radius-phone: 22px;
+  --device-base-h: 12px;
+  --device-phone-w: 32%;
+  --device-phone-solo-w: 56%;
+  --placeholder-fill: #D6D3CD;
+  --hero-compact-ticket-w: 240px;
+}
+@media (min-width: 768px) {
+  :root {
+    --hero-pad-top: 72px;
+    --hero-pad-bottom: 96px;
+    --hero-gap: 56px;
+    --hero-text-lead: 20px;
+    --hero-h1: 56px;
+    --hero-stack: 24px;
+  }
+}
+@media (min-width: 900px) { :root { --hero-ticket-rotate: -1.5deg; } }

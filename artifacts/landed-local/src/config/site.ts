@@ -194,7 +194,7 @@ export const site: SiteConfig = {
     name: "Landed Local",
     legalName: "Landed Local LLC",
     tagline: "Land more local jobs.",
-    owner: "George Callendine",
+    owner: "George",
     ownerFirst: "George",
     city: "Columbus",
     state: "Ohio",

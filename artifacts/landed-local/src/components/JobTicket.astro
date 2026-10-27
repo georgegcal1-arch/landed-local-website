@@ -7,15 +7,18 @@ interface Props {
   items: TicketItem[];
   total?: { label?: string; value: string };
   stamp?: boolean | string;
+  /** "inline" (default) sits in the total row; "corner" overlaps the bottom-right corner outside the content. */
+  stampPlacement?: "inline" | "corner";
   class?: string;
 }
-const { number, title, items, total, stamp = false, class: extra } = Astro.props;
+const { number, title, items, total, stamp = false, stampPlacement = "inline", class: extra } = Astro.props;
+const corner = stamp && stampPlacement === "corner";
 const stampText = typeof stamp === "string" ? stamp : "APPROVED";
 ---
-<article class:list={["ticket", extra]} data-tone="light">
+<article class:list={["ticket", { "ticket--stamp-corner": corner }, extra]} data-tone="light">
   <header class="ticket__head">
     <Eyebrow as="span">Work order</Eyebrow>
-    <span class="ticket__num">No. {number}</span>
+    <span class="ticket__num">{number.startsWith("#") ? number : `No. ${number}`}</span>
   </header>
   <h3 class="ticket__title">{title}</h3>
   <ul class="ticket__items" data-reveal>
@@ -31,11 +34,12 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
   {total && (
     <div class="ticket__total">
       <span>{total.label ?? "Total"}</span>
-      {stamp && <div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div>}
+      {stamp && !corner && <div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div>}
       <span class="price">{total.value}</span>
     </div>
   )}
-  {stamp && !total && <div class="ticket__stamp-row"><div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div></div>}
+  {corner && <div class="ticket__stamp ticket__stamp--corner" aria-label={stampText}><span>{stampText}</span></div>}
+  {stamp && !total && !corner && <div class="ticket__stamp-row"><div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div></div>}
 </article>
 <script>import "../scripts/motion";</script>
 
@@ -79,5 +83,6 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
     padding: var(--space) calc(var(--space) * 2);
     font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--text-stamp); letter-spacing: var(--tracking-stamp);
   }
+  .ticket__stamp--corner { position: absolute; right: calc(var(--space) * -1); bottom: calc(var(--space) * -4); transform: rotate(var(--stamp-rotate)); }
   .ticket__stamp-row { display: flex; justify-content: center; padding-top: var(--space); }
 </style>

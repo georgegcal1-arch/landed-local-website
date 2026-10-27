@@ -1,0 +1,22 @@
+---
+interface Props { src: string | null; kind: "laptop" | "phone"; alt: string; class?: string }
+const { src, kind, alt, class: extra } = Astro.props;
+const dims = kind === "laptop" ? { w: 1280, h: 800 } : { w: 360, h: 780 };
+---
+<div class:list={["device", `device--${kind}`, extra]}>
+  <div class="device__screen">
+    {src ? <img src={src} alt={alt} width={dims.w} height={dims.h} loading="eager" decoding="async" fetchpriority="high" />
+         : <div class="device__ph" role="img" aria-label={`${kind === "laptop" ? "Laptop" : "Phone"} screenshot placeholder`}></div>}
+  </div>
+  {kind === "laptop" && <div class="device__base" aria-hidden="true"></div>}
+</div>
+<style>
+  .device { display: block; }
+  .device--laptop { padding-inline: calc(var(--space) * 2); }
+  .device__screen { background: var(--color-charcoal); padding: var(--device-bezel); border-radius: var(--radius-corner) var(--radius-corner) var(--radius-sharp) var(--radius-sharp); }
+  .device__screen img, .device__ph { display: block; width: 100%; height: auto; object-fit: cover; object-position: top; background: var(--placeholder-fill); }
+  .device--laptop .device__screen img, .device--laptop .device__ph { aspect-ratio: 16 / 10; }
+  .device__base { height: var(--device-base-h); margin-inline: calc(var(--space) * -2); background: var(--color-steel); border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-corner) var(--radius-corner); }
+  .device--phone .device__screen { padding: var(--device-bezel-phone); border-radius: var(--device-radius-phone); }
+  .device--phone .device__screen img, .device--phone .device__ph { aspect-ratio: 9 / 19.5; border-radius: calc(var(--device-radius-phone) - var(--device-bezel-phone)); }
+</style>
