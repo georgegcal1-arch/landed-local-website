@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-type Props = HTMLAttributes<"div"> & { as?: "div" | "article" | "section" | "li" };
+type Props = HTMLAttributes<"div"> & { as?: "div" | "article" | "section" | "aside" | "li" };
 const { as: Tag = "div", class: extra, ...rest } = Astro.props;
 ---
 <Tag class:list={["card", extra]} data-tone="light" {...rest}><slot /></Tag>
