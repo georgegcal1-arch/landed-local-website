@@ -25,4 +25,14 @@ export const faqItems: FAQItem[] = [
     answer: "Yes, and I'll be straight with you: that's why my first 3 clients get the founding price. You get my full attention, and if you don't like the first draft, I refund your deposit.",
     showOnHome: true,
   },
+  {
+    question: "What if I already have a website?",
+    answer: "I'll rebuild it. Your free mockup will show you what the new one would look like before you decide anything.",
+    showOnHome: false,
+  },
+  {
+    question: "What do you need from me?",
+    answer: "Your logo if you have one, a few photos of your work, your services and the areas you serve. I handle the writing and setup.",
+    showOnHome: false,
+  },
 ];

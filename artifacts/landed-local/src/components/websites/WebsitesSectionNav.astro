@@ -1,0 +1,91 @@
+<nav class="websites-nav" aria-label="On this page" data-websites-nav>
+  <div class="websites-nav__inner container-content">
+    <a href="#included" aria-current="location">Included</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-websites-nav]");
+
+  if (nav) {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const sections = links
+      .map((link) => document.getElementById(link.hash.slice(1)))
+      .filter((section): section is HTMLElement => section instanceof HTMLElement);
+
+    let frame = 0;
+    const updateCurrentSection = () => {
+      frame = 0;
+      if (window.innerWidth < 900 || !sections.length) return;
+
+      const activationLine = nav.getBoundingClientRect().bottom + 24;
+      let activeIndex = sections.findIndex((section) => {
+        const bounds = section.getBoundingClientRect();
+        return bounds.top <= activationLine && bounds.bottom > activationLine;
+      });
+
+      if (activeIndex < 0) {
+        activeIndex = sections.reduce(
+          (lastPassed, section, index) =>
+            section.getBoundingClientRect().top <= activationLine ? index : lastPassed,
+          -1,
+        );
+      }
+      if (activeIndex < 0) activeIndex = 0;
+
+      links.forEach((link, index) => {
+        if (index === activeIndex) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateCurrentSection);
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    updateCurrentSection();
+  }
+</script>
+
+<style>
+  .websites-nav {
+    position: sticky;
+    top: var(--header-h);
+    z-index: calc(var(--z-header) - 1);
+    height: var(--websites-nav-height);
+    background: var(--color-offwhite);
+    border-bottom: var(--stroke-hair) solid var(--color-rule);
+  }
+  .websites-nav__inner {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--space) * 4);
+  }
+  .websites-nav a {
+    color: var(--color-charcoal);
+    font-size: var(--text-small);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    text-underline-offset: var(--underline-offset);
+  }
+  .websites-nav a:hover,
+  .websites-nav a[aria-current="location"] {
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-orange);
+    text-decoration-thickness: var(--nav-underline);
+  }
+  .websites-nav a:focus-visible {
+    outline: var(--stroke-focus) solid var(--color-teal);
+    outline-offset: var(--focus-offset);
+  }
+  @media (max-width: 899px) {
+    .websites-nav { display: none; }
+  }
+</style>
