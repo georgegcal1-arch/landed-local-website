@@ -1,0 +1,56 @@
+---
+import Button from "../Button.astro";
+import Card from "../Card.astro";
+import Eyebrow from "../Eyebrow.astro";
+import { site } from "../../config/site";
+
+const { contact } = site;
+const steps = [
+  "I look up your business on Google.",
+  "I build a custom preview with your name, services and reviews.",
+  "I email you the link. If you like it, we hop on a quick 15-minute call.",
+];
+---
+
+<aside class="ms" aria-label="What happens next">
+  <Eyebrow>What happens next</Eyebrow>
+  <ol class="ms__steps">
+    {steps.map((s, i) => (
+      <li class="ms__step"><span class="ms__num" aria-hidden="true">{i + 1}</span><span>{s}</span></li>
+    ))}
+  </ol>
+
+  <Card class="ms__talk">
+    <h2 class="ms__title">Rather talk now?</h2>
+    <p class="ms__line"><a href={contact.phoneHref}>Call or text {contact.phoneDisplay}</a></p>
+    <Button variant="secondary" href={contact.bookingUrl} target="_blank" rel="noopener noreferrer" fullWidthMobile>Book a 15-minute call</Button>
+    <p class="ms__line"><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+  </Card>
+</aside>
+
+<style>
+  .ms { display: grid; gap: calc(var(--space) * 3); align-content: start; }
+  .ms__steps {
+    position: relative; list-style: none; margin: 0; padding: 0 0 0 calc(var(--space) * 6);
+    display: grid; gap: calc(var(--space) * 3);
+  }
+  /* Short vertical ruler with ticks */
+  .ms__steps::before {
+    content: ""; position: absolute; left: 15px; top: 6px; bottom: 6px; width: var(--ruler-tick-major);
+    border-left: var(--stroke-ruler) solid var(--color-ruler-rule-light);
+    background: repeating-linear-gradient(to bottom, var(--color-ruler-rule-light) 0 var(--stroke-ruler), transparent var(--stroke-ruler) 12px) left / var(--ruler-tick) 100% no-repeat;
+  }
+  .ms__step { position: relative; display: block; }
+  .ms__num {
+    position: absolute; left: calc(var(--space) * -6); top: 0;
+    display: grid; place-items: center; width: 32px; height: 32px;
+    background: var(--color-offwhite); border: var(--stroke-outline) solid var(--color-orange);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-tag-corner);
+    font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--text-small); font-variant-numeric: tabular-nums;
+  }
+  .ms__step > span:last-child { display: block; padding-top: 3px; }
+  .ms__talk { display: grid; gap: calc(var(--space) * 2); justify-items: start; }
+  .ms__title { margin: 0; font-size: var(--text-h3); }
+  .ms__line { margin: 0; font-weight: var(--weight-semibold); }
+  .ms__line a { text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); }
+</style>

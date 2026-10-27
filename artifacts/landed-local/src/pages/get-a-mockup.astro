@@ -1,6 +1,42 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Section from "../components/Section.astro";
+import MockupForm from "../components/mockup/MockupForm.astro";
+import MockupSidebar from "../components/mockup/MockupSidebar.astro";
 ---
-<BaseLayout title="Get a mockup">
-  <h1>Get a mockup</h1>
+<BaseLayout
+  title="Get a Free Website Mockup"
+  description="Tell me about your business and I'll email you a free custom website preview within one business day. No call needed, no obligation."
+>
+  <Section bg="offwhite" class="gm-hero">
+    <Eyebrow>Free mockup</Eyebrow>
+    <h1 class="gm-hero__title">Get a free mockup of your new website</h1>
+    <p class="gm-hero__lead">Tell me about your business and I'll build a custom preview with your name, services and reviews. I'll email it to you within one business day. No call needed, no obligation.</p>
+  </Section>
+
+  <Section bg="paper" class="gm-body">
+    <div class="gm-grid">
+      <div class="gm-grid__form"><MockupForm /></div>
+      <div class="gm-grid__side"><MockupSidebar /></div>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  .gm-hero { padding-block: 48px; }
+  .gm-hero__title { margin: calc(var(--space) * 2) 0 0; max-width: 20ch; }
+  .gm-hero__lead { margin: calc(var(--space) * 3) 0 0; font-size: var(--hero-text-lead); }
+  .gm-body { padding-top: calc(var(--space) * 5); }
+  .gm-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space) * 5); }
+  @media (min-width: 768px) { .gm-hero { padding-block: 72px; } .gm-body { padding-top: calc(var(--space) * 7); } }
+  @media (min-width: 1024px) {
+    .gm-grid {
+      --gm-gap: calc(var(--space) * 6);
+      gap: var(--gm-gap);
+      grid-template-columns: calc((100% - var(--gm-gap)) * 0.6) calc((100% - var(--gm-gap)) * 0.4);
+      align-items: start;
+    }
+    .gm-grid__side { position: sticky; top: calc(var(--header-h) + var(--space) * 3); }
+  }
+</style>
