@@ -10,6 +10,7 @@ import PencilMark from "../components/PencilMark.astro";
 import Section from "../components/Section.astro";
 import JobTicket from "../components/JobTicket.astro";
 import Pill from "../components/Pill.astro";
+import PhotoPlaceholder from "../components/PhotoPlaceholder.astro";
 import type { SectionBg } from "../components/Section.astro";
 import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
@@ -72,6 +73,11 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
     {grounds.map(({ bg, label }) => (
       <Section bg={bg}>
         <Eyebrow>03 Buttons on {label}</Eyebrow>
+        <div class="sg-row sg-mobile-actions">
+          <Button href="#buttons" fullWidthMobile>Full-width primary</Button>
+          <Button variant="secondary" href="#buttons" fullWidthMobile>Full-width secondary</Button>
+          <Button variant="text-link" href="#buttons" fullWidthMobile>Full-width text link</Button>
+        </div>
         <div class="sg-row">
           <Button href="#buttons">Primary link</Button>
           <Button>Primary button</Button>
@@ -139,10 +145,18 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
     <Eyebrow>08 CornerFrame</Eyebrow>
     <div class="sg-split">
       <CornerFrame class="sg-frame-img">
-        <img src={site.brand.profilePhoto} alt="Profile photo of the studio owner" width="1080" height="1080" loading="lazy" />
+        <PhotoPlaceholder alt="Landed Local carpenter-square mark on a dark tile" />
       </CornerFrame>
       <CornerFrame>
-        <Card><h3>Any content</h3><p>The square hugs the bottom-left corner, 12px out, 72px arms.</p></Card>
+        <Card><h3>Any content</h3><p>The square peeks out 10px; its arms scale to 30% of the content width.</p></Card>
+      </CornerFrame>
+    </div>
+  </Section>
+  <Section id="dark-placeholder" bg="charcoal">
+    <Eyebrow>Dark-background photo placeholder</Eyebrow>
+    <div class="sg-frame-img">
+      <CornerFrame>
+        <PhotoPlaceholder alt="Landed Local carpenter-square mark on an orange tile" />
       </CornerFrame>
     </div>
   </Section>
@@ -186,7 +200,7 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
   .sg-title { margin-top: calc(var(--space) * 2); }
   .sg-lede { margin-top: calc(var(--space) * 2); }
   .sg-h { margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 4); }
-  .sg-meta { display: block; font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-eyebrow); letter-spacing: var(--tracking-eyebrow); color: var(--color-steel); }
+  .sg-meta { display: block; font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-eyebrow); letter-spacing: 0; color: var(--color-steel); }
   .sg-token { font-family: var(--font-body); font-weight: var(--weight-semibold); overflow-wrap: anywhere; }
   :global([data-tone="dark"]) .sg-meta { color: var(--color-rule); }
   .sg-toc { display: flex; flex-wrap: wrap; gap: var(--space) calc(var(--space) * 2); margin-top: calc(var(--space) * 3); font-weight: var(--weight-semibold); font-size: var(--text-small); text-transform: capitalize; }
@@ -203,5 +217,9 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
   @media (min-width: 768px) { .sg-split { grid-template-columns: 1fr 1fr; } }
   .sg-card-h { margin: calc(var(--space) * 2) 0 var(--space); }
   .sg-frame-img { max-width: calc(var(--space) * 40); }
+  .sg-mobile-actions { display: grid; grid-template-columns: 1fr; gap: var(--space-button-stack); }
+  @media (min-width: 640px) {
+    .sg-mobile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 2); }
+  }
   .sg-dark-strip { background: var(--color-charcoal); display: grid; gap: calc(var(--space) * 3); padding-bottom: calc(var(--space) * 4); }
 </style>

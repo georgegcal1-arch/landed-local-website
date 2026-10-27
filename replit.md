@@ -38,6 +38,7 @@ Static, phone-first marketing website for Landed Local, a Columbus web studio se
 ## User preferences
 
 - Build one requested step at a time. Foundation pages contain only an h1; do not add full page sections until requested.
+- For each style-guide fix round, change only explicitly listed components and keep everything else exactly the same.
 - Preserve all 11 uploaded brand files with their original names.
 - Every component color, font size, and spacing value must come from tokens.
 - No gradients, glows, glassmorphism, robots, monospace code styling, or parallax.

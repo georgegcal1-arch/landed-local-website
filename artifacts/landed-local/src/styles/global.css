@@ -25,7 +25,7 @@
   h2 { font-weight: 800; font-size: var(--text-h2); line-height: var(--leading-h2); }
   h3 { font-weight: 700; font-size: var(--text-h3); }
   p { max-width: var(--prose-max); }
-  small, .text-secondary { font-family: var(--font-body); font-weight: 500; font-size: var(--text-small); color: var(--color-steel); }
+  small, .text-secondary { font-family: var(--font-body); font-weight: 500; font-size: var(--text-small); letter-spacing: 0; color: var(--color-steel); }
   ::selection { background: var(--color-orange-tint); }
 }
 

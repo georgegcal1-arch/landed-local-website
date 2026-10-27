@@ -8,7 +8,8 @@ const { class: extra, ...rest } = Astro.props;
 <style>
   .pill {
     display: inline-flex; align-items: center; padding: var(--pill-pad-y) var(--pill-pad-x);
-    border-radius: var(--radius-pill); background: var(--color-orange-tint); color: var(--color-orange-burnt);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-tag-corner);
+    background: var(--color-orange-tint); color: var(--color-orange-burnt);
     font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-pill); line-height: var(--leading-tight);
   }
 </style>

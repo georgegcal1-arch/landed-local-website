@@ -55,7 +55,7 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
   :global([data-bg="paper"]) .ticket { background: var(--color-white); }
   .ticket__head { display: flex; justify-content: space-between; align-items: center; gap: calc(var(--space) * 2);
     padding-bottom: calc(var(--space) * 2); border-bottom: var(--stroke-hair) dashed var(--color-steel); }
-  .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: var(--tracking-eyebrow); }
+  .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: 0; }
   .ticket__title { margin: calc(var(--space) * 2) 0 calc(var(--space) * 2.5); font-size: var(--text-h3); line-height: var(--leading-tight); }
   .ticket__items { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.25); }
   .ticket__item { display: flex; align-items: baseline; gap: var(--space); }

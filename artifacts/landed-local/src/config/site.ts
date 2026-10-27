@@ -47,6 +47,8 @@ export interface SiteConfig {
     logoReversed: string;
     /** George's profile photo. Not used for sharing by default. */
     profilePhoto: string;
+    /** Dark-background carpenter-square placeholder for light photo slots. */
+    profilePhotoDark: string;
   };
   /** Who the business is. */
   business: {
@@ -169,6 +171,7 @@ export const site: SiteConfig = {
     headerLogo: BRAND + "website-header-logo_1793055255725.svg",
     logoReversed: BRAND + "landed-local_logo-horizontal_reversed_1793055255724.svg",
     profilePhoto: BRAND + "profile-picture-1080_orange_1793055255725.png",
+    profilePhotoDark: BRAND + "profile-picture-1080_dark.png",
   },
   business: {
     name: "Landed Local",

@@ -20,6 +20,8 @@
   --radius-corner: 12px;
   --radius-sharp: 2px;
   --radius-input: 6px;
+  --radius-tag-corner: 8px;
+  --radius-square-corner: 4px;
 
   /* The only shadow */
   --shadow-card: 0 1px 2px rgba(22, 26, 31, 0.08);
@@ -67,7 +69,7 @@
   --stroke-outline: 2px;
   --stroke-focus: 3px;
   --stroke-check: 3px;
-  --stroke-pencil: 4px;
+  --stroke-pencil: 5px;
   --stroke-square: 6px;
   --stroke-ruler: 1.5px;
   --stroke-underline: 1px;
@@ -88,20 +90,22 @@
   --ruler-h: 15px;
   --underline-offset: 3px;
   --opacity-disabled: 45%;
-  --square-arm: 72px;
-  --square-offset: 12px;
+  --square-arm-min: 64px;
+  --square-arm-max: 140px;
+  --frame-inset: 10px;
   --check-size: 22px;
   --card-pad: 24px;
   --card-pad-wide: 32px;
   --pill-pad-y: 4px;
   --pill-pad-x: 12px;
-  --radius-pill: 999px;
   --grid-cell: 24px;
   --grid-line: color-mix(in srgb, var(--color-charcoal) 4%, transparent);
   --grid-line-dark: color-mix(in srgb, var(--color-offwhite) 5%, transparent);
   --stamp-rotate: -8deg;
   --stamp-bg: color-mix(in srgb, var(--color-teal-tint) 80%, transparent);
-  --pencil-h: 0.32em;
+  --pencil-h: 0.24em;
+  --pencil-descender-space: 0.3em;
+  --space-button-stack: 12px;
   --swatch-h: 88px;
 
   /* Motion */

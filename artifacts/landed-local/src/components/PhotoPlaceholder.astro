@@ -1,0 +1,23 @@
+---
+import { site } from "../config/site";
+
+interface Props {
+  alt: string;
+  class?: string;
+}
+
+const { alt, class: extra } = Astro.props;
+---
+
+<div class:list={["photo-placeholder", extra]}>
+  <img class="photo-placeholder__light" src={site.brand.profilePhotoDark} alt={alt} width="1080" height="1080" loading="lazy" />
+  <img class="photo-placeholder__dark" src={site.brand.profilePhoto} alt={alt} width="1080" height="1080" loading="lazy" />
+</div>
+
+<style>
+  .photo-placeholder { width: 100%; aspect-ratio: 1; background: var(--color-charcoal); }
+  .photo-placeholder img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .photo-placeholder__dark { display: none !important; }
+  :global([data-tone="dark"]) .photo-placeholder__light { display: none !important; }
+  :global([data-tone="dark"]) .photo-placeholder__dark { display: block !important; }
+</style>
