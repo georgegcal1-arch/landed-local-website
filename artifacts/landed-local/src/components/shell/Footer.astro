@@ -1,0 +1,53 @@
+---
+import Section from "../Section.astro";
+import RulerDivider from "../RulerDivider.astro";
+import { site } from "../../config/site";
+const c = site.contact;
+---
+<footer class="ftr">
+  <RulerDivider variant="orange" />
+  <Section bg="charcoal" class="ftr__sec">
+    <div class="ftr__grid">
+      <div>
+        <a href="/" class="ftr__logo"><img src={site.brand.logoReversed} alt={`${site.business.name} home`} /></a>
+        <p class="ftr__tag">{site.business.tagline}</p>
+      </div>
+      <nav aria-label="Footer">
+        <h2 class="ftr__h">Pages</h2>
+        <ul>{site.shell.footerPages.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </nav>
+      <div>
+        <h2 class="ftr__h">Talk to {site.business.ownerFirst}</h2>
+        <ul>
+          <li>Call or text <a href={c.phoneHref}>{c.phoneDisplay}</a></li>
+          <li><a href={`mailto:${c.email}`}>{c.email}</a></li>
+          <li>Based in {site.business.city}, {site.business.state}</li>
+          <li>Serving {site.business.serviceArea}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr__bottom">
+      <span>&copy; {site.shell.year} {site.business.legalName}</span>
+      <span aria-hidden="true">&middot;</span>
+      <a href={site.shell.privacyHref}>Privacy</a>
+      <span aria-hidden="true">&middot;</span>
+      <span>{site.shell.sampleNote}</span>
+    </div>
+  </Section>
+</footer>
+
+<style>
+  .ftr { background: var(--color-charcoal); }
+  .ftr__grid { display: grid; gap: calc(var(--space) * 5); }
+  @media (min-width: 768px) { .ftr__grid { grid-template-columns: 1.4fr 1fr 1.4fr; } }
+  .ftr__logo { display: inline-block; }
+  .ftr__logo img { width: var(--footer-logo-w); max-width: 100%; height: auto; display: block; }
+  .ftr__tag { color: var(--color-teal-light); margin-top: calc(var(--space) * 2); font-weight: var(--weight-medium); }
+  .ftr__h { font-size: var(--text-small); font-weight: var(--weight-heavy); letter-spacing: 0; text-transform: uppercase; margin-bottom: calc(var(--space) * 2); }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space); }
+  .ftr a { text-decoration: none; color: var(--color-offwhite); }
+  .ftr a:hover { text-decoration: underline; text-underline-offset: var(--underline-offset); color: var(--color-teal-light); }
+  .ftr a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
+  .ftr__bottom { margin-top: calc(var(--space) * 6); padding-top: calc(var(--space) * 3); border-top: var(--stroke-hair) solid var(--color-ruler-rule-dark); display: flex; flex-wrap: wrap; gap: var(--space); font-size: var(--text-small); color: var(--color-footer-muted); }
+  .ftr__bottom a { color: var(--color-footer-muted) !important; text-decoration: underline; }
+</style>

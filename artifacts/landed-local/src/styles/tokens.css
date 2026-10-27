@@ -108,6 +108,22 @@
   --space-button-stack: 12px;
   --swatch-h: 88px;
 
+  /* Shell: header, footer, action bar */
+  --color-footer-muted: #9AA3AB;
+  --header-h: 64px;
+  --logo-h: 30px;
+  --logo-h-desktop: 36px;
+  --footer-logo-w: 180px;
+  --icon-btn: 48px;
+  --icon-size: 20px;
+  --nav-underline: 3px;
+  --text-menu: 28px;
+  --actionbar-h: 80px;
+  --z-header: 40;
+  --z-actionbar: 30;
+  --z-menu: 60;
+  --dur-bar: 240ms;
+
   /* Motion */
   --dur-ruler: 600ms;
   --dur-check: 420ms;
@@ -127,5 +143,6 @@
     --text-h3: 22px;
     --text-body: 18px;
     --card-pad: var(--card-pad-wide);
+    --header-h: 76px;
   }
 }

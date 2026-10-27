@@ -1,0 +1,32 @@
+---
+import Phone from "lucide-astro/Phone";
+import Button from "../Button.astro";
+import { site } from "../../config/site";
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const hidden = site.shell.hideActionBarOn.includes(path);
+---
+{!hidden && (
+  <div class="bar" data-action-bar data-tone="light">
+    <Button href={site.contact.phoneHref} variant="secondary" class="bar__btn bar__call" aria-label={`Call ${site.contact.phoneDisplay}`}><Phone size={18} aria-hidden="true" />Call</Button>
+    <Button href={site.shell.cta.href} class="bar__btn">{site.shell.cta.shortLabel}</Button>
+  </div>
+)}
+
+<style>
+  .bar { display: none; }
+  @media (max-width: 767px) {
+    :global(body:has([data-action-bar])) { padding-bottom: calc(var(--actionbar-h) + env(safe-area-inset-bottom)); }
+    .bar {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space);
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-actionbar);
+      padding: var(--space) var(--gutter) calc(var(--space) + env(safe-area-inset-bottom));
+      background: var(--color-offwhite); border-top: var(--stroke-hair) solid var(--color-rule);
+      transform: translateY(110%); visibility: hidden;
+      transition: transform var(--dur-bar) var(--ease-out), visibility 0s linear var(--dur-bar);
+    }
+    .bar.is-visible { transform: none; visibility: visible; transition: transform var(--dur-bar) var(--ease-out); }
+    :global(html.menu-open) .bar { visibility: hidden; }
+    .bar :global(.bar__btn) { width: 100%; padding-inline: var(--space); white-space: nowrap; }
+    .bar :global(.bar__call) { background: var(--color-white); }
+  }
+</style>

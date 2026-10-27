@@ -144,6 +144,23 @@ export interface SiteConfig {
     /** Set true to publish the after-launch page. */
     pageLive: boolean;
   };
+  /** Header, footer and action-bar copy. */
+  shell: {
+    /** Main nav links. "afterLaunch" link is only shown when afterLaunch.pageLive. */
+    nav: { label: string; href: string; afterLaunchOnly?: boolean }[];
+    /** Footer "Pages" column. */
+    footerPages: { label: string; href: string }[];
+    /** Primary call to action. */
+    cta: { label: string; shortLabel: string; href: string };
+    /** Privacy page link. */
+    privacyHref: string;
+    /** Copyright year. */
+    year: number;
+    /** Footer sample note. */
+    sampleNote: string;
+    /** Routes where the mobile action bar is hidden. */
+    hideActionBarOn: string[];
+  };
   /** Analytics. */
   analytics: {
     /** Cloudflare Web Analytics token, or null to turn analytics off. */
@@ -168,8 +185,8 @@ export const site: SiteConfig = {
     appleTouchIcon: BRAND + "apple-touch-icon-180_1793055255720.png",
     appIcon192: BRAND + "app-icon-192_1793055255719.png",
     appIcon512: BRAND + "app-icon-512_1793055255720.png",
-    headerLogo: BRAND + "website-header-logo_1793055255725.svg",
-    logoReversed: BRAND + "landed-local_logo-horizontal_reversed_1793055255724.svg",
+    headerLogo: BRAND + "website-header-logo.svg",
+    logoReversed: BRAND + "landed-local_logo-horizontal_reversed.svg",
     profilePhoto: BRAND + "profile-picture-1080_orange_1793055255725.png",
     profilePhotoDark: BRAND + "profile-picture-1080_dark.png",
   },
@@ -223,6 +240,24 @@ export const site: SiteConfig = {
   samples: [],
   afterLaunch: {
     pageLive: false,
+  },
+  shell: {
+    nav: [
+      { label: "Websites", href: "/websites" },
+      { label: "About", href: "/about" },
+      { label: "After launch", href: "/after-launch", afterLaunchOnly: true },
+    ],
+    footerPages: [
+      { label: "Home", href: "/" },
+      { label: "Websites", href: "/websites" },
+      { label: "About", href: "/about" },
+      { label: "Get my free mockup", href: "/get-a-mockup" },
+    ],
+    cta: { label: "Get my free mockup", shortLabel: "Get my mockup", href: "/get-a-mockup" },
+    privacyHref: "/privacy",
+    year: 2026,
+    sampleNote: "This site is a sample of my work. I designed and built it myself.",
+    hideActionBarOn: ["/get-a-mockup", "/thanks"],
   },
   analytics: {
     cloudflareToken: null,
