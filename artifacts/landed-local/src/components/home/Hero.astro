@@ -27,7 +27,11 @@ const sampleAlt = "Sample site for a fictional local business";
   <div class="hero__grid">
     <div class="hero__text">
       <Eyebrow>Websites for {business.city} service businesses</Eyebrow>
-      <h1 id="hero-title" class="hero__h1">Get found. Get the call. <PencilMark>Get the job.</PencilMark></h1>
+      <h1 id="hero-title" class="hero__h1">
+        <span class="hero__line">Get found.</span>
+        <span class="hero__line">Get the call.</span>
+        <span class="hero__line"><PencilMark>Get the job.</PencilMark></span>
+      </h1>
       <p class="hero__lead">I build fast, phone-first websites for plumbers, electricians and other local trades. Live in {offer.liveInDays} days, {usd(pricing.standard)} one time, and you own it.</p>
       <div class="hero__actions">
         <Button href={shell.cta.href} fullWidthMobile>{shell.cta.label}</Button>
@@ -39,7 +43,7 @@ const sampleAlt = "Sample site for a fictional local business";
     <div class:list={["hero__visual", `hero__visual--${hero.mode}`]}>
       {hero.mode === "workorder" && (
         <CornerFrame class="hero__ticket-frame">
-          <JobTicket number="#001" title="New website for your business" stamp stampPlacement="corner"
+          <JobTicket class="hero__ticket" number="#001" title="New website for your business" stamp stampPlacement="corner"
             items={[
               { label: "Built for phones first" },
               { label: "Tap-to-call on every page" },
@@ -92,6 +96,7 @@ const sampleAlt = "Sample site for a fictional local business";
   @media (min-width: 900px) { .hero__grid { grid-template-columns: 55fr 45fr; } }
   .hero__text { display: grid; gap: var(--hero-stack); justify-items: start; min-width: 0; }
   .hero__h1 { margin: 0; font-size: var(--hero-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
+  .hero__h1 :global(.hero__line) { display: block; white-space: nowrap; }
   .hero__lead { margin: 0; font-size: var(--hero-text-lead); line-height: var(--leading-body); max-width: var(--prose-max); color: var(--color-charcoal); }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-button-stack); width: 100%; }
   @media (max-width: 639px) { .hero__actions { flex-direction: column; } }
@@ -103,6 +108,7 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero__visual--workorder { padding-bottom: calc(var(--space) * 4); }
 
   .hero__visual :global(.hero__ticket-frame) { transform: rotate(var(--hero-ticket-rotate)); }
+  .hero__visual :global(.hero__ticket .ticket__check) { align-self: flex-start; }
 
   .hero__devices { position: relative; display: grid; gap: calc(var(--space) * 2); justify-items: start; }
   .hero__devices > :global(.corner-frame) { width: 100%; }

@@ -2,11 +2,12 @@
 interface Props { class?: string }
 const { class: extra } = Astro.props;
 ---
-<span class:list={["pencil", extra]} data-reveal><slot /><svg class="pencil__line" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 9 C 50 8.8, 98 8.4, 145 7.8 S 181 6.8, 197 5.4" pathLength="1" /></svg></span>
+<span class:list={["pencil", extra]} data-reveal><span class="pencil__text"><slot /></span><svg class="pencil__line" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 9 C 50 8.8, 98 8.4, 145 7.8 S 181 6.8, 197 5.4" pathLength="1" /></svg></span>
 <script>import "../scripts/motion";</script>
 
 <style>
   .pencil { position: relative; display: inline-block; white-space: nowrap; padding-bottom: var(--pencil-descender-space); }
+  .pencil__text { display: inline-block; white-space: nowrap; }
   .pencil__line { position: absolute; left: 0; bottom: 0; width: 100%; height: var(--pencil-h); overflow: visible; }
   .pencil__line path {
     fill: none; stroke: var(--color-orange); stroke-width: var(--stroke-pencil);
