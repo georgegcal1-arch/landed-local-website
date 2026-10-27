@@ -29,9 +29,10 @@ const { contact } = site;
         <input id="mockup-email" name="email" type="email" autocomplete="email" required aria-describedby="mockup-email-error" />
         <span class="home-cta__error" id="mockup-email-error" hidden></span>
       </div>
-      <Button type="submit" fullWidthMobile>Send me my free mockup</Button>
+      <Button type="submit" fullWidthMobile disabled>Send me my free mockup</Button>
       <p class="home-cta__form-error" data-form-error role="alert" hidden>Couldn't save your details. Please try again.</p>
     </form>
+    <noscript><p>Please enable JavaScript to continue, or <a href="/get-a-mockup">visit the mockup request page</a>.</p></noscript>
 
     <p class="home-cta__contact">Prefer to talk? <a href={contact.phoneHref}>Call or text {contact.phoneDisplay}</a></p>
   </div>
@@ -44,6 +45,7 @@ const { contact } = site;
     const nameInput = form.querySelector<HTMLInputElement>("#mockup-name")!;
     const businessInput = form.querySelector<HTMLInputElement>("#mockup-business")!;
     const emailInput = form.querySelector<HTMLInputElement>("#mockup-email")!;
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     const formError = form.querySelector<HTMLElement>("[data-form-error]")!;
     const fieldErrors = [
       { input: nameInput, node: form.querySelector<HTMLElement>("#mockup-name-error")!, message: "Please enter your name." },
@@ -91,6 +93,7 @@ const { contact } = site;
         formError.hidden = false;
       }
     });
+    submitButton.disabled = false;
   }
 </script>
 

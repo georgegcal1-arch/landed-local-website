@@ -9,10 +9,11 @@ export type Props = AsLink | AsButton;
 
 const { variant = "primary", class: extra, href, fullWidthMobile = false, ...rest } = Astro.props as Common & { href?: string } & Record<string, unknown>;
 const cls = ["btn", `btn--${variant}`, fullWidthMobile && "btn--full-width-mobile", extra].filter(Boolean).join(" ");
+const buttonType = (rest.type ?? "button") as "button" | "submit" | "reset";
 ---
 {href !== undefined
   ? <a href={href} class={cls} {...rest}><slot /></a>
-  : <button type="button" class={cls} {...rest}><slot /></button>}
+  : <button type={buttonType} class={cls} {...rest}><slot /></button>}
 
 <style>
   .btn {
