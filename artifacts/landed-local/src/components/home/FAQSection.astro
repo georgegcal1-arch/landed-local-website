@@ -1,0 +1,76 @@
+---
+import Button from "../Button.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Section from "../Section.astro";
+import { faqItems } from "../../data/faq";
+
+const homeFAQs = faqItems.filter((item) => item.showOnHome);
+---
+
+<Section id="faq" bg="offwhite" class="home-faq">
+  <Eyebrow>Questions</Eyebrow>
+  <h2 class="home-faq__heading">Straight answers</h2>
+
+  <div class="home-faq__list">
+    {homeFAQs.map(({ question, answer }) => (
+      <details class="home-faq__item">
+        <summary>
+          <span>{question}</span>
+          <span class="home-faq__icon" aria-hidden="true"></span>
+        </summary>
+        <p>{answer}</p>
+      </details>
+    ))}
+  </div>
+
+  <div class="home-faq__more">
+    <Button variant="text-link" href="/websites#faq">More questions</Button>
+  </div>
+</Section>
+
+<style>
+  .home-faq__heading { margin: calc(var(--space) * 2) 0 calc(var(--space) * 4); }
+  .home-faq__list { max-width: 760px; margin-inline: auto; }
+  .home-faq__item { border-top: var(--stroke-hair) solid var(--color-rule); }
+  .home-faq__item:last-child { border-bottom: var(--stroke-hair) solid var(--color-rule); }
+  .home-faq__item summary {
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--space) * 2);
+    padding-block: calc(var(--space) * 2);
+    color: var(--color-charcoal);
+    cursor: pointer;
+    font-weight: var(--weight-semibold);
+    list-style: none;
+  }
+  .home-faq__item summary::-webkit-details-marker { display: none; }
+  .home-faq__item summary::marker { content: ""; }
+  .home-faq__item summary:focus-visible {
+    outline: var(--stroke-focus) solid var(--color-teal);
+    outline-offset: var(--focus-offset);
+  }
+  .home-faq__icon {
+    position: relative;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    color: var(--color-orange-burnt);
+  }
+  .home-faq__icon::before,
+  .home-faq__icon::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+  .home-faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .home-faq__item[open] .home-faq__icon::after { transform: translate(-50%, -50%) scaleY(0); }
+  .home-faq__item p { max-width: 68ch; margin: 0 0 calc(var(--space) * 3); }
+  .home-faq__more { display: flex; justify-content: center; margin-top: calc(var(--space) * 3); }
+</style>

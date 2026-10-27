@@ -1,0 +1,87 @@
+---
+import Button from "../Button.astro";
+import CheckList from "../CheckList.astro";
+import CornerFrame from "../CornerFrame.astro";
+import Eyebrow from "../Eyebrow.astro";
+import Section from "../Section.astro";
+import { site } from "../../config/site";
+
+const { photos, contact } = site;
+const founderPhoto = photos.founderHero;
+---
+
+<Section id="meet-george" bg="charcoal" class="meet-george">
+  <div class="meet-george__grid">
+    <CornerFrame class="meet-george__frame" hideBracket={!founderPhoto}>
+      <div class="meet-george__photo">
+        <img
+          src={founderPhoto ?? "/brand/profile-picture-1080_orange.png"}
+          alt={founderPhoto ? "George, founder of Landed Local" : "Landed Local logo"}
+          width="800"
+          height="800"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </CornerFrame>
+
+    <div class="meet-george__content">
+      <Eyebrow>Who you'll work with</Eyebrow>
+      <h2>Hi, I'm George.</h2>
+      <p class="meet-george__intro">I'm based in Columbus, and I started Landed Local to help local trades get found online and get more calls. You deal with me from the first mockup to launch. No account managers, no hand-offs.</p>
+      <CheckList
+        items={["Based in Columbus, Ohio", "One person, start to finish", "Call or text me directly: 614-321-8001"]}
+        onDark
+        class="meet-george__list"
+      >
+        {(item: string, index: number) => index === 2
+          ? <>Call or text me directly: <a href={contact.phoneHref}>614-321-8001</a></>
+          : item}
+      </CheckList>
+      <Button variant="text-link" href="/about">More about me</Button>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .meet-george__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: calc(var(--space) * 5);
+  }
+  .meet-george__frame {
+    width: min(calc(320px + var(--frame-inset)), 100%);
+    margin-inline: auto;
+  }
+  .meet-george__photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .meet-george__photo img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .meet-george__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--space) * 2);
+  }
+  .meet-george__content :global(.eyebrow) { color: var(--color-teal-light); }
+  .meet-george__content :global(.eyebrow__tick) { background: var(--color-teal-light); }
+  .meet-george__content h2 { margin: 0; color: var(--color-offwhite); }
+  .meet-george__intro { max-width: 60ch; margin: 0; color: var(--color-offwhite); }
+  .meet-george__list { color: var(--color-offwhite); }
+  .meet-george__content :global(.btn--text-link) { margin-top: var(--space); }
+  @media (min-width: 768px) {
+    .meet-george__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 8); }
+    .meet-george__frame { margin: 0; }
+  }
+</style>
