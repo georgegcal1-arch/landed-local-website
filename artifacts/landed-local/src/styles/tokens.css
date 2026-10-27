@@ -181,4 +181,6 @@
 :root {
   --problem-icon-size: 48px;
   --problem-closing-size: 22px;
+  --steps-marker-size: 40px;
+  --steps-ruler-base: 2px;
 }
