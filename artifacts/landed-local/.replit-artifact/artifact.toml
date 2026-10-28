@@ -15,7 +15,7 @@ localPort = 20014
 run = "pnpm --filter @workspace/landed-local run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/landed-local", "run", "build" ]
+build = [ "npm", "run", "build", "--prefix", "artifacts/landed-local" ]
 serve = "static"
 publicDir = "artifacts/landed-local/dist"
 
