@@ -1,4 +1,5 @@
-/** Front-end preview only. Sending will be connected separately. */
+import { site } from "../config/site";
+
 const requestForm = document.querySelector<HTMLFormElement>("[data-mockup-request-form]");
 
 if (requestForm) {
@@ -12,10 +13,13 @@ if (requestForm) {
   const phone = input("phone");
   const website = input("website");
   const noWebsite = input("no-website");
+  const botcheck = requestForm.querySelector<HTMLInputElement>('input[name="botcheck"]')!;
   const otherTradeField = requestForm.querySelector<HTMLElement>("[data-other-trade-field]")!;
   const submit = requestForm.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const status = requestForm.querySelector<HTMLElement>("[data-form-status]")!;
   const controls = [name, business, city, trade, otherTrade, email];
+  let sending = false;
+  const submitLabel = submit.textContent;
   const requiredMessages: Record<string, string> = {
     "request-name": "Please add your name",
     "request-business": "Please add your business name",
@@ -93,8 +97,9 @@ if (requestForm) {
   });
   noWebsite.addEventListener("change", updateWebsite);
 
-  requestForm.addEventListener("submit", (event) => {
+  requestForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (sending || botcheck.checked) return;
     status.hidden = true;
     const invalid = controls.filter((control) => !validate(control));
     if (invalid.length) {
@@ -103,20 +108,59 @@ if (requestForm) {
     }
 
     const values = {
+      access_key: site.forms.web3formsKey,
+      subject: `New mockup request: ${business.value.trim()} (${city.value.trim()})`,
+      from_name: "Landed Local website",
       name: name.value.trim(),
-      businessName: business.value.trim(),
+      business: business.value.trim(),
       city: city.value.trim(),
-      trade: trade.value,
-      otherTrade: trade.value === "Other" ? otherTrade.value.trim() : "",
+      trade: trade.value === "Other" ? otherTrade.value.trim() : trade.value,
       email: email.value.trim(),
       phone: phone.value.trim(),
       website: noWebsite.checked ? "" : website.value.trim(),
-      noWebsite: noWebsite.checked,
-      ...metadata,
+      no_website: noWebsite.checked ? "Yes" : "No",
+      page: metadata.pageUrl,
+      referrer: metadata.referrer,
+      utm_source: metadata.utm_source,
+      utm_medium: metadata.utm_medium,
+      utm_campaign: metadata.utm_campaign,
+      botcheck: false,
     };
-    console.log("Mockup request (preview only; not sent)", values);
-    status.textContent = "Your details were logged for testing. Nothing has been sent yet.";
-    status.hidden = false;
+    sending = true;
+    submit.disabled = true;
+    submit.textContent = "Sending...";
+    requestForm.setAttribute("aria-busy", "true");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 12_000);
+    try {
+      if (!values.access_key.trim()) throw new Error("Missing form configuration");
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(values),
+        signal: controller.signal,
+      });
+      const result: unknown = await response.json();
+      if (!response.ok || !result || typeof result !== "object" ||
+          !("success" in result) || result.success !== true) {
+        throw new Error("Submission was not accepted");
+      }
+      try {
+        sessionStorage.setItem("mockupFirstName", values.name.split(/\s+/)[0]);
+      } catch {
+        // A blocked storage policy must not prevent confirmation of a sent request.
+      }
+      window.location.assign("/thanks");
+    } catch {
+      status.textContent = "Something went wrong sending your request. Please try again, or call or text 614-321-8001.";
+      status.hidden = false;
+      sending = false;
+      submit.disabled = false;
+      submit.textContent = submitLabel;
+    } finally {
+      window.clearTimeout(timeout);
+      requestForm.removeAttribute("aria-busy");
+    }
   });
 
   updateTrade();

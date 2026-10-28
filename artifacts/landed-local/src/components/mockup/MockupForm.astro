@@ -59,10 +59,13 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
       <input type="hidden" name="utm_source" value="" />
       <input type="hidden" name="utm_medium" value="" />
       <input type="hidden" name="utm_campaign" value="" />
+      <div class="mf__honeypot" aria-hidden="true" inert>
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+      </div>
 
       <div class="mf__submit">
+        <p class="mf__status" data-form-status role="alert" hidden></p>
         <Button type="submit" fullWidthMobile disabled>Send me my free mockup</Button>
-        <p class="mf__status" data-form-status role="status" hidden></p>
         <p class="mf__privacy">I'll only use this to send your mockup and follow up about it. <a href={site.shell.privacyHref}>Privacy</a></p>
       </div>
   </form>
@@ -101,7 +104,8 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
   .mf__check input { width: 20px; height: 20px; margin: 0; accent-color: var(--color-teal); }
   .mf__submit { display: grid; gap: calc(var(--space) * 1.5); padding-top: var(--space); border-top: var(--stroke-hair) dashed var(--color-rule); }
   .mf__submit :global(.btn) { width: 100%; margin-top: var(--space); }
-  .mf__status { margin: 0; padding: var(--space) calc(var(--space) * 1.5); background: var(--color-teal-tint); border-radius: var(--radius-input); font-size: var(--text-small); }
+  .mf__honeypot { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .mf__status { margin: 0; padding: var(--space) calc(var(--space) * 1.5); background: var(--color-orange-tint); color: var(--color-orange-burnt); border: var(--stroke-hair) solid currentColor; border-radius: var(--radius-input); font-size: var(--text-small); }
   .mf__status[hidden] { display: none; }
   .mf__privacy { margin: 0; font-size: var(--text-small); color: var(--color-steel); }
   .mf__privacy a, .mf__noscript a { color: var(--color-teal); text-decoration: underline; text-underline-offset: var(--underline-offset); }
