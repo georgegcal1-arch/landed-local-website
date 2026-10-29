@@ -5,6 +5,7 @@ import CornerFrame from "../CornerFrame.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Pill from "../Pill.astro";
 import Section from "../Section.astro";
+import OptimizedImage from "../OptimizedImage.astro";
 import { site } from "../../config/site";
 
 const { samples, shell } = site;
@@ -19,11 +20,11 @@ const { samples, shell } = site;
         {samples.map((sample) => (
           <Card as="article" class="sample-sites__card">
             <CornerFrame class="sample-sites__frame">
-              <img
+              <OptimizedImage
                 src={sample.image}
                 alt={`${sample.name} website example`}
-                width="1600"
-                height="1000"
+                width={1600}
+                height={1000}
                 loading="lazy"
                 decoding="async"
               />

@@ -11,17 +11,17 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
       <div class="mf__field">
         <label for="request-name">Your name</label>
         <input id="request-name" name="name" type="text" autocomplete="name" required aria-describedby="request-name-error" />
-        <span class="mf__error" id="request-name-error" hidden></span>
+        <span class="mf__error" id="request-name-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field">
         <label for="request-business">Business name</label>
         <input id="request-business" name="businessName" type="text" autocomplete="organization" required aria-describedby="request-business-error" />
-        <span class="mf__error" id="request-business-error" hidden></span>
+        <span class="mf__error" id="request-business-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field">
         <label for="request-city">City or town</label>
         <input id="request-city" name="city" type="text" autocomplete="address-level2" required aria-describedby="request-city-error" />
-        <span class="mf__error" id="request-city-error" hidden></span>
+        <span class="mf__error" id="request-city-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field">
         <label for="request-trade">Trade</label>
@@ -29,17 +29,17 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
           <option value="" selected>Choose your trade</option>
           {trades.map((t) => <option value={t}>{t}</option>)}
         </select>
-        <span class="mf__error" id="request-trade-error" hidden></span>
+        <span class="mf__error" id="request-trade-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field mf__field--other" data-other-trade-field hidden>
         <label for="request-other-trade">Your trade</label>
         <input id="request-other-trade" name="otherTrade" type="text" disabled aria-describedby="request-other-trade-error" />
-        <span class="mf__error" id="request-other-trade-error" hidden></span>
+        <span class="mf__error" id="request-other-trade-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field">
         <label for="request-email">Email</label>
         <input id="request-email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-describedby="request-email-error" />
-        <span class="mf__error" id="request-email-error" hidden></span>
+        <span class="mf__error" id="request-email-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="mf__field">
         <label for="request-phone">Phone <span class="mf__opt">(optional)</span></label>
@@ -64,7 +64,7 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
       </div>
 
       <div class="mf__submit">
-        <p class="mf__status" data-form-status role="alert" hidden></p>
+        <p class="mf__status" data-form-status role="alert" aria-live="assertive" aria-atomic="true" hidden></p>
         <Button type="submit" fullWidthMobile disabled>Send me my free mockup</Button>
         <p class="mf__privacy">I'll only use this to send your mockup and follow up about it. <a href={site.shell.privacyHref}>Privacy</a></p>
       </div>

@@ -9,7 +9,7 @@ const c = site.contact;
   <Section bg="charcoal" class="ftr__sec">
     <div class="ftr__grid">
       <div>
-        <a href="/" class="ftr__logo"><img src={site.brand.logoReversed} alt={`${site.business.name} home`} /></a>
+        <a href="/" class="ftr__logo"><img src={site.brand.logoReversed} alt={`${site.business.name} home`} width="276" height="56" loading="lazy" decoding="async" /></a>
         <p class="ftr__tag">{site.business.tagline}</p>
       </div>
       <nav aria-label="Footer">
@@ -44,7 +44,8 @@ const c = site.contact;
   .ftr__logo img { width: var(--footer-logo-w); max-width: 100%; height: auto; display: block; }
   .ftr__tag { color: var(--color-teal-light); margin-top: calc(var(--space) * 2); font-weight: var(--weight-medium); }
   .ftr__h { font-size: var(--text-small); font-weight: var(--weight-heavy); letter-spacing: 0; text-transform: uppercase; margin-bottom: calc(var(--space) * 2); }
-  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space); }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  .ftr a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
   .ftr a { text-decoration: none; color: var(--color-offwhite); }
   .ftr a:hover { text-decoration: underline; text-underline-offset: var(--underline-offset); color: var(--color-teal-light); }
   .ftr a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }

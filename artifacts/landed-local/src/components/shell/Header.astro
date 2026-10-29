@@ -11,7 +11,7 @@ const isCurrent = (href: string) => path === href;
 ---
 <header class="hdr">
   <div class="hdr__in container-content">
-    <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" /></a>
+    <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" loading="eager" decoding="async" /></a>
     <nav class="hdr__nav" aria-label="Main">
       {links.map((l) => <a href={l.href} class="hdr__link" aria-current={isCurrent(l.href) ? "page" : undefined}>{l.label}</a>)}
     </nav>
@@ -28,7 +28,7 @@ const isCurrent = (href: string) => path === href;
 
 <div id="site-menu" class="menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
   <div class="menu__top container-content">
-    <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" /></a>
+    <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" loading="lazy" decoding="async" /></a>
     <button type="button" class="icon-btn" data-menu-close><X size={22} aria-hidden="true" /><span class="sr-only">Close menu</span></button>
   </div>
   <nav class="menu__body container-content" aria-label="Main">
@@ -38,7 +38,6 @@ const isCurrent = (href: string) => path === href;
     <Button href={site.shell.cta.href} class="menu__cta">{site.shell.cta.label}</Button>
   </nav>
 </div>
-<script>import "../../scripts/shell";</script>
 
 <style>
   .hdr { position: sticky; top: 0; z-index: var(--z-header); background: var(--color-offwhite); border-bottom: var(--stroke-hair) solid var(--color-rule); }
@@ -58,6 +57,7 @@ const isCurrent = (href: string) => path === href;
   a:focus-visible, .icon-btn:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
   .hdr__link, .menu__link { color: var(--color-charcoal); text-decoration: none; text-underline-offset: calc(var(--underline-offset) * 2); }
   .hdr__link { font-weight: var(--weight-semibold); font-size: var(--text-small); }
+  .hdr__logo, .hdr__link, .hdr__phone, .menu__link, .menu__phone { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
   .hdr__link:hover, .menu__link:hover { text-decoration: underline; text-decoration-thickness: var(--stroke-outline); }
   .hdr__link[aria-current="page"], .menu__link[aria-current="page"] {
     text-decoration: underline; text-decoration-color: var(--color-orange); text-decoration-thickness: var(--nav-underline);

@@ -5,6 +5,8 @@ import { site } from "../config/site";
 import Header from "../components/shell/Header.astro";
 import Footer from "../components/shell/Footer.astro";
 import MobileActionBar from "../components/shell/MobileActionBar.astro";
+import manrope800 from "@fontsource/manrope/files/manrope-latin-800-normal.woff2?url";
+import inter400 from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
 
 interface Props {
   /** Page title. The business name is appended. */
@@ -58,6 +60,8 @@ if (!themeColor) throw new Error("Missing --color-offwhite design token");
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" href={manrope800} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin="anonymous" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -97,5 +101,9 @@ if (!themeColor) throw new Error("Missing --color-offwhite design token");
     </main>
     <Footer />
     <MobileActionBar />
+    <script>
+      import "../scripts/shell";
+      import "../scripts/motion";
+    </script>
   </body>
 </html>

@@ -14,3 +14,31 @@ mtime_ms = 1793242666211
 storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:6faabcc3-9915-4a85-9062-a954e1943752/35c79b0e-1c27-4ac2-a45e-15c807ca7406/96a56292-d2a9-4473-bc5a-8ce78fbe18a2"
 storage_version_token = "1793242689746212"
 content_type = "text/html"
+
+[[outputs]]
+id = "IhcM49elmOgnhCwGbSRdI"
+uri = "file://generated-artifacts/lighthouse-home.report.html"
+type = "html"
+title = "Home — mobile Lighthouse report"
+description = "Production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100. CLS 0.013."
+logical_id = "57ab4c31-30ca-4b02-b0f8-e0ea9dbcc39f"
+content_hash = "sha256:1e3bba8e22fcb9e672b902e3ce72323a83a012db91df85ed3f7d83004e3c4666"
+size = 927472
+mtime_ms = 1793243346425
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:6faabcc3-9915-4a85-9062-a954e1943752/57ab4c31-30ca-4b02-b0f8-e0ea9dbcc39f/b2f13d94-9be6-4fdd-bd8f-835a982c2947"
+storage_version_token = "1793243452300593"
+content_type = "text/html"
+
+[[outputs]]
+id = "jY1M6l0uE60p3toOkeEA_"
+uri = "file://generated-artifacts/lighthouse-mockup.report.html"
+type = "html"
+title = "Get a mockup — mobile Lighthouse report"
+description = "Production build: Performance 100, Accessibility 100, Best Practices 100, SEO 100. CLS 0.000."
+logical_id = "9e1a6b6b-b1e1-475d-a07f-30dc8702c82c"
+content_hash = "sha256:5bb074b520a67f39801313cad32b489b0a20be12dd69a8ed172836ece9499c9d"
+size = 673161
+mtime_ms = 1793243358359
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:6faabcc3-9915-4a85-9062-a954e1943752/9e1a6b6b-b1e1-475d-a07f-30dc8702c82c/b8f606ae-b306-4677-b97e-c3474fdba51a"
+storage_version_token = "1793243452895317"
+content_type = "text/html"

@@ -17,17 +17,17 @@ const { contact } = site;
       <div class="home-cta__field">
         <label for="mockup-name">Your name</label>
         <input id="mockup-name" name="name" type="text" autocomplete="name" required aria-describedby="mockup-name-error" />
-        <span class="home-cta__error" id="mockup-name-error" hidden></span>
+        <span class="home-cta__error" id="mockup-name-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="home-cta__field">
         <label for="mockup-business">Business name</label>
         <input id="mockup-business" name="businessName" type="text" autocomplete="organization" required aria-describedby="mockup-business-error" />
-        <span class="home-cta__error" id="mockup-business-error" hidden></span>
+        <span class="home-cta__error" id="mockup-business-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <div class="home-cta__field">
         <label for="mockup-email">Email</label>
         <input id="mockup-email" name="email" type="email" autocomplete="email" required aria-describedby="mockup-email-error" />
-        <span class="home-cta__error" id="mockup-email-error" hidden></span>
+        <span class="home-cta__error" id="mockup-email-error" aria-live="polite" aria-atomic="true" hidden></span>
       </div>
       <Button type="submit" fullWidthMobile disabled>Send me my free mockup</Button>
       <p class="home-cta__form-error" data-form-error role="alert" hidden>Couldn't save your details. Please try again.</p>

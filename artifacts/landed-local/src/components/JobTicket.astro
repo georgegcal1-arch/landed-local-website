@@ -49,7 +49,6 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
   {corner && <div class="ticket__stamp ticket__stamp--corner" aria-label={stampText}><span>{stampText}</span></div>}
   {stamp && !total && !corner && !topRight && <div class="ticket__stamp-row"><div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div></div>}
 </article>
-<script>import "../scripts/motion";</script>
 
 <style>
   .ticket {

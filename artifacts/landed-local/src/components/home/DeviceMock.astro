@@ -1,11 +1,12 @@
 ---
+import OptimizedImage from "../OptimizedImage.astro";
 interface Props { src: string | null; kind: "laptop" | "phone"; alt: string; class?: string }
 const { src, kind, alt, class: extra } = Astro.props;
 const dims = kind === "laptop" ? { w: 1280, h: 800 } : { w: 360, h: 780 };
 ---
 <div class:list={["device", `device--${kind}`, extra]}>
   <div class="device__screen">
-    {src ? <img src={src} alt={alt} width={dims.w} height={dims.h} loading="eager" decoding="async" fetchpriority="high" />
+    {src ? <OptimizedImage src={src} alt={alt} width={dims.w} height={dims.h} loading="eager" decoding="async" fetchpriority="high" />
          : <div class="device__ph" role="img" aria-label={`${kind === "laptop" ? "Laptop" : "Phone"} screenshot placeholder`}></div>}
   </div>
   {kind === "laptop" && <div class="device__base" aria-hidden="true"></div>}

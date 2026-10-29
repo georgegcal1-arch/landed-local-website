@@ -4,6 +4,7 @@ import CheckList from "../CheckList.astro";
 import CornerFrame from "../CornerFrame.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Section from "../Section.astro";
+import OptimizedImage from "../OptimizedImage.astro";
 import { site } from "../../config/site";
 
 const { photos, contact } = site;
@@ -14,11 +15,11 @@ const founderPhoto = photos.founderHero;
   <div class="meet-george__grid">
     <CornerFrame class="meet-george__frame" hideBracket={!founderPhoto}>
       <div class="meet-george__photo">
-        <img
+        <OptimizedImage
           src={founderPhoto ?? "/brand/profile-picture-1080_orange.png"}
           alt={founderPhoto ? "George, founder of Landed Local" : "Landed Local logo"}
-          width="800"
-          height="800"
+          width={800}
+          height={800}
           loading="lazy"
           decoding="async"
         />
@@ -79,6 +80,7 @@ const founderPhoto = photos.founderHero;
   .meet-george__content h2 { margin: 0; color: var(--color-offwhite); }
   .meet-george__intro { max-width: 60ch; margin: 0; color: var(--color-offwhite); }
   .meet-george__list { color: var(--color-offwhite); }
+  .meet-george__list :global(a) { text-decoration: underline; text-underline-offset: var(--underline-offset); }
   .meet-george__content :global(.btn--text-link) { margin-top: var(--space); }
   @media (min-width: 768px) {
     .meet-george__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 8); }

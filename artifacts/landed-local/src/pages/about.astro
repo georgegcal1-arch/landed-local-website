@@ -4,6 +4,7 @@ import Section from "../components/Section.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import Card from "../components/Card.astro";
 import CornerFrame from "../components/CornerFrame.astro";
+import OptimizedImage from "../components/OptimizedImage.astro";
 import FinalCtaSection from "../components/sections/FinalCtaSection.astro";
 import { site } from "../config/site";
 
@@ -23,11 +24,12 @@ const founderPhoto = site.photos.founderAbout;
       </div>
       <CornerFrame class="about-hero__frame" hideBracket={!founderPhoto}>
         <div class="about-hero__photo">
-          <img
+          <OptimizedImage
             src={founderPhoto ?? "/brand/profile-picture-1080_orange.png"}
             alt={founderPhoto ? "George, founder of Landed Local" : "Landed Local logo"}
-            width="800"
-            height="800"
+            width={800}
+            height={800}
+            loading="eager"
             fetchpriority="high"
             decoding="async"
           />

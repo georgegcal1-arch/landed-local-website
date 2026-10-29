@@ -1,4 +1,5 @@
 /* Start states only exist with JS + motion allowed (html.motion-ok). */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  html, :focus-within { scroll-behavior: auto !important; }
 }

@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from "../OptimizedImage.astro";
 import Phone from "lucide-astro/Phone";
 import Section from "../Section.astro";
 import Eyebrow from "../Eyebrow.astro";
@@ -75,7 +76,7 @@ const sampleAlt = "Sample site for a fictional local business";
         <div class="hero__photo">
           <CornerFrame>
             {photos.founderHero
-              ? <img class="hero__photo-img" src={photos.founderHero} alt="George, founder of Landed Local, in Columbus" width="800" height="1000" loading="eager" fetchpriority="high" decoding="async" />
+              ? <OptimizedImage class="hero__photo-img" src={photos.founderHero} alt="George, founder of Landed Local, in Columbus" width={800} height={1000} loading="eager" fetchpriority="high" decoding="async" />
               : <div class="hero__photo-img hero__photo-ph" role="img" aria-label="Founder photo placeholder"></div>}
           </CornerFrame>
           {phone && (

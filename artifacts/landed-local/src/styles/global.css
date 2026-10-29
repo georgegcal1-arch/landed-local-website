@@ -1,8 +1,8 @@
-@import "@fontsource/manrope/700.css";
-@import "@fontsource/manrope/800.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
+@import "@fontsource/manrope/latin-700.css";
+@import "@fontsource/manrope/latin-800.css";
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
 @import "./tokens.css";
 @import "./motion.css";
 
@@ -27,6 +27,23 @@
   p { max-width: var(--prose-max); }
   small, .text-secondary { font-family: var(--font-body); font-weight: 500; font-size: var(--text-small); letter-spacing: 0; color: var(--color-steel); }
   ::selection { background: var(--color-orange-tint); }
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: var(--stroke-focus) solid var(--color-teal);
+    outline-offset: var(--focus-offset);
+  }
+  [data-tone="dark"] :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline-color: var(--color-teal-light);
+  }
+  [data-tone="dark"] [data-tone="light"] :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline-color: var(--color-teal);
+  }
+  /* Expand inline-link hit areas without changing text flow or wrapping. */
+  a:not(.btn) { position: relative; }
+  a:not(.btn)::before {
+    content: ""; position: absolute; inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: max(100%, 44px); height: max(100%, 44px);
+  }
 }
 
 @layer components {
