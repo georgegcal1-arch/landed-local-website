@@ -43,7 +43,7 @@ const sampleAlt = "Sample site for a fictional local business";
     <div class:list={["hero__visual", `hero__visual--${hero.mode}`]}>
       {hero.mode === "workorder" && (
         <CornerFrame class="hero__ticket-frame">
-          <JobTicket class="hero__ticket" number="#001" title="New website for your business" stamp stampPlacement="corner"
+          <JobTicket class="hero__ticket" number="#001" title="New website for your business" titleAs="h2" stamp stampPlacement="corner"
             items={[
               { label: "Built for phones first" },
               { label: "Tap-to-call on every page" },
@@ -59,7 +59,7 @@ const sampleAlt = "Sample site for a fictional local business";
 
       {hero.mode === "devices" && (
         <div class="hero__devices">
-          <JobTicket class="hero__mini-ticket" number="001" title="New website" stamp
+          <JobTicket class="hero__mini-ticket" number="001" title="New website" titleAs="h2" stamp
             items={[{ label: "Phone-first design" }, { label: "Tap-to-call" }, { label: "Live in", value: `${offer.liveInDays} days` }]} />
           <CornerFrame>
             <DevTag class:list={["hero__devgroup", { "is-solo": solo }]} {...linkAttrs}>

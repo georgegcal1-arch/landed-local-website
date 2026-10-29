@@ -4,6 +4,8 @@ export interface TicketItem { label: string; value?: string }
 interface Props {
   number: string;
   title: string;
+  /** Match the heading hierarchy of the section containing this ticket. */
+  titleAs?: "h2" | "h3";
   items: TicketItem[];
   total?: { label?: string; value: string; previousValue?: string };
   stamp?: boolean | string;
@@ -11,7 +13,7 @@ interface Props {
   stampPlacement?: "inline" | "corner" | "top-right";
   class?: string;
 }
-const { number, title, items, total, stamp = false, stampPlacement = "inline", class: extra } = Astro.props;
+const { number, title, titleAs: TitleTag = "h3", items, total, stamp = false, stampPlacement = "inline", class: extra } = Astro.props;
 const corner = stamp && stampPlacement === "corner";
 const topRight = stamp && stampPlacement === "top-right";
 const stampText = typeof stamp === "string" ? stamp : "APPROVED";
@@ -24,7 +26,7 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
       <span class="ticket__num">{number.startsWith("#") ? number : `No. ${number}`}</span>
     </div>
   </header>
-  <h3 class="ticket__title">{title}</h3>
+  <TitleTag class="ticket__title">{title}</TitleTag>
   <ul class="ticket__items" data-reveal>
     {items.map((item, i) => (
       <li class="ticket__item" style={`--i:${i}`}>
@@ -69,7 +71,7 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
   .ticket__head-meta--stamp { flex-direction: column; align-items: flex-end; gap: calc(var(--space) * 0.5); }
   .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: 0; }
   .ticket__stamp--top-right { align-self: flex-end; }
-  .ticket__title { margin: calc(var(--space) * 2) 0 calc(var(--space) * 2.5); font-size: var(--text-h3); line-height: var(--leading-tight); }
+  .ticket__title { margin: calc(var(--space) * 2) 0 calc(var(--space) * 2.5); font-size: var(--text-h3); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
   .ticket__items { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.25); }
   .ticket__item { display: flex; align-items: baseline; gap: var(--space); }
   .ticket__check { flex: none; width: var(--check-size); height: var(--check-size); align-self: center; }

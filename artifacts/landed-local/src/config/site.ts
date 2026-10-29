@@ -66,6 +66,9 @@ export interface SiteConfig {
     city: string;
     /** Home state. */
     state: string;
+    /** Postal region and country codes used in business structured data. */
+    stateCode: string;
+    countryCode: string;
     /** How the service area is described. */
     serviceArea: string;
   };
@@ -173,8 +176,8 @@ const BRAND = "/brand/";
 export const site: SiteConfig = {
   site: {
     url: "https://www.landedlocal.com",
-    defaultDescription: "Websites for Columbus and Central Ohio trades. Land more local jobs.",
-    ogImage: BRAND + "app-icon-512_1793055255720.png",
+    defaultDescription: "Fast, phone-first websites for plumbers, electricians and local trades in Columbus, Ohio. $997 one time, live in 7 days, and you own it. Get a free mockup.",
+    ogImage: "/og-image.png",
   },
   brand: {
     faviconSvg: BRAND + "favicon_1793055255722.svg",
@@ -198,6 +201,8 @@ export const site: SiteConfig = {
     ownerFirst: "George",
     city: "Columbus",
     state: "Ohio",
+    stateCode: "OH",
+    countryCode: "US",
     serviceArea: "Columbus and Central Ohio",
   },
   contact: {

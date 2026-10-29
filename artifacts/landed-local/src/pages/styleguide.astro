@@ -26,7 +26,7 @@ const grounds: { bg: SectionBg; label: string }[] = [
 ];
 const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} days`, `${offer.revisionRounds} rounds of revisions`];
 ---
-<BaseLayout title="Styleguide" noindex>
+<BaseLayout title="Styleguide" description="Landed Local's internal reference for website typography, colors, components, and responsive design." noindex>
   <Section bg="paper" blueprint>
     <Eyebrow>Internal review, not linked</Eyebrow>
     <h1 class="sg-title">Landed Local <PencilMark>shop drawings</PencilMark></h1>
@@ -57,7 +57,7 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
       <Section bg={bg}>
         <Eyebrow>02 Type scale on {label}</Eyebrow>
         <div class="sg-type">
-          <div><span class="sg-meta">h1 Manrope 800 var(--text-h1)</span><h1>Built square. Found first.</h1></div>
+          <div><span class="sg-meta">h1 Manrope 800 var(--text-h1)</span><p class="sg-h1-sample">Built square. Found first.</p></div>
           <div><span class="sg-meta">h2 Manrope 800 var(--text-h2)</span><h2>Websites for Columbus trades</h2></div>
           <div><span class="sg-meta">h3 Manrope 700 var(--text-h3)</span><h3>Measured twice, launched once</h3></div>
           <div><span class="sg-meta">body Inter 400 var(--text-body)</span><p>You fix roofs, wire panels and hang drywall. We build the site that sends the next call your way, then keep it plumb.</p></div>
@@ -201,6 +201,8 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
   .sg-lede { margin-top: calc(var(--space) * 2); }
   .sg-h { margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 4); }
   .sg-meta { display: block; font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-eyebrow); letter-spacing: 0; color: var(--color-steel); }
+  .sg-h1-sample { font-family: var(--font-display); font-weight: 800; font-size: var(--text-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); color: var(--color-charcoal); }
+  :global([data-tone="dark"]) .sg-h1-sample { color: var(--color-offwhite); }
   .sg-token { font-family: var(--font-body); font-weight: var(--weight-semibold); overflow-wrap: anywhere; }
   :global([data-tone="dark"]) .sg-meta { color: var(--color-rule); }
   .sg-toc { display: flex; flex-wrap: wrap; gap: var(--space) calc(var(--space) * 2); margin-top: calc(var(--space) * 3); font-weight: var(--weight-semibold); font-size: var(--text-small); text-transform: capitalize; }

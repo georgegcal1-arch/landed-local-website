@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "i1FQT6isAHQAS5m-0VAdU"
+uri = "file://generated-artifacts/seo-verification.html"
+type = "html"
+title = "SEO verification: final Home head, sitemaps and robots.txt"
+description = "Complete generated Home <head>, the five-route sitemap, sitemap index, robots.txt, and the 1200 × 630 social share image."
+logical_id = "35c79b0e-1c27-4ac2-a45e-15c807ca7406"
+content_hash = "sha256:0699b51415d5a8006d7db3e03db3cad51ff28148e06542a0feb8471218dab3fd"
+size = 198167
+mtime_ms = 1793242666211
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:6faabcc3-9915-4a85-9062-a954e1943752/35c79b0e-1c27-4ac2-a45e-15c807ca7406/96a56292-d2a9-4473-bc5a-8ce78fbe18a2"
+storage_version_token = "1793242689746212"
+content_type = "text/html"
