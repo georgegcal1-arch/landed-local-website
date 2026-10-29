@@ -9,6 +9,8 @@ import MobileActionBar from "../components/shell/MobileActionBar.astro";
 interface Props {
   /** Page title. The business name is appended. */
   title: string;
+  /** Override the default business-name suffix when a page needs a specific full title. */
+  titleSuffix?: string;
   /** Meta description. Falls back to the site default. */
   description?: string;
   /** Share image path. Falls back to the site default. */
@@ -19,11 +21,12 @@ interface Props {
 
 const {
   title,
+  titleSuffix = site.business.name,
   description = site.site.defaultDescription,
   ogImage = site.site.ogImage,
   noindex = false,
 } = Astro.props;
-const fullTitle = title === site.business.name ? title : `${title} | ${site.business.name}`;
+const fullTitle = title === site.business.name ? title : `${title} | ${titleSuffix}`;
 const canonical = new URL(Astro.url.pathname, site.site.url).href;
 const ogImageUrl = new URL(ogImage, site.site.url).href;
 // Resolve at build time so browser chrome works even with JavaScript disabled.

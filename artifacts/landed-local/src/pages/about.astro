@@ -1,6 +1,132 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Card from "../components/Card.astro";
+import CornerFrame from "../components/CornerFrame.astro";
+import FinalCtaSection from "../components/sections/FinalCtaSection.astro";
+import { site } from "../config/site";
+
+const founderPhoto = site.photos.founderAbout;
 ---
-<BaseLayout title="About">
-  <h1>About</h1>
+<BaseLayout
+  title="About George"
+  titleSuffix="Landed Local, Columbus Web Design"
+  description="Landed Local is a one-person web studio in Columbus, Ohio, building fast, phone-first websites for plumbers, electricians and local trades."
+>
+  <Section bg="offwhite" class="about-hero">
+    <div class="about-hero__grid">
+      <div class="about-hero__copy">
+        <Eyebrow>About</Eyebrow>
+        <h1>Hi, I'm George. I build websites that help local trades get more calls.</h1>
+        <p>I'm based right here in Columbus, and Landed Local is just me. That means when you call, you get me, not a sales team. I'll build your mockup, walk you through it, launch your site, and be the one you text when you need a change.</p>
+      </div>
+      <CornerFrame class="about-hero__frame" hideBracket={!founderPhoto}>
+        <div class="about-hero__photo">
+          <img
+            src={founderPhoto ?? "/brand/profile-picture-1080_orange.png"}
+            alt={founderPhoto ? "George, founder of Landed Local" : "Landed Local logo"}
+            width="800"
+            height="800"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      </CornerFrame>
+    </div>
+  </Section>
+
+  <Section bg="paper" class="about-story">
+    <div class="about-story__copy">
+      <h2>Why I started Landed Local</h2>
+      <p>Most trade businesses I come across are great at what they do and have the reviews to prove it. But when a new customer looks them up, they find no website, or one that's hard to use on a phone, and they call someone else.</p>
+      <p>Landed Local fixes that with one simple offer: a fast website built to bring in calls, at one fair price, that you own. Then I show you the results, so you know it's working.</p>
+    </div>
+  </Section>
+
+  <Section bg="offwhite" class="about-work">
+    <h2>How I work</h2>
+    <div class="about-work__grid">
+      <Card class="about-work__card">
+        <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
+        <div><h3>You talk to me</h3><p>No account managers or hand-offs. Call or text me directly.</p></div>
+      </Card>
+      <Card class="about-work__card">
+        <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
+        <div><h3>The price is on the page</h3><p>$997 one time, or $500 for my first 3 clients. No surprises.</p></div>
+      </Card>
+      <Card class="about-work__card">
+        <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
+        <div><h3>You own it</h3><p>Your site and your domain are in your name.</p></div>
+      </Card>
+      <Card class="about-work__card">
+        <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
+        <div><h3>I show you the results</h3><p>Every site comes with 30 days of call tracking.</p></div>
+      </Card>
+    </div>
+  </Section>
+
+  <Section bg="offwhite" class="about-details">
+    <div class="about-details__inner">
+      <h2>The details</h2>
+      <Card class="about-details__card">
+        <dl>
+          <div><dt>Business</dt><dd>{site.business.legalName}</dd></div>
+          <div><dt>Based in</dt><dd>{site.business.city}, {site.business.state}</dd></div>
+          <div><dt>Serving</dt><dd>{site.business.serviceArea}</dd></div>
+          <div><dt>Phone and text</dt><dd><a href={site.contact.phoneHref}>{site.contact.phoneDisplay}</a></dd></div>
+          <div><dt>Email</dt><dd><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd></div>
+        </dl>
+      </Card>
+    </div>
+  </Section>
+
+  <FinalCtaSection />
 </BaseLayout>
+
+<style>
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: calc(var(--space) * 6);
+  }
+  .about-hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 2); }
+  .about-hero__copy h1, .about-hero__copy p { margin: 0; }
+  .about-hero__copy h1 { max-width: 18ch; }
+  .about-hero__copy p { max-width: 58ch; }
+  .about-hero__frame { width: min(calc(360px + var(--frame-inset)), 100%); margin-inline: auto; }
+  .about-hero__photo { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; }
+  .about-hero__photo img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .about-story__copy { max-width: 68ch; }
+  .about-story__copy h2 { margin: calc(var(--space) * 2) 0 calc(var(--space) * 3); }
+  .about-story__copy p { margin: 0; }
+  .about-story__copy p + p { margin-top: calc(var(--space) * 2); }
+
+  .about-work h2, .about-details h2 { margin: calc(var(--space) * 2) 0 calc(var(--space) * 4); }
+  .about-work__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space) * 2); }
+  .about-work__card { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-content: start; gap: calc(var(--space) * 2); height: 100%; }
+  .about-work__check { width: 28px; height: 28px; fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check); stroke-linecap: round; stroke-linejoin: round; }
+  .about-work__card h3 { margin: 0; }
+  .about-work__card p { margin: var(--space) 0 0; }
+
+  .about-details { padding-block: calc(var(--space) * 5); }
+  .about-details__inner { max-width: 760px; }
+  .about-details h2 { margin-bottom: calc(var(--space) * 2); }
+  .about-details__card { padding-block: calc(var(--space) * 2); }
+  .about-details dl { margin: 0; }
+  .about-details dl > div { display: grid; grid-template-columns: minmax(104px, 0.35fr) minmax(0, 1fr); gap: calc(var(--space) * 2); padding-block: calc(var(--space) * 1.25); }
+  .about-details dl > div + div { border-top: var(--stroke-hair) solid var(--color-rule); }
+  .about-details dt { font-weight: var(--weight-semibold); }
+  .about-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .about-details a { color: var(--color-teal); text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); }
+
+  @media (min-width: 640px) {
+    .about-work__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 768px) {
+    .about-hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 8); }
+    .about-hero__frame { margin-inline: 0; justify-self: end; }
+  }
+</style>
