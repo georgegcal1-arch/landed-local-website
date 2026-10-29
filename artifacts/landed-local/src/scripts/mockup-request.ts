@@ -152,7 +152,7 @@ if (requestForm) {
       }
       window.location.assign("/thanks");
     } catch {
-      status.textContent = "Something went wrong sending your request. Please try again, or call or text 614-321-8001.";
+      status.textContent = `Something went wrong sending your request. Please try again, or call or text ${site.contact.phoneDisplay}.`;
       status.hidden = false;
       sending = false;
       submit.disabled = false;

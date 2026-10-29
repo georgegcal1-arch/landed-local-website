@@ -11,10 +11,11 @@ import IncludedSection from "../components/websites/IncludedSection.astro";
 import WebsitesSectionNav from "../components/websites/WebsitesSectionNav.astro";
 import TradesSection from "../components/websites/TradesSection.astro";
 import WebsitesHero from "../components/websites/WebsitesHero.astro";
+import { site } from "../config/site";
 ---
 <BaseLayout
   title="Websites for Local Service Businesses"
-  description="Fast, phone-first websites for plumbers, electricians and local trades in Columbus. $997 one time, live in 7 days, and you own it."
+  description={`Fast, phone-first websites for plumbers, electricians and local trades in Columbus. $${site.pricing.standard.toLocaleString("en-US")} one time, live in 7 days, and you own it.`}
 >
   <div class="websites-page">
     <WebsitesSectionNav />

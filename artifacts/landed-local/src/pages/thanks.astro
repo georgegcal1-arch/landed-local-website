@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
 import { site } from "../config/site";
 ---
 <BaseLayout title="Thanks" description="Your mockup request is in. I'll email your custom preview within one business day." noindex>
@@ -11,6 +12,7 @@ import { site } from "../config/site";
         <circle class="ty__ring" cx="48" cy="48" r="44" pathLength="1" />
         <path class="ty__tick" d="M28 50 L42 64 L69 34" pathLength="1" />
       </svg>
+      <Eyebrow>Request received</Eyebrow>
       <h1 class="ty__title" id="ty-title">Got it. Your mockup is on the way.</h1>
       <p class="ty__lead">I'll email your custom preview within one business day from <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Keep an eye on your inbox, and your spam folder just in case.</p>
       <p class="ty__sooner">Want it sooner? Call or text <a href={site.contact.phoneHref}>{site.contact.phoneDisplay}</a>.</p>
@@ -32,7 +34,6 @@ import { site } from "../config/site";
 </script>
 
 <style>
-  .ty { padding-block: 64px; }
   .ty__wrap { max-width: 40rem; }
   .ty__check { display: block; width: 96px; height: 96px; fill: none; stroke: var(--color-teal); stroke-linecap: round; stroke-linejoin: round; }
   .ty__ring { stroke-width: 4; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ty-draw 600ms var(--ease-out) forwards; }
@@ -45,5 +46,4 @@ import { site } from "../config/site";
   .ty__lead { margin: calc(var(--space) * 3) 0 0; font-size: var(--hero-text-lead); }
   .ty__sooner { margin: calc(var(--space) * 3) 0 0; }
   .ty__actions { margin-top: calc(var(--space) * 4); display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 3); }
-  @media (min-width: 768px) { .ty { padding-block: 104px; } }
 </style>

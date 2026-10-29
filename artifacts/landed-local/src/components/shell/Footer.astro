@@ -19,7 +19,10 @@ const c = site.contact;
       <div>
         <h2 class="ftr__h">Talk to {site.business.ownerFirst}</h2>
         <ul>
-          <li>Call or text <a href={c.phoneHref}>{c.phoneDisplay}</a></li>
+          <li>
+            <span class="ftr__contact-desktop">Call or text <a href={c.phoneHref}>{c.phoneDisplay}</a></span>
+            <span class="ftr__contact-mobile"><a href={c.phoneHref}>Call</a><a href={c.smsHref}>Text</a></span>
+          </li>
           <li><a href={`mailto:${c.email}`}>{c.email}</a></li>
           <li>Based in {site.business.city}, {site.business.state}</li>
           <li>Serving {site.business.serviceArea}</li>
@@ -51,4 +54,9 @@ const c = site.contact;
   .ftr a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
   .ftr__bottom { margin-top: calc(var(--space) * 6); padding-top: calc(var(--space) * 3); border-top: var(--stroke-hair) solid var(--color-ruler-rule-dark); display: flex; flex-wrap: wrap; gap: var(--space); font-size: var(--text-small); color: var(--color-footer-muted); }
   .ftr__bottom a { color: var(--color-footer-muted) !important; text-decoration: underline; }
+  .ftr__contact-mobile { display: none; }
+  @media (max-width: 767px) {
+    .ftr__contact-desktop { display: none; }
+    .ftr__contact-mobile { display: flex; gap: calc(var(--space) * 2); }
+  }
 </style>

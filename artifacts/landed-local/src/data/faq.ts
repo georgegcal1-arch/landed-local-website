@@ -1,3 +1,5 @@
+import { site } from "../config/site";
+
 export type FAQItem = {
   question: string;
   answer: string;
@@ -12,7 +14,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Is there a monthly fee?",
-    answer: "No. It's $997 one time ($500 for founding clients). There's an optional $49/month care plan if you'd like me to handle updates and send a monthly call report.",
+    answer: `No. It's $${site.pricing.standard.toLocaleString("en-US")} one time ($${site.pricing.founding.toLocaleString("en-US")} for founding clients). There's an optional $${site.pricing.carePlanMonthly}/month care plan if you'd like me to handle updates and send a monthly call report.`,
     showOnHome: true,
   },
   {

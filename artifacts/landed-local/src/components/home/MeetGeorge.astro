@@ -7,7 +7,7 @@ import Section from "../Section.astro";
 import OptimizedImage from "../OptimizedImage.astro";
 import { site } from "../../config/site";
 
-const { photos, contact } = site;
+const { photos, contact, business } = site;
 const founderPhoto = photos.founderHero;
 ---
 
@@ -31,12 +31,12 @@ const founderPhoto = photos.founderHero;
       <h2>Hi, I'm George.</h2>
       <p class="meet-george__intro">I'm based in Columbus, and I started Landed Local to help local trades get found online and get more calls. You deal with me from the first mockup to launch. No account managers, no hand-offs.</p>
       <CheckList
-        items={["Based in Columbus, Ohio", "One person, start to finish", "Call or text me directly: 614-321-8001"]}
+        items={[`Based in ${business.city}, ${business.state}`, "One person, start to finish", `Call or text me directly: ${contact.phoneDisplay}`]}
         onDark
         class="meet-george__list"
       >
         {(item: string, index: number) => index === 2
-          ? <>Call or text me directly: <a href={contact.phoneHref}>614-321-8001</a></>
+          ? <>Call or text me directly: <a href={contact.phoneHref}>{contact.phoneDisplay}</a></>
           : item}
       </CheckList>
       <Button variant="text-link" href="/about">More about me</Button>

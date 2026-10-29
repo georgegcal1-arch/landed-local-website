@@ -7,12 +7,14 @@ import Card from "../Card.astro";
 import CheckList from "../CheckList.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Section from "../Section.astro";
+import { site } from "../../config/site";
 
+const { pricing } = site;
 const groups = [
   { icon: Ruler, title: "Design and build", items: ["Up to 5 pages", "Designed around your services, photos and brand colors", "Built for phones first", "Fast loading", "2 rounds of revisions"] },
   { icon: MapPin, title: "Getting found", items: ["Page titles and local keywords set up for searches in your area", "Business info marked up for Google", "Linked to your Google Business Profile", "Your best Google reviews on the homepage"] },
   { icon: PhoneCall, title: "Getting the call", items: ["Tap-to-call on every page", "A quote request form that lands in your inbox", "30 days of free call tracking: every call, answered or missed"] },
-  { icon: KeyRound, title: "Ownership", items: ["The site and the domain are in your name", "No required monthly fee", "Optional $49/month care plan if you want me to handle updates"] },
+  { icon: KeyRound, title: "Ownership", items: ["The site and the domain are in your name", "No required monthly fee", `Optional $${pricing.carePlanMonthly}/month care plan if you want me to handle updates`] },
 ];
 ---
 

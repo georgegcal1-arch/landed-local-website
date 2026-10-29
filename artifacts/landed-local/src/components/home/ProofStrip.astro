@@ -1,12 +1,12 @@
 ---
-import Check from "lucide-astro/Check";
 import Section from "../Section.astro";
 import RulerDivider from "../RulerDivider.astro";
+import { site } from "../../config/site";
 
 const facts = [
   "Live in 7 days",
   "You own your site and domain",
-  "$997 one time, no required monthly fee",
+  `$${site.pricing.standard.toLocaleString("en-US")} one time, no required monthly fee`,
   "Based in Columbus, Ohio",
 ];
 ---
@@ -16,7 +16,9 @@ const facts = [
   <ul class="proof-strip__list">
     {facts.map((fact) => (
       <li class="proof-strip__item">
-        <Check class="proof-strip__check" size={20} strokeWidth={3} aria-hidden="true" />
+        <svg class="proof-strip__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 12.5 L9.5 18 L20 5" />
+        </svg>
         <span>{fact}</span>
       </li>
     ))}
@@ -43,7 +45,7 @@ const facts = [
     font-weight: var(--weight-semibold);
     line-height: var(--leading-tight);
   }
-  .proof-strip__check { flex: none; color: var(--color-teal); }
+  .proof-strip__check { flex: none; width: var(--check-size); height: var(--check-size); fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check); stroke-linecap: round; stroke-linejoin: round; }
   @media (min-width: 900px) {
     .proof-strip__list { grid-template-columns: 1fr 1.5fr 1.8fr 1.2fr; gap: 0; }
     .proof-strip__item { position: relative; padding-inline: var(--space); }

@@ -3,11 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
 ---
 <BaseLayout title="Page not found" description="This page couldn't be found. Explore Landed Local's websites for Columbus trades, learn about the studio, or request a free mockup." noindex>
   <Section bg="offwhite" blueprint class="not-found">
     <div class="not-found__content">
       <RulerDivider variant="orange" />
+      <Eyebrow>Page not found</Eyebrow>
       <h1>This page doesn't measure up.</h1>
       <p>It may have moved, or the link has a typo. Try one of these:</p>
       <nav class="not-found__links" aria-label="Helpful pages">

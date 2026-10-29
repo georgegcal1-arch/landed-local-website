@@ -22,7 +22,10 @@ const steps = [
 
   <Card class="ms__talk">
     <h2 class="ms__title">Rather talk now?</h2>
-    <p class="ms__line"><a href={contact.phoneHref}>Call or text {contact.phoneDisplay}</a></p>
+    <p class="ms__line">
+      <span class="ms__talk-desktop"><a href={contact.phoneHref}>Call or text {contact.phoneDisplay}</a></span>
+      <span class="ms__talk-mobile"><a href={contact.phoneHref}>Call</a><a href={contact.smsHref}>Text</a></span>
+    </p>
     <Button variant="secondary" href={contact.bookingUrl} target="_blank" rel="noopener noreferrer" fullWidthMobile>Book a 15-minute call</Button>
     <p class="ms__line"><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
   </Card>
@@ -53,4 +56,9 @@ const steps = [
   .ms__title { margin: 0; font-size: var(--text-h3); }
   .ms__line { margin: 0; font-weight: var(--weight-semibold); }
   .ms__line a { text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); }
+  .ms__talk-mobile { display: none; }
+  @media (max-width: 767px) {
+    .ms__talk-desktop { display: none; }
+    .ms__talk-mobile { display: inline-flex; gap: calc(var(--space) * 2); }
+  }
 </style>

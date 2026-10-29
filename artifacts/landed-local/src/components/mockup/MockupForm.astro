@@ -76,6 +76,9 @@ const trades = ["Plumbing","Electrical","HVAC","Tree service","Roofing","Basemen
 
 <style>
   .mf__form { display: grid; gap: calc(var(--space) * 3); }
+  @media (max-width: 379px) {
+    .mf__submit :global(.btn--primary) { padding-inline: calc(var(--space) * 1.5); font-size: 16px; }
+  }
   .mf__field { display: grid; align-content: start; gap: var(--space); min-width: 0; }
   .mf__field[hidden] { display: none; }
   .mf__field > label { font-weight: var(--weight-semibold); line-height: var(--leading-tight); }

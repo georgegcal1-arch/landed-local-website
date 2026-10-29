@@ -3,6 +3,7 @@ import Button from "../Button.astro";
 import Eyebrow from "../Eyebrow.astro";
 import Section from "../Section.astro";
 import { faqItems } from "../../data/faq";
+import { site } from "../../config/site";
 
 interface Props {
   mode?: "home" | "all";
@@ -27,9 +28,13 @@ const visibleFAQs = mode === "home" ? faqItems.filter((item) => item.showOnHome)
     ))}
   </div>
 
-  <div class="home-faq__more">
-    <Button variant="text-link" href="/websites#faq">More questions</Button>
-  </div>
+  {mode === "all" ? (
+    <p class="home-faq__more home-faq__contact">Still have a question? <a href={site.contact.phoneHref}>Call or text {site.contact.phoneDisplay}</a></p>
+  ) : (
+    <div class="home-faq__more">
+      <Button variant="text-link" href="/websites#faq">More questions</Button>
+    </div>
+  )}
 </Section>
 
 <style>
@@ -77,4 +82,6 @@ const visibleFAQs = mode === "home" ? faqItems.filter((item) => item.showOnHome)
   .home-faq__item[open] .home-faq__icon::after { transform: translate(-50%, -50%) scaleY(0); }
   .home-faq__item p { max-width: 68ch; margin: 0 0 calc(var(--space) * 3); }
   .home-faq__more { display: flex; justify-content: center; margin-top: calc(var(--space) * 3); }
+  .home-faq__contact { display: block; text-align: center; }
+  .home-faq__contact a { color: var(--color-teal); text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); }
 </style>

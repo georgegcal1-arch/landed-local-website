@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
+import Eyebrow from "../components/Eyebrow.astro";
 import { site } from "../config/site";
 ---
 <BaseLayout
@@ -9,6 +10,7 @@ import { site } from "../config/site";
 >
   <Section bg="offwhite" class="privacy">
     <article class="privacy__content">
+      <Eyebrow>Privacy</Eyebrow>
       <h1>Privacy policy</h1>
       <p class="privacy__effective">Effective date: October 27, 2026</p>
 
@@ -45,9 +47,9 @@ import { site } from "../config/site";
   .privacy__content { max-width: 760px; }
   .privacy__content h1 { margin: 0; }
   .privacy__effective { margin: var(--space) 0 calc(var(--space) * 4); color: var(--color-steel); }
-  .privacy__content h2 { margin: calc(var(--space) * 4) 0 var(--space); font-size: var(--h3-size); }
+  .privacy__content h2 { margin: calc(var(--space) * 4) 0 var(--space); font-size: var(--text-h2); }
   .privacy__content p { margin: 0; }
   .privacy__content p + p { margin-top: calc(var(--space) * 1.5); }
   .privacy__content a { color: var(--color-teal); text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); overflow-wrap: anywhere; }
-  .privacy__content address { margin-top: calc(var(--space) * 4); font-style: normal; line-height: var(--leading-relaxed); }
+  .privacy__content address { margin-top: calc(var(--space) * 4); font-style: normal; line-height: var(--leading-body); }
 </style>

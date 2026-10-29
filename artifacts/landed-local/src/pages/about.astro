@@ -40,6 +40,7 @@ const founderPhoto = site.photos.founderAbout;
 
   <Section bg="paper" class="about-story">
     <div class="about-story__copy">
+      <Eyebrow>My story</Eyebrow>
       <h2>Why I started Landed Local</h2>
       <p>Most trade businesses I come across are great at what they do and have the reviews to prove it. But when a new customer looks them up, they find no website, or one that's hard to use on a phone, and they call someone else.</p>
       <p>Landed Local fixes that with one simple offer: a fast website built to bring in calls, at one fair price, that you own. Then I show you the results, so you know it's working.</p>
@@ -47,6 +48,7 @@ const founderPhoto = site.photos.founderAbout;
   </Section>
 
   <Section bg="offwhite" class="about-work">
+    <Eyebrow>How I work</Eyebrow>
     <h2>How I work</h2>
     <div class="about-work__grid">
       <Card class="about-work__card">
@@ -55,7 +57,7 @@ const founderPhoto = site.photos.founderAbout;
       </Card>
       <Card class="about-work__card">
         <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
-        <div><h3>The price is on the page</h3><p>$997 one time, or $500 for my first 3 clients. No surprises.</p></div>
+        <div><h3>The price is on the page</h3><p>${site.pricing.standard.toLocaleString("en-US")} one time, or ${site.pricing.founding.toLocaleString("en-US")} for my first 3 clients. No surprises.</p></div>
       </Card>
       <Card class="about-work__card">
         <svg class="about-work__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" /></svg>
@@ -70,6 +72,7 @@ const founderPhoto = site.photos.founderAbout;
 
   <Section bg="offwhite" class="about-details">
     <div class="about-details__inner">
+      <Eyebrow>The details</Eyebrow>
       <h2>The details</h2>
       <Card class="about-details__card">
         <dl>

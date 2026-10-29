@@ -8,6 +8,7 @@ import { site } from "../../config/site";
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const links = site.shell.nav.filter((l) => !l.afterLaunchOnly || site.afterLaunch.pageLive);
 const isCurrent = (href: string) => path === href;
+const hideHeaderCta = path === "/get-a-mockup" || path === "/thanks";
 ---
 <header class="hdr">
   <div class="hdr__in container-content">
@@ -17,7 +18,7 @@ const isCurrent = (href: string) => path === href;
     </nav>
     <div class="hdr__actions">
       <a href={site.contact.phoneHref} class="hdr__phone"><Phone size={18} aria-hidden="true" />{site.contact.phoneDisplay}</a>
-      <Button href={site.shell.cta.href}>{site.shell.cta.label}</Button>
+      {!hideHeaderCta && <Button href={site.shell.cta.href}>{site.shell.cta.label}</Button>}
     </div>
     <div class="hdr__mobile">
       <a href={site.contact.phoneHref} class="icon-btn icon-btn--round" aria-label={`Call ${site.contact.phoneDisplay}`}><Phone size={20} aria-hidden="true" /></a>
@@ -35,7 +36,7 @@ const isCurrent = (href: string) => path === href;
     <a href="/" class="menu__link" aria-current={isCurrent("/") ? "page" : undefined}>Home</a>
     {links.map((l) => <a href={l.href} class="menu__link" aria-current={isCurrent(l.href) ? "page" : undefined}>{l.label}</a>)}
     <a href={site.contact.phoneHref} class="hdr__phone menu__phone"><Phone size={20} aria-hidden="true" />{site.contact.phoneDisplay}</a>
-    <Button href={site.shell.cta.href} class="menu__cta">{site.shell.cta.label}</Button>
+    {!hideHeaderCta && <Button href={site.shell.cta.href} class="menu__cta">{site.shell.cta.label}</Button>}
   </nav>
 </div>
 
