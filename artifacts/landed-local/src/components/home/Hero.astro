@@ -9,6 +9,7 @@ import CornerFrame from "../CornerFrame.astro";
 import JobTicket from "../JobTicket.astro";
 import Pill from "../Pill.astro";
 import DeviceMock from "./DeviceMock.astro";
+import ArrowUpRight from "lucide-astro/ArrowUpRight";
 import { site } from "../../config/site";
 
 const { hero, photos, pricing, offer, contact, business, shell, samples } = site;
@@ -60,15 +61,20 @@ const sampleAlt = "Sample site for a fictional local business";
 
       {hero.mode === "devices" && (
         <div class="hero__devices">
-          <JobTicket class="hero__mini-ticket" number="001" title="New website" titleAs="h2" stamp
-            items={[{ label: "Phone-first design" }, { label: "Tap-to-call" }, { label: "Live in", value: `${offer.liveInDays} days` }]} />
           <CornerFrame>
             <DevTag class:list={["hero__devgroup", { "is-solo": solo }]} {...linkAttrs}>
               {showLaptop && <DeviceMock kind="laptop" src={laptop} alt={sampleAlt} />}
               {showPhone && <DeviceMock kind="phone" src={phone} alt={showLaptop ? "" : sampleAlt} class={solo ? "hero__phone-solo" : "hero__phone-over"} />}
             </DevTag>
           </CornerFrame>
-          <Pill class="hero__pill">Sample site, fictional business</Pill>
+          <div class="hero__device-meta">
+            <Pill class="hero__pill">Sample site, fictional business</Pill>
+            {hero.sampleUrl && (
+              <a class="hero__live-link" href={hero.sampleUrl} target="_blank" rel="noopener noreferrer">
+                View it live <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            )}
+          </div>
         </div>
       )}
 
@@ -95,6 +101,7 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero { padding-top: var(--hero-pad-top); padding-bottom: var(--hero-pad-bottom); }
   .hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }
   @media (min-width: 900px) { .hero__grid { grid-template-columns: 55fr 45fr; } }
+  @media (min-width: 1024px) { .hero__grid { grid-template-columns: minmax(0, 45fr) minmax(0, 55fr); } }
   .hero__text { display: grid; gap: var(--hero-stack); justify-items: start; min-width: 0; }
   .hero__h1 { margin: 0; font-size: var(--hero-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
   .hero__h1 :global(.hero__line) { display: block; white-space: nowrap; }
@@ -111,7 +118,7 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero__visual :global(.hero__ticket-frame) { transform: rotate(var(--hero-ticket-rotate)); }
   .hero__visual :global(.hero__ticket .ticket__check) { align-self: flex-start; }
 
-  .hero__devices { position: relative; display: grid; gap: calc(var(--space) * 2); justify-items: start; }
+  .hero__devices { position: relative; display: grid; gap: calc(var(--space) * 2); justify-items: start; min-width: 0; }
   .hero__devices > :global(.corner-frame) { width: 100%; }
   .hero__devgroup { position: relative; display: block; text-decoration: none; padding-bottom: calc(var(--space) * 4); }
   a.hero__devgroup:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
@@ -119,17 +126,14 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero__devgroup :global(.hero__phone-over) { position: absolute; right: 0; bottom: 0; width: var(--device-phone-w); }
   .hero__devgroup.is-solo { display: flex; justify-content: center; padding-bottom: 0; }
   .hero__devgroup :global(.hero__phone-solo) { width: var(--device-phone-solo-w); }
-  .hero__devices :global(.hero__mini-ticket) { display: none; }
-  @media (min-width: 900px) {
-    .hero__devices { padding-top: calc(var(--space) * 8); }
-    .hero__devices :global(.hero__mini-ticket) {
-      display: block; position: absolute; z-index: 2; top: 0; left: calc(var(--space) * -4);
-      width: var(--hero-compact-ticket-w); padding: calc(var(--space) * 2); transform: rotate(var(--hero-ticket-rotate));
-    }
-    .hero__devices :global(.hero__mini-ticket .ticket__head) { padding-bottom: var(--space); }
-    .hero__devices :global(.hero__mini-ticket .ticket__title) { margin-block: var(--space); }
-    .hero__devices :global(.hero__mini-ticket .ticket__items) { font-size: var(--text-small); gap: calc(var(--space) * 0.5); }
-    .hero__devices :global(.hero__mini-ticket .ticket__stamp) { font-size: var(--text-small); padding: calc(var(--space) * 0.5) var(--space); }
+  .hero__device-meta { display: flex; align-items: center; gap: calc(var(--space) * 2); }
+  .hero__live-link { display: inline-flex; align-items: center; gap: calc(var(--space) * 0.5); min-height: 44px; color: var(--color-teal); font-size: var(--text-small); text-decoration: underline; text-underline-offset: var(--underline-offset); }
+  .hero__live-link:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  @media (min-width: 1024px) {
+    .hero__devgroup:not(.is-solo) :global(.hero__phone-over) { width: 20%; }
+  }
+  @media (max-width: 767px) {
+    .hero__live-link { display: none; }
   }
 
   .hero__photo { position: relative; padding-bottom: calc(var(--space) * 6); }
