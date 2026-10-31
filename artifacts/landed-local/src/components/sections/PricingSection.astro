@@ -62,30 +62,42 @@ const teasers = [
         total={{ label: "Your price", previousValue: usd(pricing.standard), value: usd(pricing.founding) }}
         stamp="APPROVED"
         stampPlacement="top-right"
-      />
-      <div class="pricing__details">
-        <div class="pricing__founding">
-          <Pill>Founding client price · first {pricing.foundingSpotsTotal} clients</Pill>
-          <p>in exchange for an honest review if you're happy.</p>
+        class="pricing__ticket"
+      >
+        <div slot="after" class="pricing__details">
+          <div class="pricing__founding">
+            <Pill>Founding client price · first {pricing.foundingSpotsTotal} clients</Pill>
+            <p>in exchange for an honest review if you're happy.</p>
+          </div>
+          {pricing.showSpotsLeft && (
+            <p class="pricing__spots">{pricing.foundingSpotsLeft} of {pricing.foundingSpotsTotal} founding spots left</p>
+          )}
+          <ul class="pricing__payments">
+            {pricing.paymentOptions.map((option) => <li><small>{option}</small></li>)}
+          </ul>
+          <CheckList items={[pricing.guarantee]} class="pricing__guarantee" />
+          <Button href={shell.cta.href}>Get my free mockup</Button>
         </div>
-        {pricing.showSpotsLeft && (
-          <p class="pricing__spots">{pricing.foundingSpotsLeft} of {pricing.foundingSpotsTotal} founding spots left</p>
-        )}
-        <ul class="pricing__payments">
-          {pricing.paymentOptions.map((option) => <li><small>{option}</small></li>)}
-        </ul>
-        <CheckList items={[pricing.guarantee]} class="pricing__guarantee" />
-        <Button href={shell.cta.href}>Get my free mockup</Button>
-      </div>
+      </JobTicket>
     </div>
 
-    <Card as="aside" class="pricing__care">
-      <Eyebrow>Optional</Eyebrow>
-      <h3>Care plan</h3>
-      <p class="price pricing__care-price">{usd(pricing.carePlanMonthly)}/month</p>
-      <CheckList items={careItems} class="pricing__care-list" />
-      <small class="pricing__care-note">Month to month. Cancel anytime. Not required.</small>
-    </Card>
+    <div class="pricing__side">
+      <Card as="aside" class="pricing__care">
+        <Eyebrow>Optional</Eyebrow>
+        <h3>Care plan</h3>
+        <p class="price pricing__care-price">{usd(pricing.carePlanMonthly)}/month</p>
+        <CheckList items={careItems} class="pricing__care-list" />
+        <small class="pricing__care-note">Month to month. Cancel anytime. Not required.</small>
+      </Card>
+      <Card as="aside" class="pricing__next">
+        <h3>What happens next</h3>
+        <ol>
+          <li>Free mockup, usually same day</li>
+          <li>15-minute walkthrough call</li>
+          <li>Live in 7 days after you send your content</li>
+        </ol>
+      </Card>
+    </div>
   </div>
 
   <div class="pricing__after-launch">
@@ -113,14 +125,18 @@ const teasers = [
   .pricing__intro { max-width: 72ch; margin: 0; }
   .pricing__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space) * 3); margin-top: calc(var(--space) * 4); align-items: start; }
   .pricing__main { min-width: 0; }
-  .pricing__details { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 2); padding: calc(var(--space) * 2) var(--card-pad) 0; }
+  .pricing__details { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 2); width: 100%; box-sizing: border-box; padding-top: calc(var(--space) * 2); }
   .pricing__founding p, .pricing__after-note p { margin: var(--space) 0 0; }
   .pricing__founding p { font-size: var(--text-small); color: var(--color-steel); }
   .pricing__spots { margin: 0; font-weight: var(--weight-semibold); }
   .pricing__payments { display: grid; gap: var(--space); list-style: none; margin: 0; padding: 0; }
   .pricing__guarantee { margin-top: var(--space); }
   .pricing__details :global(.btn) { margin-top: var(--space); }
+  .pricing__side { display: grid; gap: calc(var(--space) * 3); }
   .pricing__care { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 2); }
+  .pricing__next { display: grid; align-content: start; gap: calc(var(--space) * 2); }
+  .pricing__next h3 { margin: 0; }
+  .pricing__next ol { display: grid; gap: var(--space); margin: 0; padding-left: calc(var(--space) * 3); list-style: decimal; }
   .pricing__care h3, .pricing__teaser h3 { margin: 0; }
   .pricing__care-price { margin: 0; color: var(--color-charcoal); font-size: var(--pricing-care-size); line-height: var(--leading-tight); }
   .pricing__care-list { gap: calc(var(--space) * 1.5); }
@@ -135,8 +151,12 @@ const teasers = [
   .pricing__after-note p { margin: 0; font-weight: var(--weight-semibold); }
   @media (min-width: 900px) {
     .pricing__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+    .pricing__details { gap: calc(var(--space) * 1.25); }
+    .pricing__ticket :global(.ticket__items) { gap: calc(var(--space) * 0.5); }
+    .pricing__ticket :global(.ticket__item) { line-height: var(--leading-tight); }
+    .pricing__next ol { gap: calc(var(--space) * 2); }
+    .pricing__next li { padding-block: calc(var(--space) * 2); }
     .pricing__teasers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--space) * 4); }
-    .pricing__details { padding-inline: var(--card-pad-wide); }
     .pricing__after-note { flex-direction: row; justify-content: center; }
   }
 </style>
