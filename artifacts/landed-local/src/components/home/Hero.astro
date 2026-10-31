@@ -14,14 +14,16 @@ import { site } from "../../config/site";
 
 const { hero, photos, pricing, offer, contact, business, shell, samples } = site;
 const usd = (n: number) => "$" + n.toLocaleString("en-US");
-const secondary = samples.length > 0 ? { label: "See sample sites", href: "#samples" } : { label: "See what's included", href: "#what-you-get" };
+const sampleButtonLabel = samples.length === 1 ? "See a sample site" : "See sample sites";
+const secondary = samples.length > 0 ? { label: sampleButtonLabel, href: "#samples" } : { label: "See what's included", href: "#what-you-get" };
 const phone = hero.devicePhoneImage;
 const laptop = hero.deviceLaptopImage;
 // Neither image: preview both as placeholders. Phone-only: solo phone. Otherwise laptop (with phone if set).
 const showLaptop = !!laptop || !phone;
 const showPhone = !!phone || !laptop;
 const solo = showPhone && !showLaptop;
-const linkAttrs = hero.sampleUrl ? { href: hero.sampleUrl, target: "_blank", rel: "noopener noreferrer", "aria-label": "Open the sample site in a new tab" } : {};
+const sampleLinkLabel = samples[0]?.name ? `View the ${samples[0].name} sample site live` : "View the sample site live";
+const linkAttrs = hero.sampleUrl ? { href: hero.sampleUrl, target: "_blank", rel: "noopener noreferrer", "aria-label": sampleLinkLabel } : {};
 const DevTag = hero.sampleUrl ? "a" : "div";
 const sampleAlt = "Sample site for a fictional local business";
 ---
@@ -61,7 +63,7 @@ const sampleAlt = "Sample site for a fictional local business";
 
       {hero.mode === "devices" && (
         <div class="hero__devices">
-          <CornerFrame>
+          <CornerFrame class="hero__device-frame">
             <DevTag class:list={["hero__devgroup", { "is-solo": solo }]} {...linkAttrs}>
               {showLaptop && <DeviceMock kind="laptop" src={laptop} alt={sampleAlt} />}
               {showPhone && <DeviceMock kind="phone" src={phone} alt={showLaptop ? "" : sampleAlt} class={solo ? "hero__phone-solo" : "hero__phone-over"} />}
@@ -122,6 +124,12 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero__devices > :global(.corner-frame) { width: 100%; }
   .hero__devgroup { position: relative; display: block; text-decoration: none; padding-bottom: calc(var(--space) * 4); }
   a.hero__devgroup:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  .hero__devgroup { transition: transform 200ms var(--ease-out); }
+  .hero__device-frame :global(.corner-frame__square) {
+    left: calc(var(--space) * 2);
+    bottom: calc(var(--device-base-h) + var(--space) * 4);
+    z-index: 2;
+  }
   .hero__devgroup:not(.is-solo) { padding-right: calc(var(--space) * 2); }
   .hero__devgroup :global(.hero__phone-over) { position: absolute; right: 0; bottom: 0; width: var(--device-phone-w); }
   .hero__devgroup.is-solo { display: flex; justify-content: center; padding-bottom: 0; }
@@ -129,11 +137,18 @@ const sampleAlt = "Sample site for a fictional local business";
   .hero__device-meta { display: flex; align-items: center; gap: calc(var(--space) * 2); }
   .hero__live-link { display: inline-flex; align-items: center; gap: calc(var(--space) * 0.5); min-height: 44px; color: var(--color-teal); font-size: var(--text-small); text-decoration: underline; text-underline-offset: var(--underline-offset); }
   .hero__live-link:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  @media (hover: hover) {
+    a.hero__devgroup:hover { transform: translateY(-4px); }
+  }
   @media (min-width: 1024px) {
     .hero__devgroup:not(.is-solo) :global(.hero__phone-over) { width: 20%; }
   }
   @media (max-width: 767px) {
     .hero__live-link { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__devgroup { transition: none; }
+    a.hero__devgroup:hover { transform: none; }
   }
 
   .hero__photo { position: relative; padding-bottom: calc(var(--space) * 6); }
