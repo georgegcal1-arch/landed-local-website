@@ -6,6 +6,8 @@ import Eyebrow from "../Eyebrow.astro";
 import Pill from "../Pill.astro";
 import Section from "../Section.astro";
 import OptimizedImage from "../OptimizedImage.astro";
+import CheckList from "../CheckList.astro";
+import DeviceMock from "../home/DeviceMock.astro";
 import { site } from "../../config/site";
 
 const { samples, shell } = site;
@@ -16,26 +18,69 @@ const { samples, shell } = site;
     <>
       <Eyebrow>Sample work</Eyebrow>
       <h2 class="sample-sites__heading">See what a Landed Local site looks like</h2>
-      <div class="sample-sites__grid">
-        {samples.map((sample) => (
-          <Card as="article" class="sample-sites__card">
-            <CornerFrame class="sample-sites__frame">
-              <OptimizedImage
-                src={sample.image}
-                alt={`${sample.name} website example`}
-                width={1600}
-                height={1000}
-                loading="lazy"
-                decoding="async"
-              />
+      {samples.length === 1 ? (
+        <article class="sample-sites__feature">
+          <div class="sample-sites__feature-visual">
+            <CornerFrame class="sample-sites__feature-frame">
+              <a
+                class="sample-sites__devices"
+                href={samples[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View the ${samples[0].name} sample site live`}
+              >
+                <DeviceMock
+                  kind="laptop"
+                  src={samples[0].laptopImage ?? samples[0].image}
+                  alt={`${samples[0].name} sample website shown on a laptop`}
+                />
+                <DeviceMock
+                  kind="phone"
+                  src={samples[0].image}
+                  alt=""
+                  class="sample-sites__phone"
+                />
+              </a>
             </CornerFrame>
-            <h3>{sample.name}</h3>
-            <p class="sample-sites__trade">{sample.trade}</p>
+          </div>
+          <div class="sample-sites__feature-copy">
+            <Eyebrow>Sample site</Eyebrow>
+            <h3>{samples[0].name}</h3>
             <Pill>Sample site, fictional business</Pill>
-            <Button variant="secondary" href={sample.url} target="_blank" rel="noopener">View sample site</Button>
-          </Card>
-        ))}
-      </div>
+            <CheckList items={[
+              "Tap-to-call on every screen",
+              "Live 'Open now' hours",
+              "Google reviews up front",
+              "One custom touch: real copper texture",
+            ]} />
+            <div class="sample-sites__actions">
+              <Button href={samples[0].url} target="_blank" rel="noopener noreferrer" fullWidthMobile>View sample site</Button>
+              <Button variant="text-link" href="/get-a-mockup" fullWidthMobile>Get my free mockup</Button>
+            </div>
+          </div>
+        </article>
+      ) : (
+        <div class="sample-sites__grid">
+          {samples.map((sample) => (
+            <Card as="article" class="sample-sites__card">
+              <CornerFrame class="sample-sites__frame">
+                <OptimizedImage
+                  src={sample.laptopImage ?? sample.image}
+                  alt={`${sample.name} website example`}
+                  width={1600}
+                  height={1000}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </CornerFrame>
+              <h3>{sample.name}</h3>
+              <p class="sample-sites__trade">{sample.trade}</p>
+              <Pill>Sample site, fictional business</Pill>
+              <Button variant="secondary" href={sample.url} target="_blank" rel="noopener">View sample site</Button>
+            </Card>
+          ))}
+        </div>
+      )}
     </>
   ) : (
     <Card as="article" class="sample-sites__empty">
@@ -52,11 +97,29 @@ const { samples, shell } = site;
   .sample-sites__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space) * 3); }
   .sample-sites__card { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 2); }
   .sample-sites__frame { width: 100%; }
-  .sample-sites__frame :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+  .sample-sites__frame :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
   .sample-sites__card h3, .sample-sites__empty h3 { margin: 0; }
   .sample-sites__trade, .sample-sites__empty p { margin: 0; }
   .sample-sites__card :global(.btn) { margin-top: auto; }
+  .sample-sites__feature { display: grid; gap: calc(var(--space) * 5); align-items: center; }
+  .sample-sites__feature-visual { min-width: 0; }
+  .sample-sites__feature-frame { width: 100%; }
+  .sample-sites__feature-frame :global(.corner-frame__square) {
+    left: calc(var(--space) * 2);
+    bottom: calc(var(--device-base-h) + var(--space) * 4);
+    z-index: 2;
+  }
+  .sample-sites__devices { position: relative; display: block; width: 100%; padding-bottom: calc(var(--space) * 4); text-decoration: none; }
+  .sample-sites__devices:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  .sample-sites__devices :global(.sample-sites__phone) { position: absolute; right: 0; bottom: 0; width: var(--device-phone-w); }
+  .sample-sites__feature-copy { display: grid; justify-items: start; gap: calc(var(--space) * 3); min-width: 0; }
+  .sample-sites__feature-copy h3 { margin: 0; }
+  .sample-sites__actions { display: flex; align-items: center; flex-wrap: wrap; gap: calc(var(--space) * 2); width: 100%; }
   .sample-sites__empty { max-width: 680px; margin-inline: auto; text-align: center; }
   .sample-sites__empty p { margin: calc(var(--space) * 2) auto; }
   @media (min-width: 768px) { .sample-sites__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) {
+    .sample-sites__feature { grid-template-columns: minmax(0, 55fr) minmax(0, 45fr); }
+    .sample-sites__devices :global(.sample-sites__phone) { width: 20%; }
+  }
 </style>
