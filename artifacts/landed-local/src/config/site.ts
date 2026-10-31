@@ -11,8 +11,6 @@ export interface Sample {
   url: string;
   /** Screenshot path, e.g. "/samples/smith-plumbing.png". */
   image: string;
-  /** Laptop screenshot path shown in featured layouts and sample cards. */
-  laptopImage?: string;
 }
 
 export interface SiteConfig {
@@ -250,7 +248,6 @@ export const site: SiteConfig = {
       trade: "Plumbing",
       url: "https://demo.landedlocal.com/copper-lantern-plumbing/",
       image: "/images/sample-copper-lantern-phone.webp",
-      laptopImage: "/images/sample-copper-lantern-laptop.webp",
     },
   ],
   afterLaunch: {
