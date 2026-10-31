@@ -233,16 +233,23 @@ export const site: SiteConfig = {
     responseTime: "within one business day",
   },
   hero: {
-    mode: "workorder",
-    devicePhoneImage: null,
-    deviceLaptopImage: null,
-    sampleUrl: null,
+    mode: "devices",
+    devicePhoneImage: "/images/sample-copper-lantern-phone.webp",
+    deviceLaptopImage: "/images/sample-copper-lantern-laptop.webp",
+    sampleUrl: "https://demo.landedlocal.com/copper-lantern-plumbing/",
   },
   photos: {
     founderHero: null,
     founderAbout: null,
   },
-  samples: [],
+  samples: [
+    {
+      name: "Copper Lantern Plumbing",
+      trade: "Plumbing",
+      url: "https://demo.landedlocal.com/copper-lantern-plumbing/",
+      image: "/images/sample-copper-lantern-phone.webp",
+    },
+  ],
   afterLaunch: {
     pageLive: false,
   },
