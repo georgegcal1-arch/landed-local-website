@@ -1,6 +1,254 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import Button from "../components/Button.astro";
+import PencilMark from "../components/PencilMark.astro";
+import JobTicket from "../components/JobTicket.astro";
+import ToolStrip from "../components/ToolStrip.astro";
+import CostBill from "../components/CostBill.astro";
+import ServiceGrid from "../components/ServiceGrid.astro";
+import WorkOrderSteps from "../components/WorkOrderSteps.astro";
+import CornerFrame from "../components/CornerFrame.astro";
+import RulerDivider from "../components/RulerDivider.astro";
+import FAQ from "../components/FAQ.astro";
+import CheckList from "../components/CheckList.astro";
+import BookingEmbed from "../components/BookingEmbed.astro";
+import { site } from "../config/site";
+
+const { booking, business, contact, caseStudy } = site;
+const book = booking.homeAnchor;
+const founderSrc = site.photos.founder ?? site.brand.profilePhoto;
+
+const costs = [
+  { problem: "Missed calls", cost: "Lost customers", sentence: "The phone rings while you're on a job, and the caller tries the next company.", stat: "27%", statLabel: "of calls to home-service companies go unanswered.", source: "Invoca, 2024" },
+  { problem: "Slow follow-up", cost: "Fewer jobs", sentence: "A new lead waits hours for a callback. By then they've hired someone else.", stat: "21×", statLabel: "more likely to qualify a new lead you reach within 5 minutes instead of 30.", source: "InsideSales.com & MIT study, 2007" },
+  { problem: "Manual admin", cost: "Lost evenings", sentence: "Invoices, estimates, data entry and follow-ups pile up until after dinner.", stat: "? hrs", statLabel: "a week on admin. We'll measure yours on the call." },
+  { problem: "Scattered systems", cost: "Lost leads", sentence: "Calls, texts and quotes sit in too many apps, so leads slip through the cracks.", stat: "? leads", statLabel: "slipping through each month. We'll count them on the call." },
+];
+const services = [
+  { number: "01", outcome: "NEVER MISS ANOTHER CALL", name: "AI Receptionist", description: "Answers every call in a natural voice, day or night, even when two come in at once. It knows your services, hours and service area, asks your questions, and books the appointment on your calendar.", bullets: ["Answers nights, weekends and while you're on a job", "Qualifies the caller and books the job", "Hands urgent or tricky calls to your team", "Every call logged with a short summary"] },
+  { number: "02", outcome: "TURN MORE LEADS INTO JOBS", name: "Speed-to-Lead & Reactivation", description: "Calls every new form or ad lead within a minute, while they're still deciding who to hire. Then works through the old quotes and past customers already in your system and books the ones ready now.", bullets: ["New leads called within a minute", "Old quotes and past customers called again", "Appointments land right on your calendar", "Built to follow calling and texting consent rules"] },
+  { number: "03", outcome: "GET YOUR EVENINGS BACK", name: "Workflow Automation", description: "Takes the repeat office work off your plate: invoices, estimates, follow-up texts, review requests and reports. Connected to the tools you already use.", bullets: ["Invoices and estimates sent automatically", "Follow-ups and review requests on autopilot", "No more copying info between apps", "Documented and monitored, so nothing breaks quietly"] },
+  { number: "04", outcome: "EVERY LEAD IN ONE PLACE", name: "CRM Buildout", description: "One system where every call, text, form and job lives, set up around how you actually sell. Already paying for one nobody uses? We fix it.", bullets: ["Pipeline built around your sales steps", "One inbox for calls, texts and email", "A dashboard of leads, booked jobs and revenue", "Your team trained on it"] },
+  { number: "05", outcome: "FIX WHAT NO SOFTWARE DOES", name: "Custom AI Tools", description: "Problem not on this list? For the one that's specific to your business, we scope a tool with you, build it, and hand it over working.", bullets: ["Quoting tools that price a job in minutes", "A knowledge assistant your crew asks instead of calling you", "Built on your own pricing and process", "Scoped on a free call before any build"], wide: true },
+];
+const steps = [
+  { number: "001", title: "Find the leaks", text: "Free 30-minute call. We put a dollar number on what's slipping.", stamp: "FOUND" },
+  { number: "002", title: "Build the fix", text: "Our developers build it around your tools. You approve it before launch.", stamp: "BUILT" },
+  { number: "003", title: "Measure it", text: "A monthly report on calls answered, leads followed up and jobs booked.", stamp: "RESULTS" },
+];
+const faqs = [
+  { q: "What does it cost?", a: "It depends on what we fix and how big your business is. Projects are a one-time setup plus a monthly fee for running and improving it. On the call we work out what the problem is costing you first, so the price makes sense next to that number." },
+  { q: "Will callers know it's AI?", a: "It sounds natural, and it's set up to say it's an AI assistant if someone asks. Anything tricky goes straight to your team." },
+  { q: "What if my problem isn't on your list?", a: "Tell me on the call. If no tool fixes it, we can build one, and we'll scope it with you before anything is built." },
+  { q: "Do I have to buy everything?", a: "No. Most clients start with the one system that fixes their biggest leak, then add more once it pays off." },
+];
+const callItems = ["How leads come in today, and where they slip through", "A rough dollar number on what that's costing you", "What fixing it looks like, and what it would take"];
+const values = ["A person, not a platform", "Done for you, not DIY", "Measured results, not promises"];
 ---
-<BaseLayout title="Landed Local">
-  <h1>Landed Local</h1>
+<BaseLayout title="Landed Local · More landed jobs for roofing and HVAC">
+  <!-- 1. Hero -->
+  <Section bg="offwhite" blueprint class="home-hero">
+    <div class="home-hero__grid">
+      <div class="home-hero__copy">
+        <Eyebrow>{site.audienceLine}</Eyebrow>
+        <h1 class="home-hero__h1"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
+        <p class="home-hero__lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</p>
+        <div class="home-actions">
+          <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
+          <Button variant="text-link" href="#costs" class="home-hero__costs-link">See where jobs slip away ↓</Button>
+        </div>
+        <p class="home-small home-hero__reassure"><small>{booking.reassurance}</small></p>
+        <p class="home-small"><small>Based in {business.city}, {business.state} · You work with {business.ownerFirst} directly</small></p>
+      </div>
+      <div class="home-hero__ticket home-stamp" data-reveal>
+        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "Free" }} stamp stampText="FREE" />
+      </div>
+    </div>
+    {site.tools.show && <div class="home-hero__tools"><ToolStrip /></div>}
+  </Section>
+
+  <!-- 2. Costs -->
+  <Section id="costs" bg="paper" class="home-target">
+    <Eyebrow>THE PROBLEM</Eyebrow>
+    <h2 class="home-h2">What it's costing you</h2>
+    <CostBill label="WORK ORDER · WHAT IT'S COSTING YOU" items={costs} total={{ label: "YOUR TOTAL", value: "?", note: "We'll put a dollar number on it in a free 30-minute call." }} />
+    <div class="home-actions home-after">
+      <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
+      <p class="home-small"><small>{booking.reassurance}</small></p>
+    </div>
+  </Section>
+
+  <!-- 3. Services -->
+  <Section bg="charcoal" blueprint>
+    <Eyebrow>WHAT WE FIX</Eyebrow>
+    <h2 class="home-h2 home-h2--tight">Five ways we fix the leaks</h2>
+    <p class="home-sub">We start with the one costing you the most.</p>
+    <ServiceGrid services={services} href={book} />
+    <div class="home-actions home-after">
+      <p class="home-closer">Not sure which one you need? That's what the call is for.</p>
+      <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
+    </div>
+  </Section>
+
+  <!-- 4. Proof -->
+  {caseStudy.show && (
+    <Section bg="offwhite">
+      <Eyebrow>PROOF</Eyebrow>
+      <h2 class="home-h2 home-h2--tight">{caseStudy.heading}</h2>
+      <p class="home-label"><small>{caseStudy.label}</small></p>
+      <div class="home-split home-split--proof">
+        <div class="home-proof__figure">
+          <p class="stat home-proof__stat">{caseStudy.headlineValue}</p>
+          <div class="home-proof__ruler"><RulerDivider variant="orange" /></div>
+          <p class="home-proof__label">{caseStudy.headlineLabel}</p>
+        </div>
+        <div>
+          <div class="home-stamp" data-reveal>
+            <JobTicket number={caseStudy.ticketNumber} title={caseStudy.title} items={caseStudy.lines} stamp stampText={caseStudy.stamp} />
+          </div>
+          {caseStudy.quote && <blockquote class="home-quote"><p>“{caseStudy.quote}”</p></blockquote>}
+        </div>
+      </div>
+      <p class="home-note"><small>{caseStudy.note}</small></p>
+    </Section>
+  )}
+
+  <!-- 5. How it works -->
+  <Section bg="paper">
+    <Eyebrow>HOW IT WORKS</Eyebrow>
+    <h2 class="home-h2">Three work orders, start to finish</h2>
+    <WorkOrderSteps steps={steps} />
+  </Section>
+
+  <!-- 6. George + FAQ -->
+  <Section bg="offwhite">
+    <div class="home-split home-split--about">
+      <div class="home-about">
+        <div class="home-about__photo">
+          <CornerFrame>
+            <img src={founderSrc} alt={site.photos.founder ? `${business.ownerFirst}, founder of ${business.name}` : `${business.name} brand mark`} width="1080" height="1080" loading="lazy" decoding="async" />
+          </CornerFrame>
+        </div>
+        <p class="home-about__bio">Hi, I'm {business.ownerFirst}. I started {business.name} to help service companies stop losing work they already earned. I'm your one point of contact, from the first call to launch and every month after. A team of specialist developers, who've built these systems for other home-service companies, builds and maintains yours. (I'm studying business at Ohio State while building this here in {business.city}.)</p>
+        <div class="home-values">
+          {values.map((v, i) => (
+            <>
+              {i > 0 && <div class="home-values__tick"><RulerDivider variant="orange" /></div>}
+              <p>{v}</p>
+            </>
+          ))}
+        </div>
+        <JobTicket number="0002" title="Your point of contact" plainItems items={[
+          { label: `${business.ownerFirst}, founder` },
+          { label: `${business.city}, ${business.state}` },
+          { label: `Call or text ${contact.phoneDisplay}` },
+        ]} />
+      </div>
+      <div>
+        <h2 class="home-h2">Straight answers</h2>
+        <FAQ items={faqs} />
+      </div>
+    </div>
+  </Section>
+
+  <!-- 7. Book -->
+  <Section id="book" bg="charcoal" blueprint class="home-target">
+    <Eyebrow>BOOK A CALL</Eyebrow>
+    <h2 class="home-h2 home-h2--tight">Book your free <PencilMark>{booking.callName}</PencilMark></h2>
+    <p class="home-sub">{booking.bookReassurance}</p>
+    <div class="home-split home-split--book">
+      <div class="home-book__copy">
+        <p class="home-book__intro">On the call, we'll go over:</p>
+        <CheckList items={callItems} onDark />
+        <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
+        <p>No pitch deck. No tech talk. Just a straight conversation about your business.</p>
+        <p class="home-small"><small>Have these handy: about how many calls you get a week, your average job value, how new leads come in, and what happens to calls after hours.</small></p>
+        <p class="home-small"><small>I keep my client list small so every build gets my full attention, so I only take on a few new companies at a time.</small></p>
+      </div>
+      <div>
+        <BookingEmbed />
+        <p class="home-book__call">Zoom or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
+        <p class="home-small"><small>{site.otherTradesLine}</small></p>
+      </div>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  :global(#costs), :global(#book) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
+
+  .home-h2 { margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 4); }
+  .home-h2--tight { margin-bottom: var(--space); }
+  .home-sub { margin: 0 0 calc(var(--space) * 4); max-width: var(--prose-max); }
+  .home-small { margin: 0; }
+  .home-small small { color: var(--color-steel); }
+  :global([data-tone="dark"]) .home-small small { color: var(--color-rule); }
+  .home-after { margin-top: calc(var(--space) * 4); }
+  .home-actions { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-button-stack); }
+  @media (min-width: 640px) { .home-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 3); } }
+  .home-closer { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
+
+  /* Hero */
+  :global(.home-hero) { padding-top: var(--hero-pad-top); }
+  .home-hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }
+  .home-hero__copy { display: contents; }
+  .home-hero__grid { row-gap: var(--hero-stack); }
+  .home-hero__h1 { font-size: var(--hero-h1); margin: 0; }
+  .home-hero__lead { font-size: var(--hero-text-lead); margin: 0; }
+  .home-hero__costs-link { align-self: center; }
+  .home-hero__ticket { grid-row: 5; min-width: 0; }
+  .home-hero__tools { margin-top: calc(var(--space) * 8); }
+  @media (min-width: 900px) {
+    .home-hero__grid { grid-template-columns: 1.25fr 1fr; }
+    .home-hero__copy { display: grid; gap: var(--hero-stack); min-width: 0; }
+    .home-hero__ticket { grid-row: auto; transform: rotate(var(--hero-ticket-rotate)); }
+  }
+
+  /* Stamps land once (Home-only wrappers) */
+  :global(html.motion-ok) .home-stamp:not(.is-in) :global(.ticket__stamp) { opacity: 0; }
+  :global(html.motion-ok) .home-stamp.is-in :global(.ticket__stamp) { animation: home-stamp var(--dur-check) var(--ease-out) var(--dur-ruler) both; }
+  @keyframes home-stamp {
+    from { opacity: 0; transform: translateY(calc(var(--space) * -0.5)) rotate(calc(var(--stamp-rotate) * 2)) scale(1.4); }
+    to { opacity: 1; transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-stamp :global(.ticket__stamp) { opacity: 1; animation: none; transition: none; }
+    .home-hero__ticket { transition: none; }
+  }
+
+  /* Splits */
+  .home-split { display: grid; gap: calc(var(--space) * 6); align-items: start; }
+  @media (min-width: 900px) {
+    .home-split--proof { grid-template-columns: 1fr 1fr; align-items: center; }
+    .home-split--about { grid-template-columns: 5fr 7fr; gap: calc(var(--space) * 10); }
+    .home-split--book { grid-template-columns: 5fr 7fr; gap: calc(var(--space) * 8); }
+  }
+
+  /* Proof */
+  .home-label { margin: 0 0 calc(var(--space) * 5); }
+  .home-label small { color: var(--color-teal); font-weight: var(--weight-semibold); }
+  .home-proof__stat { font-size: var(--hero-h1); margin: 0; color: var(--color-charcoal); }
+  .home-proof__ruler { max-width: calc(var(--space) * 16); margin: var(--space) 0 calc(var(--space) * 2); }
+  .home-proof__label { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); max-width: calc(var(--space) * 48); }
+  .home-quote { margin: calc(var(--space) * 4) 0 0; padding-left: calc(var(--space) * 2); border-left: var(--eyebrow-tick-h) solid var(--color-teal); font-style: italic; }
+  .home-quote p { margin: 0; }
+  .home-note { margin: calc(var(--space) * 5) 0 0; }
+  .home-note small { color: var(--color-steel); }
+
+  /* About */
+  .home-about { display: grid; gap: calc(var(--space) * 3); }
+  .home-about__photo { max-width: calc(var(--space) * 40); }
+  .home-about__photo img { display: block; width: 100%; height: auto; border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner); }
+  .home-about__bio { margin: 0; }
+  .home-values { display: grid; gap: var(--space); }
+  .home-values p { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
+  .home-values__tick { width: calc(var(--ruler-step) * 2); }
+
+  /* Book */
+  .home-book__copy { display: grid; gap: calc(var(--space) * 2.5); }
+  .home-book__copy p { margin: 0; }
+  .home-book__intro { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); }
+  .home-book__call { margin: calc(var(--space) * 3) 0 var(--space); }
+</style>
