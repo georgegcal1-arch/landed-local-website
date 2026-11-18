@@ -112,6 +112,8 @@ document.querySelectorAll<HTMLElement>("[data-booking-embed]").forEach((panel, i
       api("ui", {
         theme: "light",
         layout: "month_view",
+        hideEventTypeDetails: true,
+        showTimezoneWhenEventDetailsHidden: true,
         cssVarsPerTheme: { light: theme, dark: theme },
       });
     } catch (error) {

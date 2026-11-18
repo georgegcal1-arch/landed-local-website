@@ -1,13 +1,13 @@
 /** Booking copy and destinations shared by the site and its temporary shell. */
 const booking = {
-  /** Main booking button wording. */
-  buttonLabel: "Find my missed jobs",
+  /** Main button invites visitors to book the free review. */
+  buttonLabel: "Book a Free Missed-Jobs Review",
   /** Short wording for compact booking buttons. */
   shortLabel: "Book a call",
-  /** Reassurance beside the main booking invitation. */
-  reassurance: "Free 30-minute call with George. No pitch.",
-  /** Reassurance on the booking page. */
-  bookReassurance: "No pressure · No pitch · Clear numbers",
+  /** Reassurance beside the invitation: free, 30 minutes, no pitch deck. */
+  reassurance: "Free · 30 minutes · No pitch deck",
+  /** Booking-page reassurance explains the review's practical outcome. */
+  bookReassurance: "30 minutes. We'll find where jobs are slipping through and what it's costing you.",
   /** Name of the free review call. */
   callName: "Missed-Jobs Review",
   /** Cal.com event used by the future booking embed. */

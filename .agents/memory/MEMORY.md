@@ -3,3 +3,4 @@
 - [Astro attribute forwarding](astro-attribute-forwarding.md) — explicit attributes beat spreads; compute configurable defaults from incoming props.
 - [SEO identity](seo-identity.md) — keep business schema free of owner fields; explicitly approved metadata may name George.
 - [Accessibility constraints](accessibility-constraints.md) — preserve the design during audits; full orange is large-text only, and small labels on charcoal need teal-light.
+- [Booking presentation](booking-presentation.md) — keep the phone header CTA hidden; calendar time-zone choice must remain visible when hiding event details.

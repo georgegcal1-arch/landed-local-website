@@ -1,7 +1,7 @@
 ---
 export interface Service { number: string; outcome: string; name: string; description: string; bullets: string[]; wide?: boolean }
-interface Props { services: Service[]; class?: string }
-const { services, class: extra } = Astro.props;
+interface Props { services: Service[]; href?: string; class?: string }
+const { services, href, class: extra } = Astro.props;
 const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s.wide)];
 ---
 <div class:list={["svc", extra]}>
@@ -15,6 +15,7 @@ const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s
         <ul class="svc__bullets">
           {s.bullets.map((b) => <li><svg class="svc__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5 L6.5 12 L13 4" /></svg><span>{b}</span></li>)}
         </ul>
+        {href && <a class="svc__link" href={href}>See if this fits your business →</a>}
       </article>
     ))}
   </div>
@@ -34,6 +35,7 @@ const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s
           <ul class="svc__bullets">
             {s.bullets.map((b) => <li><svg class="svc__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5 L6.5 12 L13 4" /></svg><span>{b}</span></li>)}
           </ul>
+          {href && <a class="svc__link" href={href}>See if this fits your business →</a>}
         </div>
       </details>
     ))}
@@ -61,6 +63,14 @@ const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s
   .svc__bullets li { display: flex; gap: var(--space); align-items: baseline; color: var(--color-offwhite); font-size: var(--text-small); }
   .svc__tick { flex: none; width: calc(var(--space) * 2); height: calc(var(--space) * 2); transform: translateY(calc(var(--space) * 0.25)); }
   .svc__tick path { fill: none; stroke: var(--color-teal-light); stroke-width: var(--stroke-outline); stroke-linecap: round; stroke-linejoin: round; }
+  .svc .svc__link {
+    display: inline-flex; align-items: center; align-self: flex-start; justify-self: start;
+    min-height: var(--button-min-h); margin-top: auto;
+    font-family: var(--font-body); font-size: var(--text-small); font-weight: var(--weight-medium);
+    color: var(--color-teal-light); text-decoration: none; text-underline-offset: var(--underline-offset);
+  }
+  .svc .svc__link:hover { text-decoration: underline; }
+  .svc .svc__link:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
 
   /* Phones: tap-to-open rows */
   .svc__grid { display: none; }
@@ -88,6 +98,7 @@ const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s
     .svc__rows { display: none; }
     .svc__grid { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--space) * 3); }
     .svc__card { display: grid; align-content: start; gap: calc(var(--space) * 1.5); padding: var(--card-pad); }
+    .svc__card:has(.svc__link) { display: flex; flex-direction: column; }
     .svc__card .svc__num { margin-bottom: var(--space); }
     .svc__card .svc__bullets { margin-top: var(--space); }
     .svc__card--wide { grid-column: 1 / -1; }
