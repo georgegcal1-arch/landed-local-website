@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { copyFile } from "node:fs/promises";
 
-const indexablePaths = new Set(["/", "/websites", "/about", "/get-a-mockup", "/privacy"]);
+const indexablePaths = new Set(["/", "/book", "/privacy"]);
 
 // Static output to ./dist. Tailwind v3 runs through postcss.config.cjs.
 export default defineConfig({

@@ -2,8 +2,8 @@
 name: Business-only SEO identity
 description: User's constraint on personal names in Landed Local metadata and structured data.
 ---
-Use the business identity, not personal names, in page metadata and structured data. Do not add founder or owner fields. The explicitly requested business contact email remains part of the service schema.
+Use the business identity in structured data. Do not add founder or owner fields. The explicitly requested business contact email remains part of the service schema. Metadata may use George's first name when the user explicitly supplies that copy.
 
-**Why:** The user requested no founder, owner or personal name anywhere in structured data or meta tags.
+**Why:** The original SEO request excluded personal names. During the agency rework, the user explicitly replaced the default description with copy naming George; that later request overrides the earlier restriction for metadata.
 
-**How to apply:** Preserve this constraint when editing page titles, descriptions, social tags or JSON-LD, including the About page. Visible page copy is not subject to this SEO-only rule.
+**How to apply:** Keep schema business-only, and follow explicitly approved metadata copy rather than removing the first name from it. Do not introduce a surname.

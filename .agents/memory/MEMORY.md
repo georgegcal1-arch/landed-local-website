@@ -1,5 +1,5 @@
 - [Astro managed workflows](astro-workflows.md) — Astro 7 auto-backgrounds in agent environments; managed workflows need foreground operation.
 - [SVG reveal sizing](svg-reveal-sizing.md) — non-scaling strokes need clip reveals; normalized dashes can leave stretched marks partially invisible.
 - [Astro attribute forwarding](astro-attribute-forwarding.md) — explicit attributes beat spreads; compute configurable defaults from incoming props.
-- [Business-only SEO identity](seo-identity.md) — metadata and business schema must not identify the founder or owner by personal name.
+- [SEO identity](seo-identity.md) — keep business schema free of owner fields; explicitly approved metadata may name George.
 - [Accessibility constraints](accessibility-constraints.md) — preserve the design during audits; full orange is large-text only, and small labels on charcoal need teal-light.

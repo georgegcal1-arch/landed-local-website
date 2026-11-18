@@ -6,9 +6,9 @@ import Button from "../Button.astro";
 import { site } from "../../config/site";
 
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const links = site.shell.nav.filter((l) => !l.afterLaunchOnly || site.afterLaunch.pageLive);
+const links = site.shell.nav;
 const isCurrent = (href: string) => path === href;
-const hideHeaderCta = path === "/get-a-mockup" || path === "/thanks";
+const hideHeaderCta = path === site.booking.bookPath;
 ---
 <header class="hdr">
   <div class="hdr__in container-content">

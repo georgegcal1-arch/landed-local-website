@@ -49,7 +49,6 @@ const professionalService = Astro.url.pathname === "/" ? {
     addressCountry: site.business.countryCode,
   },
   areaServed: site.business.serviceArea,
-  priceRange: `$${site.pricing.founding}-$${site.pricing.standard}`,
 } : null;
 // Resolve at build time so browser chrome works even with JavaScript disabled.
 const themeColor = tokens.match(/--color-offwhite:\s*([^;]+);/)?.[1]?.trim();

@@ -12,19 +12,16 @@ import JobTicket from "../components/JobTicket.astro";
 import Pill from "../components/Pill.astro";
 import PhotoPlaceholder from "../components/PhotoPlaceholder.astro";
 import type { SectionBg } from "../components/Section.astro";
-import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
 
 // Read straight from tokens.css so swatches and labels never drift from the source.
 const colors = [...tokens.matchAll(/--color-([a-z-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()] as const);
-const { pricing, offer } = site;
-const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 const grounds: { bg: SectionBg; label: string }[] = [
   { bg: "offwhite", label: "Offwhite" },
   { bg: "paper", label: "Paper" },
   { bg: "charcoal", label: "Charcoal" },
 ];
-const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} days`, `${offer.revisionRounds} rounds of revisions`];
+const items = ["First checklist item", "Second checklist item", "Third checklist item"];
 ---
 <BaseLayout title="Styleguide" description="Landed Local's internal reference for website typography, colors, components, and responsive design." noindex>
   <Section bg="paper" blueprint>
@@ -62,7 +59,7 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
           <div><span class="sg-meta">h3 Manrope 700 var(--text-h3)</span><h3>Measured twice, launched once</h3></div>
           <div><span class="sg-meta">body Inter 400 var(--text-body)</span><p>You fix roofs, wire panels and hang drywall. We build the site that sends the next call your way, then keep it plumb.</p></div>
           <div><span class="sg-meta">small Inter 500 var(--text-small)</span><p><small>Serving Clintonville, Hilliard, Westerville and Grove City.</small></p></div>
-          <div><span class="sg-meta">price Manrope 800 tabular</span><p class="price sg-price">{usd(pricing.standard)}</p></div>
+          <div><span class="sg-meta">figure Manrope 800 tabular</span><p class="price sg-price">123</p></div>
         </div>
       </Section>
     ))}
@@ -96,7 +93,7 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
     <Eyebrow>04 Eyebrow and Pill</Eyebrow>
     <h2 class="sg-h">Labels</h2>
     <div class="sg-row">
-      <Pill>Roofing</Pill><Pill>Electrical</Pill><Pill>Founding price {usd(pricing.founding)}</Pill><Pill>Pill label</Pill>
+      <Pill>Roofing</Pill><Pill>Electrical</Pill><Pill>Example label</Pill><Pill>Pill label</Pill>
     </div>
   </Section>
   <RulerDivider />
@@ -165,10 +162,10 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
     <Eyebrow>09 JobTicket</Eyebrow>
     <div class="sg-split">
       <JobTicket number="0001" title="Demo ticket: values, total and stamp" stamp
-        items={[{ label: "Standard site", value: usd(pricing.standard) }, { label: "Founding discount", value: `-${usd(pricing.standard - pricing.founding)}` }, { label: "Revision rounds", value: String(offer.revisionRounds) }]}
-        total={{ value: usd(pricing.founding) }} />
+        items={[{ label: "First line item", value: "123" }, { label: "Second line item", value: "45" }, { label: "Third line item", value: "2" }]}
+        total={{ value: "170" }} />
       <JobTicket number="0002" title="Demo ticket: no values, total or stamp"
-        items={[{ label: `Up to ${offer.maxPages} pages` }, { label: `${offer.callTrackingDays} days of call tracking` }, { label: "Line item label" }]} />
+        items={[{ label: "First line item" }, { label: "Second line item" }, { label: "Line item label" }]} />
     </div>
   </Section>
 
@@ -182,7 +179,7 @@ const items = [`Up to ${offer.maxPages} pages`, `Live in ${offer.liveInDays} day
         <CheckList items={items} />
         <div class="sg-row"><Button variant="secondary">Secondary</Button><Button variant="text-link" href="#tickets">Text link</Button></div>
       </Card>
-      <JobTicket number="0003" title="Demo ticket on charcoal" stamp items={[{ label: "Line item", value: usd(pricing.carePlanMonthly) }]} total={{ label: "Monthly", value: usd(pricing.carePlanMonthly) }} />
+      <JobTicket number="0003" title="Demo ticket on charcoal" stamp items={[{ label: "Line item", value: "12" }]} total={{ label: "Total", value: "12" }} />
     </div>
   </Section>
 

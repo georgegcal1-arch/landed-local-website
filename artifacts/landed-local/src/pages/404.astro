@@ -4,8 +4,9 @@ import Section from "../components/Section.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import Button from "../components/Button.astro";
 import Eyebrow from "../components/Eyebrow.astro";
+import { site } from "../config/site";
 ---
-<BaseLayout title="Page not found" description="This page couldn't be found. Explore Landed Local's websites for Columbus trades, learn about the studio, or request a free mockup." noindex>
+<BaseLayout title="Page not found" description="This page couldn't be found. Visit Landed Local's homepage or book a free Missed-Jobs Review." noindex>
   <Section bg="offwhite" blueprint class="not-found">
     <div class="not-found__content">
       <RulerDivider variant="orange" />
@@ -14,10 +15,10 @@ import Eyebrow from "../components/Eyebrow.astro";
       <p>It may have moved, or the link has a typo. Try one of these:</p>
       <nav class="not-found__links" aria-label="Helpful pages">
         <a href="/">Home</a>
-        <a href="/websites">Websites</a>
-        <a href="/about">About</a>
+        <a href={site.booking.bookPath}>Book a call</a>
+        <a href={site.shell.privacyHref}>Privacy</a>
       </nav>
-      <Button href="/get-a-mockup">Get my free mockup</Button>
+      <Button href={site.booking.bookPath}>{site.booking.buttonLabel}</Button>
     </div>
   </Section>
 </BaseLayout>
