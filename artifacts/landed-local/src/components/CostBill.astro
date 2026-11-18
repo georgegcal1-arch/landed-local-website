@@ -74,6 +74,9 @@ const { label = "Cost of doing nothing", items, total, class: extra } = Astro.pr
   .bill__total > :first-child { overflow-wrap: anywhere; }
   .bill__total-value { font-size: var(--text-h3); }
   .bill__total-note { grid-column: 1 / -1; margin: 0; font-weight: var(--weight-regular); }
+  @media (max-width: 767px) {
+    .bill__line { flex-direction: column; align-items: flex-start; }
+  }
   @media (min-width: 768px) {
     .bill__item { grid-template-columns: minmax(max-content, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 4); align-items: start; }
     .bill__line { flex-wrap: nowrap; }
