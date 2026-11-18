@@ -8,7 +8,11 @@ const hidden = site.shell.hideActionBarOn.includes(path);
 {!hidden && (
   <div class="bar" data-action-bar data-tone="light">
     <Button href={site.contact.phoneHref} variant="secondary" class="bar__btn bar__call" aria-label={`Call ${site.contact.phoneDisplay}`}><Phone size={18} aria-hidden="true" />Call</Button>
-    <Button href={site.shell.cta.href} class="bar__btn">{site.shell.cta.shortLabel}</Button>
+    <Button
+      href={site.shell.cta.href}
+      class="bar__btn"
+      data-home-booking={path === "/" ? site.booking.homeAnchor : undefined}
+    >{site.shell.cta.shortLabel}</Button>
   </div>
 )}
 

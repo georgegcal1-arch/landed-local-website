@@ -8,33 +8,21 @@ const c = site.contact;
   <RulerDivider variant="orange" />
   <Section bg="charcoal" class="ftr__sec">
     <div class="ftr__grid">
-      <div>
+      <div class="ftr__brand">
         <a href="/" class="ftr__logo"><img src={site.brand.logoReversed} alt={`${site.business.name} home`} width="276" height="56" loading="lazy" decoding="async" /></a>
         <p class="ftr__tag">{site.business.tagline}</p>
       </div>
-      <nav aria-label="Footer">
-        <h2 class="ftr__h">Pages</h2>
-        <ul>{site.shell.footerPages.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
-      </nav>
-      <div>
-        <h2 class="ftr__h">Talk to {site.business.ownerFirst}</h2>
+      <address class="ftr__contact">
         <ul>
-          <li>
-            <span class="ftr__contact-desktop">Call or text <a href={c.phoneHref}>{c.phoneDisplay}</a></span>
-            <span class="ftr__contact-mobile"><a href={c.phoneHref}>Call</a><a href={c.smsHref}>Text</a></span>
-          </li>
+          <li>{site.business.city}, {site.business.state}</li>
+          <li>Call or text <a href={c.phoneHref} aria-label={`Call or text ${c.phoneDisplay}`}>{c.phoneDisplay}</a></li>
           <li><a href={`mailto:${c.email}`}>{c.email}</a></li>
-          <li>Based in {site.business.city}, {site.business.state}</li>
-          <li>Serving {site.business.serviceArea}</li>
         </ul>
-      </div>
+      </address>
     </div>
     <div class="ftr__bottom">
       <span>&copy; {site.shell.year} {site.business.legalName}</span>
-      <span aria-hidden="true">&middot;</span>
-      <a href={site.shell.privacyHref}>Privacy</a>
-      <span aria-hidden="true">&middot;</span>
-      <span>{site.shell.sampleNote}</span>
+      <a href={site.shell.privacyHref}>Privacy &amp; Terms</a>
     </div>
   </Section>
 </footer>
@@ -42,23 +30,19 @@ const c = site.contact;
 <style>
   .ftr { background: var(--color-charcoal); }
   .ftr__grid { display: grid; gap: calc(var(--space) * 5); }
-  @media (min-width: 768px) { .ftr__grid { grid-template-columns: 1.4fr 1fr 1.4fr; } }
+  @media (min-width: 768px) { .ftr__grid { grid-template-columns: 1.4fr 1fr; align-items: start; } }
   .ftr__logo { display: inline-block; }
   .ftr__logo img { width: var(--footer-logo-w); max-width: 100%; height: auto; display: block; }
   .ftr__tag { color: var(--color-teal-light); margin-top: calc(var(--space) * 2); font-weight: var(--weight-medium); }
-  .ftr__h { font-size: var(--text-small); font-weight: var(--weight-heavy); letter-spacing: 0; text-transform: uppercase; margin-bottom: calc(var(--space) * 2); }
-  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  .ftr__contact { font-style: normal; }
+  .ftr__contact ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
   .ftr a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
   .ftr a { text-decoration: none; color: var(--color-offwhite); }
   .ftr a:hover { text-decoration: underline; text-underline-offset: var(--underline-offset); color: var(--color-teal-light); }
   .ftr a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
-  .ftr__bottom { margin-top: calc(var(--space) * 6); padding-top: calc(var(--space) * 3); border-top: var(--stroke-hair) solid var(--color-ruler-rule-dark); display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space); font-size: var(--text-small); line-height: var(--leading-body); color: var(--color-footer-muted); }
+  .ftr__bottom { margin-top: calc(var(--space) * 6); padding-top: calc(var(--space) * 3); border-top: var(--stroke-hair) solid var(--color-ruler-rule-dark); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space); font-size: var(--text-small); line-height: var(--leading-body); color: var(--color-footer-muted); }
   .ftr__bottom a { display: inline-block; box-sizing: border-box; min-height: 44px; min-width: 44px; padding-block: 9px; margin-block: -9px; color: var(--color-footer-muted) !important; font-size: inherit; line-height: inherit; text-decoration: underline; }
-  .ftr__contact-mobile { display: none; }
   @media (max-width: 767px) {
-    .ftr__contact-desktop { display: none; }
-    .ftr__contact-mobile { display: flex; gap: calc(var(--space) * 2); }
     .ftr__bottom { flex-direction: column; align-items: flex-start; gap: var(--space); }
-    .ftr__bottom > span[aria-hidden="true"] { display: none; }
   }
 </style>
