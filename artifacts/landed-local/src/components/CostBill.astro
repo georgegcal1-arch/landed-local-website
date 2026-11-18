@@ -16,9 +16,10 @@ const { label = "Cost of doing nothing", items, total, class: extra } = Astro.pr
       <li class="bill__item">
         <div class="bill__line">
           <span class="bill__problem">{it.problem}</span>
-          <span class="bill__leader" aria-hidden="true"></span>
-          <svg class="bill__arrow" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6 H10 M7 3 L10 6 L7 9" /></svg>
-          <span class="bill__cost">{it.cost}</span>
+          <span class="bill__result">
+            <svg class="bill__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12 H22 M16 6 L22 12 L16 18" /></svg>
+            <span class="bill__cost">{it.cost}</span>
+          </span>
         </div>
         <div class="bill__detail">
           <p class="bill__sentence">{it.sentence}</p>
@@ -54,12 +55,12 @@ const { label = "Cost of doing nothing", items, total, class: extra } = Astro.pr
   .bill__items { list-style: none; margin: 0; padding: 0; }
   .bill__item { display: grid; gap: calc(var(--space) * 1.5); padding-block: calc(var(--space) * 3); }
   .bill__item + .bill__item { border-top: var(--leader-dot) dotted var(--color-steel); }
-  .bill__line { display: grid; align-items: baseline; gap: var(--space); }
-  .bill__problem, .bill__cost { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
+  .bill__line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space); font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
+  .bill__problem, .bill__cost { white-space: nowrap; }
+  .bill__result { display: inline-flex; align-items: center; gap: var(--space); white-space: nowrap; }
   .bill .bill__cost { color: var(--color-orange-burnt); }
-  .bill__leader { display: none; min-width: calc(var(--space) * 2); border-bottom: var(--leader-dot) dotted var(--color-steel); transform: translateY(calc(var(--space) * -0.5)); }
-  .bill__arrow { display: none; width: calc(var(--space) * 1.5); height: calc(var(--space) * 1.5); align-self: center; }
-  .bill__arrow path { fill: none; stroke: var(--color-steel); stroke-width: var(--stroke-ruler); stroke-linecap: round; stroke-linejoin: round; }
+  .bill__arrow { flex: none; width: 1em; height: 1em; }
+  .bill__arrow path { fill: none; stroke: var(--color-orange-burnt); stroke-width: var(--stroke-outline); vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
   .bill__detail { display: grid; gap: var(--space); }
   .bill__detail p { margin: 0; }
   .bill__stat-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space); }
@@ -74,8 +75,7 @@ const { label = "Cost of doing nothing", items, total, class: extra } = Astro.pr
   .bill__total-value { font-size: var(--text-h3); }
   .bill__total-note { grid-column: 1 / -1; margin: 0; font-weight: var(--weight-regular); }
   @media (min-width: 768px) {
-    .bill__item { grid-template-columns: 2fr 3fr; gap: calc(var(--space) * 4); align-items: start; }
-    .bill__line { grid-template-columns: minmax(0, 1fr) minmax(calc(var(--space) * 2), 0.25fr) auto minmax(0, 1fr); }
-    .bill__leader, .bill__arrow { display: block; }
+    .bill__item { grid-template-columns: minmax(max-content, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 4); align-items: start; }
+    .bill__line { flex-wrap: nowrap; }
   }
 </style>

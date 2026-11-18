@@ -57,6 +57,9 @@ const tapeId = `work-tape-${Math.random().toString(36).slice(2, 9)}`;
   @media (min-width: 768px) {
     .wos__tape { display: block; }
     .wos__list { padding-left: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--space) * 3); padding-top: calc(var(--space) * 3); }
+    .wos__step { display: flex; flex-direction: column; }
+    .wos__step :global(.ticket) { flex: 1; display: flex; flex-direction: column; }
+    .wos__step :global(.ticket__stamp-row) { margin-top: auto; }
     .wos__step::before { display: none; }
     .wos__vertical-tape { display: none; }
     .wos__dot { left: 50%; top: calc(var(--space) * -2.75); margin-left: calc(var(--space) * -0.75); }
