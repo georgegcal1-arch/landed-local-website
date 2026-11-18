@@ -47,7 +47,7 @@
 }
 
 @layer components {
-  .price { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
+  .stat { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; }
   .container-content { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--gutter); }
   .section { padding-block: var(--section-y); }
   .skip-link {

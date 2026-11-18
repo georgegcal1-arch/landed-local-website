@@ -12,6 +12,7 @@ import JobTicket from "../components/JobTicket.astro";
 import Pill from "../components/Pill.astro";
 import PhotoPlaceholder from "../components/PhotoPlaceholder.astro";
 import type { SectionBg } from "../components/Section.astro";
+import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
 
 // Read straight from tokens.css so swatches and labels never drift from the source.
@@ -21,12 +22,12 @@ const grounds: { bg: SectionBg; label: string }[] = [
   { bg: "paper", label: "Paper" },
   { bg: "charcoal", label: "Charcoal" },
 ];
-const items = ["First checklist item", "Second checklist item", "Third checklist item"];
+const items = ["How calls and leads move today", "What slips through, in dollars", "The one fix to start with"];
 ---
 <BaseLayout title="Styleguide" description="Landed Local's internal reference for website typography, colors, components, and responsive design." noindex>
   <Section bg="paper" blueprint>
     <Eyebrow>Internal review, not linked</Eyebrow>
-    <h1 class="sg-title">Landed Local <PencilMark>shop drawings</PencilMark></h1>
+    <h1 class="sg-title">More Landed Jobs. <PencilMark>No New Hires.</PencilMark></h1>
     <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
     <nav class="sg-toc" aria-label="Styleguide sections">
       {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections"].map((s) => <a href={`#${s}`}>{s}</a>)}
@@ -54,12 +55,16 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
       <Section bg={bg}>
         <Eyebrow>02 Type scale on {label}</Eyebrow>
         <div class="sg-type">
-          <div><span class="sg-meta">h1 Manrope 800 var(--text-h1)</span><p class="sg-h1-sample">Built square. Found first.</p></div>
-          <div><span class="sg-meta">h2 Manrope 800 var(--text-h2)</span><h2>Websites for Columbus trades</h2></div>
-          <div><span class="sg-meta">h3 Manrope 700 var(--text-h3)</span><h3>Measured twice, launched once</h3></div>
-          <div><span class="sg-meta">body Inter 400 var(--text-body)</span><p>You fix roofs, wire panels and hang drywall. We build the site that sends the next call your way, then keep it plumb.</p></div>
-          <div><span class="sg-meta">small Inter 500 var(--text-small)</span><p><small>Serving Clintonville, Hilliard, Westerville and Grove City.</small></p></div>
-          <div><span class="sg-meta">figure Manrope 800 tabular</span><p class="price sg-price">123</p></div>
+          <div><span class="sg-meta">h1 Manrope 800 var(--text-h1)</span><p class="sg-h1-sample">More Landed Jobs. No New Hires.</p></div>
+          <div><span class="sg-meta">h2 Manrope 800 var(--text-h2)</span><h2>Five ways we fix the leaks</h2></div>
+          <div><span class="sg-meta">h3 Manrope 700 var(--text-h3)</span><h3>Never miss another call</h3></div>
+          <div><span class="sg-meta">body Inter 400 var(--text-body)</span><p>We find where your business is losing jobs and time, and build the AI system that fixes it.</p></div>
+          <div><span class="sg-meta">small Inter 500 var(--text-small)</span><p><small>Based in Columbus, Ohio. Working with roofing and HVAC companies.</small></p></div>
+          <div>
+            <span class="sg-meta">stat Manrope 800 tabular</span>
+            <p class="stat sg-stat">51%</p>
+            <div class="sg-stat-ruler"><RulerDivider variant="orange" /></div>
+          </div>
         </div>
       </Section>
     ))}
@@ -84,7 +89,7 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
           <Button variant="text-link">Text button</Button>
           <Button disabled>Disabled</Button>
         </div>
-        <p class="sg-meta">Tab through to see the 3px teal focus ring. Hover primary for orange-burnt with offwhite text.</p>
+        <p class="sg-meta">Tab through to see the 3px teal focus ring. Primary buttons keep charcoal text on orange, including on hover.</p>
       </Section>
     ))}
   </div>
@@ -93,7 +98,7 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
     <Eyebrow>04 Eyebrow and Pill</Eyebrow>
     <h2 class="sg-h">Labels</h2>
     <div class="sg-row">
-      <Pill>Roofing</Pill><Pill>Electrical</Pill><Pill>Example label</Pill><Pill>Pill label</Pill>
+      <Pill>Roofing</Pill><Pill>HVAC</Pill><Pill>Free · 30 min</Pill>
     </div>
   </Section>
   <RulerDivider />
@@ -127,13 +132,13 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
     <Eyebrow>07 Card and PencilMark</Eyebrow>
     <div class="sg-split">
       <Card>
-        <Pill>Plumbing</Pill>
-        <h3 class="sg-card-h">Card heading</h3>
-        <p>Demo body text inside a Card. White ground, rule border, one rounded corner.</p>
+        <Eyebrow>THE PROBLEM</Eyebrow>
+        <h3 class="sg-card-h">Missed calls</h3>
+        <p>The phone rings while you're on a job, and the caller tries the next company.</p>
         <Button variant="text-link" href="#cards">Text link in a card</Button>
       </Card>
       <Card as="article">
-        <h2>Get found by the <PencilMark>neighbors</PencilMark> first.</h2>
+        <h2>More Landed Jobs. <PencilMark>No New Hires.</PencilMark></h2>
       </Card>
     </div>
   </Section>
@@ -158,29 +163,40 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
     </div>
   </Section>
 
-  <Section id="tickets" bg="offwhite" blueprint>
-    <Eyebrow>09 JobTicket</Eyebrow>
-    <div class="sg-split">
-      <JobTicket number="0001" title="Demo ticket: values, total and stamp" stamp
-        items={[{ label: "First line item", value: "123" }, { label: "Second line item", value: "45" }, { label: "Third line item", value: "2" }]}
-        total={{ value: "170" }} />
-      <JobTicket number="0002" title="Demo ticket: no values, total or stamp"
-        items={[{ label: "First line item" }, { label: "Second line item" }, { label: "Line item label" }]} />
-    </div>
-  </Section>
+  <div id="tickets">
+    {grounds.map(({ bg, label }) => (
+      <Section id={`tickets-${bg}`} bg={bg} blueprint>
+        <Eyebrow>09 JobTicket on {label}</Eyebrow>
+        <div class="sg-split">
+          <JobTicket number="0001" title={site.booking.callName}
+            items={items.map((label) => ({ label }))}
+            total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
+          <JobTicket number="001" title="Find the leaks"
+            items={[{ label: "Free 30-minute call. We put a dollar number on what's slipping." }]}
+            stamp stampText="DIAGNOSED" />
+          <JobTicket number={site.caseStudy.ticketNumber} title={site.caseStudy.title}
+            items={site.caseStudy.lines} stamp stampText={site.caseStudy.stamp} />
+          <JobTicket number="0002" title="Your point of contact"
+            items={[
+              { label: `${site.business.ownerFirst}, founder` },
+              { label: `${site.business.city}, ${site.business.state}` },
+              { label: `Call or text ${site.contact.phoneDisplay}` },
+            ]} />
+        </div>
+      </Section>
+    ))}
+  </div>
 
   <Section bg="charcoal" blueprint>
     <Eyebrow>Light components inside a charcoal Section</Eyebrow>
     <h2 class="sg-h">Foreground stays charcoal on white and paper</h2>
-    <div class="sg-split">
       <Card>
-        <Eyebrow>Card eyebrow</Eyebrow>
-        <h3 class="sg-card-h">Card heading</h3>
+        <Eyebrow>THE PROBLEM</Eyebrow>
+        <h3 class="sg-card-h">Missed calls</h3>
+        <p>The phone rings while you're on a job, and the caller tries the next company.</p>
         <CheckList items={items} />
         <div class="sg-row"><Button variant="secondary">Secondary</Button><Button variant="text-link" href="#tickets">Text link</Button></div>
       </Card>
-      <JobTicket number="0003" title="Demo ticket on charcoal" stamp items={[{ label: "Line item", value: "12" }]} total={{ label: "Total", value: "12" }} />
-    </div>
   </Section>
 
   <div id="sections">
@@ -210,7 +226,8 @@ const items = ["First checklist item", "Second checklist item", "Third checklist
   .sg-type { display: grid; gap: calc(var(--space) * 3); margin-top: calc(var(--space) * 3); }
   .sg-type > div { border-top: var(--stroke-hair) solid var(--color-rule); padding-top: var(--space); }
   :global([data-tone="dark"]) .sg-type > div { border-color: var(--color-steel); }
-  .sg-price { font-size: var(--text-h2); margin: 0; }
+  .sg-stat { font-size: var(--text-h2); margin: 0; }
+  .sg-stat-ruler { max-width: calc(var(--space) * 16); margin-top: var(--space); }
   .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 2); margin: calc(var(--space) * 3) 0; }
   .sg-split { display: grid; gap: calc(var(--space) * 5); margin-top: calc(var(--space) * 3); align-items: start; }
   @media (min-width: 768px) { .sg-split { grid-template-columns: 1fr 1fr; } }

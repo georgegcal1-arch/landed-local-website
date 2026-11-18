@@ -1,93 +1,34 @@
 ---
 import Phone from "lucide-astro/Phone";
-import Menu from "lucide-astro/Menu";
-import X from "lucide-astro/X";
 import Button from "../Button.astro";
 import { site } from "../../config/site";
 
-const path = Astro.url.pathname.replace(/\/$/, "") || "/";
-const links = site.shell.nav;
-const isCurrent = (href: string) => path === href;
-const hideHeaderCta = path === site.booking.bookPath;
+const isHome = Astro.url.pathname === "/";
+const bookingHref = isHome ? site.booking.homeAnchor : site.booking.bookPath;
 ---
 <header class="hdr">
   <div class="hdr__in container-content">
     <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" loading="eager" decoding="async" /></a>
-    <nav class="hdr__nav" aria-label="Main">
-      {links.map((l) => <a href={l.href} class="hdr__link" aria-current={isCurrent(l.href) ? "page" : undefined}>{l.label}</a>)}
-    </nav>
-    <div class="hdr__actions">
-      <a href={site.contact.phoneHref} class="hdr__phone"><Phone size={18} aria-hidden="true" />{site.contact.phoneDisplay}</a>
-      {!hideHeaderCta && <Button href={site.shell.cta.href}>{site.shell.cta.label}</Button>}
-    </div>
-    <div class="hdr__mobile">
-      <a href={site.contact.phoneHref} class="icon-btn icon-btn--round" aria-label={`Call ${site.contact.phoneDisplay}`}><Phone size={20} aria-hidden="true" /></a>
-      <button type="button" class="icon-btn" data-menu-open aria-expanded="false" aria-controls="site-menu"><Menu size={22} aria-hidden="true" /><span class="sr-only">Menu</span></button>
-    </div>
+    <a href={site.contact.phoneHref} class="hdr__phone"><Phone size={18} aria-hidden="true" />{site.contact.phoneDisplay}</a>
+    <Button href={bookingHref} class="hdr__booking">{site.booking.buttonLabel}</Button>
   </div>
 </header>
 
-<div id="site-menu" class="menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
-  <div class="menu__top container-content">
-    <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" loading="lazy" decoding="async" /></a>
-    <button type="button" class="icon-btn" data-menu-close><X size={22} aria-hidden="true" /><span class="sr-only">Close menu</span></button>
-  </div>
-  <nav class="menu__body container-content" aria-label="Main">
-    <a href="/" class="menu__link" aria-current={isCurrent("/") ? "page" : undefined}>Home</a>
-    {links.map((l) => <a href={l.href} class="menu__link" aria-current={isCurrent(l.href) ? "page" : undefined}>{l.label}</a>)}
-    <a href={site.contact.phoneHref} class="hdr__phone menu__phone"><Phone size={20} aria-hidden="true" />{site.contact.phoneDisplay}</a>
-    {!hideHeaderCta && <Button href={site.shell.cta.href} class="menu__cta">{site.shell.cta.label}</Button>}
-  </nav>
-</div>
-
 <style>
   .hdr { position: sticky; top: 0; z-index: var(--z-header); background: var(--color-offwhite); border-bottom: var(--stroke-hair) solid var(--color-rule); }
-  .hdr__in { display: flex; align-items: center; gap: calc(var(--space) * 3); min-height: var(--header-h); }
-  .hdr__logo { display: inline-flex; flex-shrink: 0; border-radius: var(--radius-sharp); }
+  .hdr__in { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space) calc(var(--space) * 2); min-height: var(--header-h); padding-block: var(--space); }
+  .hdr__logo { display: inline-flex; align-items: center; min-height: var(--icon-btn); border-radius: var(--radius-sharp); }
   .hdr__logo img { height: var(--logo-h); width: auto; display: block; }
-  .hdr__nav, .hdr__actions { display: none; }
-  .hdr__mobile { margin-left: auto; display: flex; gap: var(--space); }
-  .icon-btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: var(--icon-btn); height: var(--icon-btn); padding: 0;
-    color: var(--color-charcoal); background: transparent; cursor: pointer;
-    border: var(--stroke-outline) solid var(--color-rule);
-    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
-  }
-  .icon-btn--round { border-radius: 50%; background: var(--color-orange); border-color: var(--color-orange); }
-  a:focus-visible, .icon-btn:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
-  .hdr__link, .menu__link { color: var(--color-charcoal); text-decoration: none; text-underline-offset: calc(var(--underline-offset) * 2); }
-  .hdr__link { font-weight: var(--weight-semibold); font-size: var(--text-small); }
-  .hdr__logo, .hdr__link, .hdr__phone, .menu__link, .menu__phone { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
-  .hdr__link:hover, .menu__link:hover { text-decoration: underline; text-decoration-thickness: var(--stroke-outline); }
-  .hdr__link[aria-current="page"], .menu__link[aria-current="page"] {
-    text-decoration: underline; text-decoration-color: var(--color-orange); text-decoration-thickness: var(--nav-underline);
-  }
-  .hdr__phone { display: inline-flex; align-items: center; gap: var(--space); color: var(--color-charcoal); font-weight: var(--weight-semibold); font-size: var(--text-small); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .hdr__phone { display: inline-flex; justify-self: end; align-items: center; gap: var(--space); min-height: var(--icon-btn); color: var(--color-charcoal); font-weight: var(--weight-semibold); font-size: var(--text-small); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .hdr__phone:hover { color: var(--color-teal); }
   .hdr__phone :global(svg) { color: var(--color-teal); }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
+  .hdr__in :global(.hdr__booking) { grid-column: 1 / -1; white-space: nowrap; }
+  @media (min-width: 640px) {
+    .hdr__in { display: flex; gap: calc(var(--space) * 3); }
+    .hdr__phone { margin-left: auto; }
+    .hdr__in :global(.hdr__booking) { flex: none; }
+  }
   @media (min-width: 900px) {
     .hdr__logo img { height: var(--logo-h-desktop); }
-    .hdr__nav { display: flex; gap: calc(var(--space) * 3); margin-left: auto; }
-    .hdr__actions { display: flex; align-items: center; gap: calc(var(--space) * 2); }
-    .hdr__actions :global(.btn) { padding-inline: calc(var(--space) * 2); white-space: nowrap; }
-    .hdr__mobile { display: none; }
-    .menu { display: none !important; }
   }
-  @media (min-width: 1040px) {
-    .hdr__actions { gap: calc(var(--space) * 3); }
-    .hdr__actions :global(.btn) { padding-inline: var(--button-pad-x); }
-  }
-
-  .menu { position: fixed; inset: 0; z-index: var(--z-menu); background: var(--color-offwhite); overflow-y: auto; display: flex; flex-direction: column; }
-  .menu[hidden] { display: none; }
-  .menu__top { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); border-bottom: var(--stroke-hair) solid var(--color-rule); width: 100%; }
-  .menu__body { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--space) * 3); padding-block: calc(var(--space) * 5); width: 100%; }
-  .menu__link { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-menu); line-height: var(--leading-tight); }
-  .menu__phone { font-size: var(--text-body); margin-top: var(--space); }
-  .menu :global(.menu__cta) { width: 100%; }
-  :global(html.motion-ok) .menu:not([hidden]) { animation: menu-in var(--dur-bar) var(--ease-out); }
-  @keyframes menu-in { from { opacity: 0; transform: translateY(calc(var(--space) * -1)); } }
 </style>

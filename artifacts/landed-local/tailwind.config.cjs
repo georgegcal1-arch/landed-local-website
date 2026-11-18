@@ -12,7 +12,7 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       orange: { DEFAULT: v("color-orange"), burnt: v("color-orange-burnt"), tint: v("color-orange-tint") },
-      charcoal: v("color-charcoal"),
+      charcoal: { DEFAULT: v("color-charcoal"), raised: v("color-charcoal-raised") },
       teal: { DEFAULT: v("color-teal"), light: v("color-teal-light"), tint: v("color-teal-tint") },
       offwhite: v("color-offwhite"),
       paper: v("color-paper"),

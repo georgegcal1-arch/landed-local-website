@@ -1,53 +1,57 @@
 ---
 import Eyebrow from "./Eyebrow.astro";
-export interface TicketItem { label: string; value?: string }
+export interface TicketItem { label: string; value?: string | number }
 interface Props {
   number: string;
   title: string;
   /** Match the heading hierarchy of the section containing this ticket. */
   titleAs?: "h2" | "h3";
   items: TicketItem[];
-  total?: { label?: string; value: string; previousValue?: string };
+  total?: { label?: string; value: string | number; previousValue?: string | number };
+  /** Show a stamp; a string is also accepted as its wording. */
   stamp?: boolean | string;
+  /** Stamp wording when stamp is true. */
+  stampText?: string;
   /** "inline" (default) sits in the total row; "corner" overlaps the bottom-right; "top-right" sits in the header. */
   stampPlacement?: "inline" | "corner" | "top-right";
   class?: string;
 }
-const { number, title, titleAs: TitleTag = "h3", items, total, stamp = false, stampPlacement = "inline", class: extra } = Astro.props;
+const { number, title, titleAs: TitleTag = "h3", items, total, stamp = false, stampText = "APPROVED", stampPlacement = "inline", class: extra } = Astro.props;
 const corner = stamp && stampPlacement === "corner";
 const topRight = stamp && stampPlacement === "top-right";
-const stampText = typeof stamp === "string" ? stamp : "APPROVED";
+const resolvedStampText = typeof stamp === "string" ? stamp : stampText;
+const hasValue = (value: string | number | undefined) => value !== undefined && value !== "";
 ---
 <article class:list={["ticket", { "ticket--stamp-corner": corner }, extra]} data-tone="light">
   <header class="ticket__head">
     <Eyebrow as="span">Work order</Eyebrow>
     <div class:list={["ticket__head-meta", { "ticket__head-meta--stamp": topRight }]}>
-      {topRight && <div class="ticket__stamp ticket__stamp--top-right" aria-label={stampText}><span>{stampText}</span></div>}
+      {topRight && <div class="ticket__stamp ticket__stamp--top-right" aria-label={resolvedStampText}><span>{resolvedStampText}</span></div>}
       <span class="ticket__num">{number.startsWith("#") ? number : `No. ${number}`}</span>
     </div>
   </header>
   <TitleTag class="ticket__title">{title}</TitleTag>
   <ul class="ticket__items" data-reveal>
     {items.map((item, i) => (
-      <li class="ticket__item" style={`--i:${i}`}>
+      <li class:list={["ticket__item", { "ticket__item--value": hasValue(item.value) }]} style={`--i:${i}`}>
         <svg class="ticket__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" pathLength="1" /></svg>
         <span class="ticket__label">{item.label}</span>
-        {item.value && <span class="ticket__leader" aria-hidden="true"></span>}
-        {item.value && <span class="ticket__value price">{item.value}</span>}
+        {hasValue(item.value) && <span class="ticket__leader" aria-hidden="true"></span>}
+        {hasValue(item.value) && <span class="ticket__value stat">{item.value}</span>}
       </li>
     ))}
   </ul>
   {total && (
-    <div class:list={["ticket__total", { "ticket__total--previous": total.previousValue }]}>
+    <div class:list={["ticket__total", { "ticket__total--previous": hasValue(total.previousValue) }]}>
       <span>{total.label ?? "Total"}</span>
-      {stamp && !corner && !topRight && <div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div>}
-      {total.previousValue && !stamp && <span class="ticket__total-spacer" aria-hidden="true"></span>}
-      {total.previousValue && <span class="ticket__previous-price price">{total.previousValue}</span>}
-      <span class="ticket__value price">{total.value}</span>
+      {stamp && !corner && !topRight && <div class="ticket__stamp" aria-label={resolvedStampText}><span>{resolvedStampText}</span></div>}
+      {hasValue(total.previousValue) && !stamp && <span class="ticket__total-spacer" aria-hidden="true"></span>}
+      {hasValue(total.previousValue) && <span class="ticket__previous-value stat">{total.previousValue}</span>}
+      <span class="ticket__value stat">{total.value}</span>
     </div>
   )}
-  {corner && <div class="ticket__stamp ticket__stamp--corner" aria-label={stampText}><span>{stampText}</span></div>}
-  {stamp && !total && !corner && !topRight && <div class="ticket__stamp-row"><div class="ticket__stamp" aria-label={stampText}><span>{stampText}</span></div></div>}
+  {corner && <div class="ticket__stamp ticket__stamp--corner" aria-label={resolvedStampText}><span>{resolvedStampText}</span></div>}
+  {stamp && !total && !corner && !topRight && <div class="ticket__stamp-row"><div class="ticket__stamp" aria-label={resolvedStampText}><span>{resolvedStampText}</span></div></div>}
   <slot name="after" />
 </article>
 
@@ -69,26 +73,27 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
     padding-bottom: calc(var(--space) * 2); border-bottom: var(--stroke-hair) dashed var(--color-steel); }
   .ticket__head-meta { display: flex; align-items: center; justify-content: flex-end; gap: var(--space); }
   .ticket__head-meta--stamp { flex-direction: column; align-items: flex-end; gap: calc(var(--space) * 0.5); }
-  .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: 0; }
+  .ticket__num { font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow); font-variant-numeric: tabular-nums; color: var(--color-steel); letter-spacing: 0; white-space: nowrap; }
   .ticket__stamp--top-right { align-self: flex-end; }
   .ticket__title { margin: calc(var(--space) * 2) 0 calc(var(--space) * 2.5); font-size: var(--text-h3); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
   .ticket__items { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.25); }
   .ticket__item { display: flex; align-items: baseline; gap: var(--space); }
-  .ticket__check { flex: none; width: var(--check-size); height: var(--check-size); align-self: center; }
+  .ticket__item--value { display: grid; grid-template-columns: var(--check-size) minmax(0, 1fr) minmax(calc(var(--space) * 2), 0.25fr) minmax(0, 1fr); }
+  .ticket__check { flex: none; width: var(--check-size); height: var(--check-size); align-self: start; }
   .ticket__check path { fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
   :global(html.motion-ok) .ticket__items:not(.is-in) .ticket__check path { stroke-dashoffset: 1; }
   :global(html.motion-ok) .ticket__items.is-in .ticket__check path { transition: stroke-dashoffset var(--dur-check) var(--ease-out); transition-delay: calc(var(--i, 0) * var(--stagger-check)); }
-  .ticket__label { flex: none; max-width: 70%; }
+  .ticket__label { flex: 1; min-width: 0; }
   .ticket__leader { flex: 1; min-width: calc(var(--space) * 2); border-bottom: var(--leader-dot) dotted var(--color-steel); transform: translateY(calc(var(--space) * -0.5)); }
-  .ticket__value { flex: none; }
+  .ticket__value { min-width: 0; overflow-wrap: anywhere; }
   .ticket__total { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space); margin-top: calc(var(--space) * 2.5); padding-top: calc(var(--space) * 2);
     border-top: var(--stroke-outline) solid var(--color-charcoal); font-weight: var(--weight-semibold); }
   .ticket__total--previous { grid-template-columns: auto minmax(0, 1fr) auto auto; }
   .ticket__total > :first-child { overflow-wrap: anywhere; }
   .ticket__total > :last-child { justify-self: end; white-space: nowrap; }
-  .ticket__total .price { font-size: var(--text-h3); }
-  .ticket__total--previous .ticket__previous-price { color: var(--color-steel); font-size: var(--text-body); text-decoration: line-through; white-space: nowrap; }
-  .ticket__total--previous .ticket__value.price { color: var(--color-charcoal); font-size: var(--pricing-main-size); line-height: var(--leading-tight); }
+  .ticket__total .stat { font-size: var(--text-h3); }
+  .ticket__total--previous .ticket__previous-value { color: var(--color-steel); font-size: var(--text-body); text-decoration: line-through; white-space: nowrap; }
+  .ticket__total--previous .ticket__value.stat { color: var(--color-charcoal); font-size: var(--pricing-main-size); line-height: var(--leading-tight); }
   .ticket__stamp {
     position: relative; justify-self: center; z-index: 1;
     transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)); pointer-events: none;
@@ -98,5 +103,5 @@ const stampText = typeof stamp === "string" ? stamp : "APPROVED";
     font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--text-stamp); letter-spacing: var(--tracking-stamp);
   }
   .ticket__stamp--corner { position: absolute; right: calc(var(--space) * -1); bottom: calc(var(--space) * -4); transform: rotate(var(--stamp-rotate)); }
-  .ticket__stamp-row { display: flex; justify-content: center; padding-top: var(--space); }
+  .ticket__stamp-row { display: flex; justify-content: center; padding-top: calc(var(--space) * 3); }
 </style>
