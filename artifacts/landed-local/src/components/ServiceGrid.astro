@@ -1,0 +1,96 @@
+---
+export interface Service { number: string; outcome: string; name: string; description: string; bullets: string[]; wide?: boolean }
+interface Props { services: Service[]; class?: string }
+const { services, class: extra } = Astro.props;
+const ordered = [...services.filter((s) => !s.wide), ...services.filter((s) => s.wide)];
+---
+<div class:list={["svc", extra]}>
+  <div class="svc__grid">
+    {ordered.map((s) => (
+      <article class:list={["svc__card", { "svc__card--wide": s.wide }]}>
+        <span class="svc__num" aria-hidden="true">{s.number}</span>
+        <p class="svc__outcome">{s.outcome}</p>
+        <h3 class="svc__name">{s.name}</h3>
+        <p class="svc__desc">{s.description}</p>
+        <ul class="svc__bullets">
+          {s.bullets.map((b) => <li><svg class="svc__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5 L6.5 12 L13 4" /></svg><span>{b}</span></li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+  <div class="svc__rows">
+    {ordered.map((s) => (
+      <details class="svc__row">
+        <summary class="svc__summary">
+          <span class="svc__num svc__num--sm" aria-hidden="true">{s.number}</span>
+          <span class="svc__summary-text">
+            <span class="svc__outcome">{s.outcome}</span>
+            <span class="svc__name">{s.name}</span>
+          </span>
+          <span class="svc__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="svc__body">
+          <p class="svc__desc">{s.description}</p>
+          <ul class="svc__bullets">
+            {s.bullets.map((b) => <li><svg class="svc__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5 L6.5 12 L13 4" /></svg><span>{b}</span></li>)}
+          </ul>
+        </div>
+      </details>
+    ))}
+  </div>
+</div>
+
+<style>
+  .svc__card, .svc__row {
+    background: var(--color-charcoal-raised); color: var(--color-offwhite);
+    border: var(--stroke-hair) solid var(--color-ruler-rule-dark);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+  }
+  .svc__num {
+    display: block; font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--text-h1); line-height: 1;
+    color: transparent; -webkit-text-stroke: var(--stroke-hair) var(--color-teal-light); font-variant-numeric: tabular-nums;
+  }
+  .svc__num--sm { font-size: var(--text-h2); flex: none; }
+  .svc__outcome {
+    display: block; margin: 0; font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-eyebrow);
+    letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-teal-light);
+  }
+  .svc .svc__name { display: block; margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); color: var(--color-offwhite); }
+  .svc__desc { margin: 0; color: color-mix(in srgb, var(--color-offwhite) 80%, transparent); }
+  .svc__bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space); }
+  .svc__bullets li { display: flex; gap: var(--space); align-items: baseline; color: var(--color-offwhite); font-size: var(--text-small); }
+  .svc__tick { flex: none; width: calc(var(--space) * 2); height: calc(var(--space) * 2); transform: translateY(calc(var(--space) * 0.25)); }
+  .svc__tick path { fill: none; stroke: var(--color-teal-light); stroke-width: var(--stroke-outline); stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Phones: tap-to-open rows */
+  .svc__grid { display: none; }
+  .svc__rows { display: grid; gap: calc(var(--space) * 1.5); }
+  .svc__summary { display: flex; align-items: center; gap: calc(var(--space) * 2); padding: calc(var(--space) * 2.5); min-height: var(--button-min-h); cursor: pointer; list-style: none; }
+  .svc__summary::-webkit-details-marker { display: none; }
+  .svc__summary:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
+  .svc__summary-text { flex: 1; min-width: 0; display: grid; gap: calc(var(--space) * 0.5); }
+  .svc__icon { position: relative; flex: none; width: calc(var(--space) * 2); height: calc(var(--space) * 2); }
+  .svc__icon::before, .svc__icon::after {
+    content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: var(--stroke-focus);
+    margin-top: calc(var(--stroke-focus) / -2); background: var(--color-orange);
+  }
+  .svc__icon::after { transform: rotate(90deg); }
+  .svc__row[open] .svc__icon::after { transform: rotate(0deg); }
+  .svc__body { display: grid; gap: calc(var(--space) * 2); padding: 0 calc(var(--space) * 2.5) calc(var(--space) * 3); }
+  @media (prefers-reduced-motion: no-preference) {
+    .svc__icon::after { transition: transform var(--dur-hover) var(--ease-out); }
+    .svc__row[open] .svc__body { animation: svc-open var(--dur-check) var(--ease-out); }
+  }
+  @keyframes svc-open { from { opacity: 0; transform: translateY(calc(var(--space) * -1)); } }
+
+  /* Desktop: always-open cards */
+  @media (min-width: 768px) {
+    .svc__rows { display: none; }
+    .svc__grid { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--space) * 3); }
+    .svc__card { display: grid; align-content: start; gap: calc(var(--space) * 1.5); padding: var(--card-pad); }
+    .svc__card .svc__num { margin-bottom: var(--space); }
+    .svc__card .svc__bullets { margin-top: var(--space); }
+    .svc__card--wide { grid-column: 1 / -1; }
+    .svc__card--wide .svc__bullets { grid-template-columns: 1fr 1fr; column-gap: calc(var(--space) * 4); }
+  }
+</style>

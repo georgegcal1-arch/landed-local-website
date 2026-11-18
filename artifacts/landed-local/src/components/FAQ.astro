@@ -1,0 +1,49 @@
+---
+import RulerDivider from "./RulerDivider.astro";
+export interface FaqItem { q: string; a: string }
+interface Props { items: FaqItem[]; headingAs?: "h3" | "h2"; class?: string }
+const { items, headingAs: H = "h3", class: extra } = Astro.props;
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((i) => ({ "@type": "Question", name: i.q, acceptedAnswer: { "@type": "Answer", text: i.a } })),
+}).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+---
+<div class:list={["faq", extra]}>
+  <RulerDivider />
+  {items.map((item) => (
+    <>
+      <details class="faq__row">
+        <summary class="faq__q"><H class="faq__h">{item.q}</H><span class="faq__icon" aria-hidden="true"></span></summary>
+        <div class="faq__a"><p>{item.a}</p></div>
+      </details>
+      <RulerDivider />
+    </>
+  ))}
+</div>
+<script type="application/ld+json" set:html={jsonLd} />
+
+<style>
+  .faq { max-width: var(--prose-max); }
+  .faq__q {
+    display: flex; align-items: center; justify-content: space-between; gap: calc(var(--space) * 2);
+    min-height: var(--button-min-h); padding-block: calc(var(--space) * 2.5); cursor: pointer; list-style: none;
+  }
+  .faq__q::-webkit-details-marker { display: none; }
+  .faq__q:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  .faq__h { margin: 0; font-size: var(--text-h3); font-weight: var(--weight-bold); line-height: var(--leading-tight); }
+  .faq__icon { position: relative; flex: none; width: calc(var(--space) * 2); height: calc(var(--space) * 2); }
+  .faq__icon::before, .faq__icon::after {
+    content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: var(--stroke-focus);
+    margin-top: calc(var(--stroke-focus) / -2); background: var(--color-orange);
+  }
+  .faq__icon::after { transform: rotate(90deg); }
+  .faq__row[open] .faq__icon::after { transform: rotate(0deg); }
+  .faq__a { padding-bottom: calc(var(--space) * 3); }
+  .faq__a p { margin: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .faq__icon::after { transition: transform var(--dur-hover) var(--ease-out); }
+    .faq__row[open] .faq__a { animation: faq-open var(--dur-check) var(--ease-out); }
+  }
+  @keyframes faq-open { from { opacity: 0; transform: translateY(calc(var(--space) * -1)); } }
+</style>

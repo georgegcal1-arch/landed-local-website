@@ -20,3 +20,9 @@ With prefers-reduced-motion, nothing should animate.
 **Why:** The user explicitly required this accessibility behavior.
 
 **How to apply:** Cover CSS transitions, CSS animations, and JavaScript-driven motion, including motion introduced in future components.
+
+The ToolStrip is an intentional exception to the site's once-only animation rule: its names should loop slowly, pause on hover and tap, and become a static wrapped row with reduced motion.
+
+**Why:** The user explicitly requested a seamless looping ToolStrip while keeping the rest of the site's motion once-only.
+
+**How to apply:** Preserve this exception during later motion audits; do not remove its loop as an accidental repeated animation.

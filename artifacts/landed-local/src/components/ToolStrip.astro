@@ -1,0 +1,95 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+import { site } from "../config/site";
+interface Props { class?: string }
+const { class: extra } = Astro.props;
+const { show, label, names } = site.tools;
+---
+{show && (
+  <div class:list={["tools", extra]} data-tool-strip>
+    <div class="tools__head">
+      <Eyebrow as="p">{label}</Eyebrow>
+      <button type="button" class="tools__toggle" aria-pressed="false" hidden data-tool-toggle>
+        <span class="tools__toggle-icon" aria-hidden="true"></span>
+        <span data-tool-toggle-label>Pause</span><span class="visually-hidden"> tool names scrolling</span>
+      </button>
+    </div>
+    <div class="tools__viewport">
+      <div class="tools__track">
+        <ul class="tools__list">
+          {names.map((n) => <li class="tools__item"><span>{n}</span><span class="tools__tick" aria-hidden="true"></span></li>)}
+        </ul>
+        <ul class="tools__list tools__list--copy" aria-hidden="true">
+          {names.map((n) => <li class="tools__item"><span>{n}</span><span class="tools__tick"></span></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tool-strip]").forEach((strip) => {
+    const btn = strip.querySelector<HTMLButtonElement>("[data-tool-toggle]");
+    const text = strip.querySelector<HTMLElement>("[data-tool-toggle-label]");
+    const viewport = strip.querySelector<HTMLElement>(".tools__viewport");
+    if (!btn || !text || !viewport) return;
+    btn.hidden = false;
+    const set = (paused: boolean) => {
+      strip.classList.toggle("is-paused", paused);
+      btn.setAttribute("aria-pressed", String(paused));
+      text.textContent = paused ? "Resume" : "Pause";
+    };
+    btn.addEventListener("click", () => set(!strip.classList.contains("is-paused")));
+    viewport.addEventListener("click", () => set(!strip.classList.contains("is-paused")));
+    strip.classList.add("is-enhanced");
+  });
+</script>
+
+<style>
+  .tools { display: grid; gap: calc(var(--space) * 2); }
+  .tools__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space) calc(var(--space) * 2); }
+  .tools__toggle {
+    display: inline-flex; align-items: center; gap: var(--space); min-height: var(--button-min-h);
+    padding: 0 calc(var(--space) * 2); background: transparent; color: var(--color-steel);
+    border: var(--stroke-hair) solid var(--color-rule); border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-eyebrow); cursor: pointer;
+  }
+  .tools__toggle[hidden] { display: none; }
+  .tools__toggle:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  .tools__toggle-icon { width: calc(var(--space) * 1.25); height: calc(var(--space) * 1.5); border-inline: var(--stroke-outline) solid currentColor; }
+  .tools__toggle[aria-pressed="true"] .tools__toggle-icon {
+    border: 0; width: 0; height: 0;
+    border-block: calc(var(--space) * 0.75) solid transparent; border-left: calc(var(--space) * 1.25) solid currentColor;
+  }
+  :global([data-tone="dark"]) .tools__toggle { color: var(--color-rule); border-color: var(--color-ruler-rule-dark); }
+  .visually-hidden { position: absolute; width: var(--stroke-hair); height: var(--stroke-hair); overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tools__viewport { overflow: hidden; border-block: var(--stroke-hair) solid var(--color-rule); padding-block: calc(var(--space) * 2); }
+  :global([data-tone="dark"]) .tools__viewport { border-color: var(--color-ruler-rule-dark); }
+  .tools__track { display: flex; }
+  .tools__list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex: none; flex-wrap: wrap; row-gap: var(--space); max-width: 100%; }
+  .tools__list--copy { display: none; }
+  .tools__item {
+    display: inline-flex; align-items: center; gap: calc(var(--space) * 3); padding-right: calc(var(--space) * 3);
+    font-family: var(--font-body); font-weight: var(--weight-medium); font-size: var(--text-body); white-space: nowrap; color: var(--color-charcoal);
+  }
+  :global([data-tone="dark"]) .tools__item { color: var(--color-offwhite); }
+  .tools__tick { width: var(--stroke-ruler); height: var(--ruler-tick-mid); background: var(--color-ruler-rule-light); }
+  :global([data-tone="dark"]) .tools__tick { background: var(--color-ruler-rule-dark); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tools.is-enhanced .tools__track { width: max-content; animation: tools-loop calc(var(--dur-ruler) * 64) linear infinite; }
+    .tools.is-enhanced .tools__list { flex-wrap: nowrap; max-width: none; }
+    .tools.is-enhanced .tools__list--copy { display: flex; }
+    .tools:focus-within .tools__track,
+    .tools.is-paused .tools__track { animation-play-state: paused; }
+  }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .tools__viewport:hover .tools__track { animation-play-state: paused; }
+  }
+  @keyframes tools-loop { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .tools__track { width: auto; }
+    .tools__list { flex-wrap: wrap; row-gap: var(--space); }
+    .tools__list--copy, .tools__toggle { display: none; }
+  }
+</style>

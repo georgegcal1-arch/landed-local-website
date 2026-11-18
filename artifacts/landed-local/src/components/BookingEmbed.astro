@@ -1,0 +1,42 @@
+---
+import Button from "./Button.astro";
+import CornerFrame from "./CornerFrame.astro";
+import { site } from "../config/site";
+
+/** Keep the full URL for links and pass only its path to Cal's inline API. */
+const calendarUrl = new URL(site.booking.calLink, "https://cal.com/");
+if (calendarUrl.origin !== "https://cal.com") {
+  throw new Error("The booking calendar must use https://cal.com.");
+}
+const calLink = calendarUrl.pathname.replace(/^\/+|\/+$/g, "");
+if (!calLink) throw new Error("The Cal.com booking event is missing.");
+---
+<CornerFrame>
+  <div class="booking-embed" data-booking-embed data-cal-link={calLink} data-tone="light">
+    <p class="booking-embed__status" data-cal-status role="status" aria-live="polite" hidden>Loading available times…</p>
+    <div class="booking-embed__calendar" data-cal-host role="region" aria-label={`${site.booking.callName} booking calendar`} hidden></div>
+    <div class="booking-embed__fallback" data-cal-fallback>
+      <Button href={calendarUrl.href} target="_blank" rel="noopener noreferrer" fullWidthMobile>Open the booking calendar</Button>
+      <p>Or call or text {site.business.ownerFirst}: <a href={site.contact.phoneHref}>{site.contact.phoneDisplay}</a></p>
+    </div>
+  </div>
+</CornerFrame>
+
+<script>
+  import "../scripts/booking-embed";
+</script>
+
+<style>
+  .booking-embed {
+    min-width: 0; background: var(--color-paper); color: var(--color-charcoal);
+    border: var(--stroke-hair) solid var(--color-rule);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    box-shadow: var(--shadow-card);
+  }
+  .booking-embed__calendar { width: 100%; min-width: 0; min-height: calc(var(--space) * 70); }
+  .booking-embed__status { margin: 0; padding: calc(var(--space) * 2); font-size: var(--text-small); color: var(--color-steel); }
+  .booking-embed__fallback { padding: var(--card-pad); }
+  .booking-embed__fallback p { margin: calc(var(--space) * 2) 0 0; font-size: var(--text-small); }
+  .booking-embed__fallback a:not(.btn) { color: var(--color-teal); text-underline-offset: var(--underline-offset); }
+  [hidden] { display: none; }
+</style>

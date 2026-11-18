@@ -1,0 +1,85 @@
+---
+import JobTicket from "./JobTicket.astro";
+import RulerDivider from "./RulerDivider.astro";
+export interface WorkStep { number: string; title: string; text: string; stamp: string }
+interface Props { steps: WorkStep[]; class?: string }
+const { steps, class: extra } = Astro.props;
+const tapeId = `work-tape-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class:list={["wos", extra]}>
+  <div class="wos__tape"><RulerDivider variant="orange" /></div>
+  <ol class="wos__list">
+    {steps.map((s, i) => (
+      <li class="wos__step" data-reveal style={`--i:${i}`}>
+        <svg class="wos__vertical-tape" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+          <defs>
+            <pattern id={`${tapeId}-${i}`} width="15" height="96" patternUnits="userSpaceOnUse">
+              <rect class="wos__tick wos__tick--major" x="0" y="0" />
+              <rect class="wos__tick" x="8" y="24" />
+              <rect class="wos__tick wos__tick--mid" x="4" y="48" />
+              <rect class="wos__tick" x="8" y="72" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill={`url(#${tapeId}-${i})`} />
+        </svg>
+        <span class="wos__dot" aria-hidden="true"></span>
+        <JobTicket number={s.number} title={s.title} plainItems items={[{ label: s.text }]} stamp stampText={s.stamp} />
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .wos { position: relative; }
+  .wos__list { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 4); }
+  .wos__step { position: relative; }
+  .wos__dot { position: absolute; display: block; width: calc(var(--space) * 1.5); height: calc(var(--space) * 1.5); border-radius: 50%; background: var(--color-orange); }
+
+  /* Phones: line runs down the left edge */
+  .wos__tape { display: none; }
+  .wos__list { padding-left: calc(var(--space) * 4); }
+  .wos__step::before {
+    content: ""; position: absolute; left: calc(var(--space) * -2.5 - var(--stroke-ruler) / 2); top: 0; bottom: calc(var(--space) * -4);
+    width: var(--stroke-ruler); background: var(--color-orange); transform-origin: top;
+  }
+  .wos__step:last-child::before { bottom: 0; }
+  .wos__vertical-tape {
+    position: absolute; left: calc(var(--space) * -4); top: 0;
+    width: var(--ruler-h); height: calc(100% + var(--space) * 4); fill: var(--color-orange);
+    transform-origin: top;
+  }
+  .wos__step:last-child .wos__vertical-tape { height: 100%; }
+  .wos__tick { width: var(--ruler-tick); height: var(--stroke-ruler); }
+  .wos__tick--mid { width: var(--ruler-tick-mid); }
+  .wos__tick--major { width: var(--ruler-tick-major); }
+  .wos__dot { left: calc(var(--space) * -3.25); top: calc(var(--space) * 3); }
+
+  @media (min-width: 768px) {
+    .wos__tape { display: block; }
+    .wos__list { padding-left: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--space) * 3); padding-top: calc(var(--space) * 3); }
+    .wos__step::before { display: none; }
+    .wos__vertical-tape { display: none; }
+    .wos__dot { left: 50%; top: calc(var(--space) * -2.75); margin-left: calc(var(--space) * -0.75); }
+  }
+
+  /* Motion: line draws, then each stamp lands once. Without .motion-ok it is all finished. */
+  :global(html.motion-ok) .wos__step:not(.is-in)::before { transform: scaleY(0); }
+  :global(html.motion-ok) .wos__step:not(.is-in) .wos__vertical-tape { transform: scaleY(0); }
+  :global(html.motion-ok) .wos__step:not(.is-in) .wos__dot { opacity: 0; }
+  :global(html.motion-ok) .wos__step:not(.is-in) :global(.ticket__stamp) { opacity: 0; }
+  :global(html.motion-ok) .wos__step.is-in::before { transition: transform var(--dur-ruler) var(--ease-out); }
+  :global(html.motion-ok) .wos__step.is-in .wos__vertical-tape { transition: transform var(--dur-ruler) var(--ease-out); }
+  :global(html.motion-ok) .wos__step.is-in .wos__dot { transition: opacity var(--dur-hover) var(--ease-out); transition-delay: calc(var(--i) * var(--dur-hover)); }
+  :global(html.motion-ok) .wos__step.is-in :global(.ticket__stamp) {
+    animation: wos-stamp var(--dur-check) var(--ease-out) both;
+    animation-delay: calc(var(--dur-ruler) + var(--i) * var(--dur-check));
+  }
+  @keyframes wos-stamp {
+    from { opacity: 0; transform: translateY(calc(var(--space) * -0.5)) rotate(calc(var(--stamp-rotate) * 2)) scale(1.4); }
+    to { opacity: 1; transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wos__step::before, .wos__vertical-tape, .wos__dot, .wos :global(.ticket__stamp) { transform: none; opacity: 1; animation: none; transition: none; }
+    .wos :global(.ticket__stamp) { transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)); }
+  }
+</style>
