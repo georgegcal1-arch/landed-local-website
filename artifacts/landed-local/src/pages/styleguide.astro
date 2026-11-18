@@ -27,7 +27,7 @@ const items = ["How calls and leads move today", "What slips through, in dollars
 <BaseLayout title="Styleguide" description="Landed Local's internal reference for website typography, colors, components, and responsive design." noindex>
   <Section bg="paper" blueprint>
     <Eyebrow>Internal review, not linked</Eyebrow>
-    <h1 class="sg-title">More Landed Jobs. <PencilMark>No New Hires.</PencilMark></h1>
+    <h1 class="sg-title"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
     <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
     <nav class="sg-toc" aria-label="Styleguide sections">
       {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections"].map((s) => <a href={`#${s}`}>{s}</a>)}
@@ -171,12 +171,12 @@ const items = ["How calls and leads move today", "What slips through, in dollars
           <JobTicket number="0001" title={site.booking.callName}
             items={items.map((label) => ({ label }))}
             total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
-          <JobTicket number="001" title="Find the leaks"
+          <JobTicket number="001" title="Find the leaks" plainItems
             items={[{ label: "Free 30-minute call. We put a dollar number on what's slipping." }]}
             stamp stampText="DIAGNOSED" />
           <JobTicket number={site.caseStudy.ticketNumber} title={site.caseStudy.title}
             items={site.caseStudy.lines} stamp stampText={site.caseStudy.stamp} />
-          <JobTicket number="0002" title="Your point of contact"
+          <JobTicket number="0002" title="Your point of contact" plainItems
             items={[
               { label: `${site.business.ownerFirst}, founder` },
               { label: `${site.business.city}, ${site.business.state}` },

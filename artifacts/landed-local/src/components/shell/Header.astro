@@ -23,6 +23,9 @@ const bookingHref = isHome ? site.booking.homeAnchor : site.booking.bookPath;
   .hdr__phone:hover { color: var(--color-teal); }
   .hdr__phone :global(svg) { color: var(--color-teal); }
   .hdr__in :global(.hdr__booking) { grid-column: 1 / -1; white-space: nowrap; }
+  @media (max-width: 767px) {
+    .hdr__in :global(.hdr__booking) { display: none; }
+  }
   @media (min-width: 640px) {
     .hdr__in { display: flex; gap: calc(var(--space) * 3); }
     .hdr__phone { margin-left: auto; }

@@ -7,6 +7,8 @@ interface Props {
   /** Match the heading hierarchy of the section containing this ticket. */
   titleAs?: "h2" | "h3";
   items: TicketItem[];
+  /** Use plain text lines without checkmarks. */
+  plainItems?: boolean;
   total?: { label?: string; value: string | number; previousValue?: string | number };
   /** Show a stamp; a string is also accepted as its wording. */
   stamp?: boolean | string;
@@ -16,7 +18,7 @@ interface Props {
   stampPlacement?: "inline" | "corner" | "top-right";
   class?: string;
 }
-const { number, title, titleAs: TitleTag = "h3", items, total, stamp = false, stampText = "APPROVED", stampPlacement = "inline", class: extra } = Astro.props;
+const { number, title, titleAs: TitleTag = "h3", items, plainItems = false, total, stamp = false, stampText = "APPROVED", stampPlacement = "inline", class: extra } = Astro.props;
 const corner = stamp && stampPlacement === "corner";
 const topRight = stamp && stampPlacement === "top-right";
 const resolvedStampText = typeof stamp === "string" ? stamp : stampText;
@@ -31,10 +33,10 @@ const hasValue = (value: string | number | undefined) => value !== undefined && 
     </div>
   </header>
   <TitleTag class="ticket__title">{title}</TitleTag>
-  <ul class="ticket__items" data-reveal>
+  <ul class:list={["ticket__items", { "ticket__items--plain": plainItems }]} data-reveal>
     {items.map((item, i) => (
       <li class:list={["ticket__item", { "ticket__item--value": hasValue(item.value) }]} style={`--i:${i}`}>
-        <svg class="ticket__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" pathLength="1" /></svg>
+        {!plainItems && <svg class="ticket__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12.5 L9.5 18 L20 5" pathLength="1" /></svg>}
         <span class="ticket__label">{item.label}</span>
         {hasValue(item.value) && <span class="ticket__leader" aria-hidden="true"></span>}
         {hasValue(item.value) && <span class="ticket__value stat">{item.value}</span>}
@@ -79,6 +81,7 @@ const hasValue = (value: string | number | undefined) => value !== undefined && 
   .ticket__items { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.25); }
   .ticket__item { display: flex; align-items: baseline; gap: var(--space); }
   .ticket__item--value { display: grid; grid-template-columns: var(--check-size) minmax(0, 1fr) minmax(calc(var(--space) * 2), 0.25fr) minmax(0, 1fr); }
+  .ticket__items--plain .ticket__item--value { grid-template-columns: minmax(0, 1fr) minmax(calc(var(--space) * 2), 0.25fr) minmax(0, 1fr); }
   .ticket__check { flex: none; width: var(--check-size); height: var(--check-size); align-self: start; }
   .ticket__check path { fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check); stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
   :global(html.motion-ok) .ticket__items:not(.is-in) .ticket__check path { stroke-dashoffset: 1; }
@@ -86,6 +89,16 @@ const hasValue = (value: string | number | undefined) => value !== undefined && 
   .ticket__label { flex: 1; min-width: 0; }
   .ticket__leader { flex: 1; min-width: calc(var(--space) * 2); border-bottom: var(--leader-dot) dotted var(--color-steel); transform: translateY(calc(var(--space) * -0.5)); }
   .ticket__value { min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 767px) {
+    .ticket__item--value { grid-template-columns: var(--check-size) minmax(0, 1fr); row-gap: 0; }
+    .ticket__item--value .ticket__label,
+    .ticket__item--value .ticket__value { grid-column: 2; }
+    .ticket__item--value .ticket__value { justify-self: start; text-align: left; font-weight: var(--weight-heavy); }
+    .ticket__item--value .ticket__leader { display: none; }
+    .ticket__items--plain .ticket__item--value { grid-template-columns: minmax(0, 1fr); }
+    .ticket__items--plain .ticket__item--value .ticket__label,
+    .ticket__items--plain .ticket__item--value .ticket__value { grid-column: 1; }
+  }
   .ticket__total { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space); margin-top: calc(var(--space) * 2.5); padding-top: calc(var(--space) * 2);
     border-top: var(--stroke-outline) solid var(--color-charcoal); font-weight: var(--weight-semibold); }
   .ticket__total--previous { grid-template-columns: auto minmax(0, 1fr) auto auto; }
