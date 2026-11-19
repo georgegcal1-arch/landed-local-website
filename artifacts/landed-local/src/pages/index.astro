@@ -12,12 +12,11 @@ import WorkOrderSteps from "../components/WorkOrderSteps.astro";
 import CornerFrame from "../components/CornerFrame.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import FAQ from "../components/FAQ.astro";
-import CheckList from "../components/CheckList.astro";
 import PhoneDemo from "../components/PhoneDemo.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import { site } from "../config/site";
 
-const { booking, business, contact, caseStudy } = site;
+const { booking, business, contact, caseStudies } = site;
 const book = booking.homeAnchor;
 const founderSrc = site.photos.founder ?? site.brand.profilePhoto;
 
@@ -77,7 +76,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   <Section id="costs" bg="paper" class="home-target">
     <Eyebrow>THE PROBLEM</Eyebrow>
     <h2 class="home-h2">What it's costing you</h2>
-    <CostBill label="WORK ORDER · WHAT IT'S COSTING YOU" items={costs} total={{ label: "YOUR TOTAL", value: "?", note: "We'll put a dollar number on it in a free 30-minute call." }} />
+    <CostBill label="COST OF DOING NOTHING" items={costs} total={{ label: "YOUR TOTAL", value: "?", note: "We'll put a dollar number on it in a free 30-minute call." }} />
     <div class="home-actions home-after">
       <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
       <p class="home-small"><small>{booking.reassurance}</small></p>
@@ -97,25 +96,26 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   </Section>
 
   <!-- 4. Proof -->
-  {caseStudy.show && (
-    <Section bg="offwhite">
-      <Eyebrow>PROOF</Eyebrow>
-      <h2 class="home-h2 home-h2--tight">{caseStudy.heading}</h2>
-      <p class="home-label"><small>{caseStudy.label}</small></p>
-      <div class="home-split home-split--proof">
-        <div class="home-proof__figure">
-          <p class="stat home-proof__stat">{caseStudy.headlineValue}</p>
-          <div class="home-proof__ruler"><RulerDivider variant="orange" /></div>
-          <p class="home-proof__label">{caseStudy.headlineLabel}</p>
+  {caseStudies.show && (
+    <Section id="proof" bg="offwhite">
+      <Eyebrow>{caseStudies.eyebrow}</Eyebrow>
+      <h2 id="proof-heading" class="home-h2">{caseStudies.heading}</h2>
+      <div data-proof>
+        <div id="proof-cards" class="home-proof__cards" data-proof-row role="region" aria-labelledby="proof-heading" tabindex="0">
+          {caseStudies.cards.map((card) => (
+            <div id={`proof-${card.number}`} class="home-proof__card">
+              <JobTicket number={card.number} title={card.trade} description={card.system} compactResult plainItems
+                items={[{ label: card.label, value: card.value }]} stamp stampText={caseStudies.stamp} />
+            </div>
+          ))}
         </div>
-        <div>
-          <div class="home-stamp" data-reveal>
-            <JobTicket number={caseStudy.ticketNumber} title={caseStudy.title} items={caseStudy.lines} stamp stampText={caseStudy.stamp} />
-          </div>
-          {caseStudy.quote && <blockquote class="home-quote"><p>“{caseStudy.quote}”</p></blockquote>}
+        <div class="home-proof__dots" data-proof-dots role="group" aria-label="Choose a development-team result" hidden>
+          {caseStudies.cards.map((card, i) => (
+            <button type="button" data-proof-dot aria-label={`Show result ${i + 1}: ${card.trade}`} aria-controls={`proof-${card.number}`} aria-current={i === 0 ? "true" : "false"}><span aria-hidden="true"></span></button>
+          ))}
         </div>
       </div>
-      <p class="home-note"><small>{caseStudy.note}</small></p>
+      <p class="home-note"><small>{caseStudies.note}</small></p>
     </Section>
   )}
 
@@ -130,10 +130,16 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   <Section bg="offwhite">
     <div class="home-split home-split--about">
       <div class="home-about">
-        <div class="home-about__photo">
-          <CornerFrame>
-            <img src={founderSrc} alt={site.photos.founder ? `${business.ownerFirst}, founder of ${business.name}` : `${business.name} brand mark`} width="1080" height="1080" loading="lazy" decoding="async" />
-          </CornerFrame>
+        <div class="home-about__intro">
+          <div>
+            <Eyebrow>MEET GEORGE</Eyebrow>
+            <h2 class="home-about__heading">The person you'll work with</h2>
+          </div>
+          <div class="home-about__photo">
+            <CornerFrame>
+              <img src={founderSrc} alt={site.photos.founder ? `${business.ownerFirst}, founder of ${business.name}` : `${business.name} brand mark`} width="1080" height="1080" loading="lazy" decoding="async" />
+            </CornerFrame>
+          </div>
         </div>
         <p class="home-about__bio">Hi, I'm {business.ownerFirst}. I started {business.name} to help service companies stop losing work they already earned. I'm your one point of contact, from the first call to launch and every month after. A team of specialist developers, who've built these systems for other home-service companies, builds and maintains yours. (I'm studying business at Ohio State while building this here in {business.city}.)</p>
         <div class="home-values">
@@ -144,7 +150,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
             </>
           ))}
         </div>
-        <JobTicket number="0002" title="Your point of contact" plainItems items={[
+        <JobTicket class="home-about__contact" number="0002" title="Your point of contact" plainItems items={[
           { label: `${business.ownerFirst}, founder` },
           { label: `${business.city}, ${business.state}` },
           { label: `Call or text ${contact.phoneDisplay}` },
@@ -164,12 +170,9 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     <p class="home-sub">{booking.bookReassurance}</p>
     <div class="home-split home-split--book">
       <div class="home-book__copy">
-        <p class="home-book__intro">On the call, we'll go over:</p>
-        <CheckList items={callItems} onDark />
+        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
         <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
-        <p>No pitch deck. No tech talk. Just a straight conversation about your business.</p>
-        <p class="home-small"><small>Have these handy: about how many calls you get a week, your average job value, how new leads come in, and what happens to calls after hours.</small></p>
-        <p class="home-small"><small>I keep my client list small so every build gets my full attention, so I only take on a few new companies at a time.</small></p>
+        <p class="home-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
       </div>
       <div>
         <BookingEmbed />
@@ -179,6 +182,10 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     </div>
   </Section>
 </BaseLayout>
+
+<script>
+  import "../scripts/proof-cards";
+</script>
 
 <style>
   :global(#costs), :global(#book) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
@@ -234,34 +241,47 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   /* Splits */
   .home-split { display: grid; gap: calc(var(--space) * 6); align-items: start; }
   @media (min-width: 900px) {
-    .home-split--proof { grid-template-columns: 1fr 1fr; align-items: center; }
-    .home-split--about { grid-template-columns: 5fr 7fr; gap: calc(var(--space) * 10); }
+    .home-split--about { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 6); }
     .home-split--book { grid-template-columns: 5fr 7fr; gap: calc(var(--space) * 8); }
   }
 
   /* Proof */
-  .home-label { margin: 0 0 calc(var(--space) * 5); }
-  .home-label small { color: var(--color-teal); font-weight: var(--weight-semibold); }
-  .home-proof__stat { font-size: var(--hero-h1); margin: 0; color: var(--color-charcoal); }
-  .home-proof__ruler { max-width: calc(var(--space) * 16); margin: var(--space) 0 calc(var(--space) * 2); }
-  .home-proof__label { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); max-width: calc(var(--space) * 48); }
-  .home-quote { margin: calc(var(--space) * 4) 0 0; padding-left: calc(var(--space) * 2); border-left: var(--eyebrow-tick-h) solid var(--color-teal); font-style: italic; }
-  .home-quote p { margin: 0; }
+  .home-proof__cards { display: flex; gap: calc(var(--space) * 2); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; margin-right: calc(var(--gutter) * -1); padding-block: var(--space); padding-right: var(--gutter); }
+  .home-proof__card { display: flex; flex: 0 0 85vw; min-width: 0; scroll-snap-align: start; }
+  .home-proof__card :global(.ticket) { width: 100%; }
+  .home-proof__dots:not([hidden]) { display: flex; justify-content: center; }
+  .home-proof__dots button { display: grid; place-items: center; width: var(--button-min-h); height: var(--button-min-h); padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .home-proof__dots button span { width: var(--space); height: var(--space); border: var(--stroke-outline) solid var(--color-steel); border-radius: 50%; }
+  .home-proof__dots button[aria-current="true"] span { background: var(--color-teal); border-color: var(--color-teal); }
+  .home-proof__dots button:focus-visible, .home-proof__cards:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
+  @media (min-width: 1100px) {
+    .home-proof__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-right: 0; padding-right: 0; overflow: visible; }
+    .home-proof__dots:not([hidden]) { display: none; }
+  }
   .home-note { margin: calc(var(--space) * 5) 0 0; }
   .home-note small { color: var(--color-steel); }
 
   /* About */
-  .home-about { display: grid; gap: calc(var(--space) * 3); }
-  .home-about__photo { max-width: calc(var(--space) * 40); }
-  .home-about__photo img { display: block; width: 100%; height: auto; border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner); }
+  .home-about { display: grid; gap: calc(var(--space) * 2); }
+  .home-about__intro { display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--space) * 15); gap: calc(var(--space) * 2); align-items: center; }
+  .home-about__heading { margin: calc(var(--space) * 1.5) 0 0; }
+  .home-about__photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner); }
   .home-about__bio { margin: 0; }
-  .home-values { display: grid; gap: var(--space); }
-  .home-values p { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
-  .home-values__tick { width: calc(var(--ruler-step) * 2); }
+  @media (min-width: 900px) {
+    .home-about { gap: calc(var(--space) * 1.5); }
+    .home-about__bio { font-size: var(--text-small); line-height: calc(var(--space) * 3); }
+    .home-about :global(.home-about__contact.ticket) { padding: calc(var(--space) * 1.5); }
+    .home-about :global(.home-about__contact .ticket__head) { padding-bottom: var(--space); }
+    .home-about :global(.home-about__contact .ticket__title) { margin-block: var(--space); font-size: var(--text-h3); }
+    .home-about :global(.home-about__contact .ticket__items) { gap: calc(var(--space) * 0.5); font-size: var(--text-small); line-height: var(--leading-tight); }
+  }
+  .home-values { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space); }
+  .home-values p { flex: 1 1 calc(var(--space) * 15); margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-small); line-height: var(--leading-tight); }
+  .home-values__tick { flex: 0 0 var(--ruler-tick); }
+  @media (min-width: 900px) { .home-values { flex-wrap: nowrap; } }
 
   /* Book */
   .home-book__copy { display: grid; gap: calc(var(--space) * 2.5); }
   .home-book__copy p { margin: 0; }
-  .home-book__intro { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); }
   .home-book__call { margin: calc(var(--space) * 3) 0 var(--space); }
 </style>

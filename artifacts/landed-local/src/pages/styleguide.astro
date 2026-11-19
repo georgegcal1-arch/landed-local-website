@@ -43,6 +43,7 @@ const faqs = [
   { q: "Will callers know it's AI?", a: "It sounds natural, and it's set up to say it's an AI assistant if someone asks. Anything tricky goes straight to your team." },
 ];
 const items = ["How calls and leads move today", "What slips through, in dollars", "The one fix to start with"];
+const proofCard = site.caseStudies.cards[0];
 ---
 <BaseLayout title="Styleguide" description="Landed Local's internal reference for website typography, colors, components, and responsive design." noindex>
   <Section bg="paper" blueprint>
@@ -194,8 +195,8 @@ const items = ["How calls and leads move today", "What slips through, in dollars
           <JobTicket number="001" title="Find the leaks" plainItems
             items={[{ label: "Free 30-minute call. We put a dollar number on what's slipping." }]}
             stamp stampText="FOUND" />
-          <JobTicket number={site.caseStudy.ticketNumber} title={site.caseStudy.title}
-            items={site.caseStudy.lines} stamp stampText={site.caseStudy.stamp} />
+          <JobTicket number={proofCard.number} title={proofCard.trade} description={proofCard.system} compactResult plainItems
+            items={[{ label: proofCard.label, value: proofCard.value }]} stamp stampText={site.caseStudies.stamp} />
           <JobTicket number="0002" title="Your point of contact" plainItems
             items={[
               { label: `${site.business.ownerFirst}, founder` },

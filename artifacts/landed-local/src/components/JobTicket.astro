@@ -4,6 +4,10 @@ export interface TicketItem { label: string; value?: string | number }
 interface Props {
   number: string;
   title: string;
+  /** Optional system summary immediately below the title. */
+  description?: string;
+  /** Small result ticket with a single dotted line, including on phones. */
+  compactResult?: boolean;
   /** Match the heading hierarchy of the section containing this ticket. */
   titleAs?: "h2" | "h3";
   items: TicketItem[];
@@ -18,13 +22,13 @@ interface Props {
   stampPlacement?: "inline" | "corner" | "top-right";
   class?: string;
 }
-const { number, title, titleAs: TitleTag = "h3", items, plainItems = false, total, stamp = false, stampText = "APPROVED", stampPlacement = "inline", class: extra } = Astro.props;
+const { number, title, description, compactResult = false, titleAs: TitleTag = "h3", items, plainItems = false, total, stamp = false, stampText = "APPROVED", stampPlacement = "inline", class: extra } = Astro.props;
 const corner = stamp && stampPlacement === "corner";
 const topRight = stamp && stampPlacement === "top-right";
 const resolvedStampText = typeof stamp === "string" ? stamp : stampText;
 const hasValue = (value: string | number | undefined) => value !== undefined && value !== "";
 ---
-<article class:list={["ticket", { "ticket--stamp-corner": corner }, extra]} data-tone="light">
+<article class:list={["ticket", { "ticket--stamp-corner": corner, "ticket--compact-result": compactResult }, extra]} data-tone="light">
   <header class="ticket__head">
     <Eyebrow as="span">Work order</Eyebrow>
     <div class:list={["ticket__head-meta", { "ticket__head-meta--stamp": topRight }]}>
@@ -33,6 +37,7 @@ const hasValue = (value: string | number | undefined) => value !== undefined && 
     </div>
   </header>
   <TitleTag class="ticket__title">{title}</TitleTag>
+  {description && <p class="ticket__description">{description}</p>}
   <ul class:list={["ticket__items", { "ticket__items--plain": plainItems }]} data-reveal>
     {items.map((item, i) => (
       <li class:list={["ticket__item", { "ticket__item--value": hasValue(item.value) }]} style={`--i:${i}`}>
@@ -117,4 +122,12 @@ const hasValue = (value: string | number | undefined) => value !== undefined && 
   }
   .ticket__stamp--corner { position: absolute; right: calc(var(--space) * -1); bottom: calc(var(--space) * -4); transform: rotate(var(--stamp-rotate)); }
   .ticket__stamp-row { display: flex; justify-content: center; padding-top: calc(var(--space) * 3); }
+  .ticket .ticket__description { margin: calc(var(--space) * -1.5) 0 calc(var(--space) * 2.5); color: var(--color-steel); font-size: var(--text-small); }
+  .ticket--compact-result { display: flex; flex-direction: column; padding: calc(var(--space) * 2); min-width: 0; }
+  .ticket--compact-result .ticket__item--value { display: flex; flex-wrap: nowrap; gap: var(--space); font-size: var(--text-eyebrow); }
+  .ticket--compact-result .ticket__label,
+  .ticket--compact-result .ticket__value { flex: none; white-space: nowrap; overflow-wrap: normal; }
+  .ticket--compact-result .ticket__value { font-weight: var(--weight-heavy); }
+  .ticket--compact-result .ticket__leader { display: block; }
+  .ticket--compact-result .ticket__stamp-row { margin-top: auto; }
 </style>

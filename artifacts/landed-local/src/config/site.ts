@@ -119,55 +119,18 @@ export const site = {
     /** Attribution for the research. */
     source: "Landed Local review research, November 2026",
   },
-  /** Development-team case study for the future agency site. */
-  caseStudy: {
-    /** Whether the case study is visible. */
+  /** Results from the development team's past builds, never Landed Local's own clients; no city names or company sizes. */
+  caseStudies: {
     show: true,
-    /** Attribution above the case study. */
-    label: "Built by our development team",
-    /** Case-study section heading. */
-    heading: "What these systems did for one roofing company",
-    /** Work-order reference shown on the ticket. */
-    ticketNumber: "0417",
-    /** Main result figure, not a service price. */
-    headlineValue: "+$612K",
-    /** Description of the main result. */
-    headlineLabel: "added revenue in the first 12 months",
-    /** Anonymous client context. */
-    title: "Roofing company · Phoenix, AZ · $4.2M a year",
-    /** Before-and-after results shown on the ticket. */
-    lines: [
-      {
-        /** Result being measured. */
-        label: "Calls answered",
-        /** Reported outcome and earlier figure. */
-        value: "100% (was 51%)",
-      },
-      {
-        /** Result being measured. */
-        label: "Response to new leads",
-        /** Reported outcome and earlier figure. */
-        value: "2 min (was 6 hrs)",
-      },
-      {
-        /** Result being measured. */
-        label: "Admin work removed",
-        /** Time saved. */
-        value: "73 hrs a week",
-      },
-      {
-        /** Result being measured. */
-        label: "Inspections booked",
-        /** Reported booking increase. */
-        value: "3.2x a month",
-      },
-    ],
-    /** Leave empty unless the mentor OKs using the client's quote verbatim. */
-    quote: "",
-    /** Completion stamp wording. */
+    eyebrow: "PROOF",
+    heading: "Systems our development team has built",
+    note: "Built for other businesses by the development team that builds Landed Local's systems. Results vary by business.",
     stamp: "COMPLETED",
-    /** Attribution and results disclaimer. */
-    note: "Built by the development team that builds Landed Local's systems. Results vary by business.",
+    cards: [
+      { number: "0417", trade: "Roofing company", system: "AI receptionist + speed-to-lead", label: "Calls answered", value: "51% → 100%" },
+      { number: "0418", trade: "Electrical contractor", system: "Custom bid analyzer", label: "Bid review", value: "2 days → 4 min" },
+      { number: "0419", trade: "Plumbing company", system: "Internal knowledge assistant", label: "New-tech onboarding", value: "1 month → 1 week" },
+    ],
   },
   /** example conversation in the hero; swap the business and job when the niche changes */
   heroDemo: {

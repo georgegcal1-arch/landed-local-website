@@ -7,7 +7,7 @@ interface Props {
   total: { label: string; value: string; note?: string };
   class?: string;
 }
-const { label = "Cost of doing nothing", items, total, class: extra } = Astro.props;
+const { label = "COST OF DOING NOTHING", items, total, class: extra } = Astro.props;
 ---
 <article class:list={["bill", extra]} data-tone="light">
   <header class="bill__head"><Eyebrow as="span">{label}</Eyebrow></header>
@@ -63,19 +63,20 @@ const { label = "Cost of doing nothing", items, total, class: extra } = Astro.pr
   .bill__arrow path { fill: none; stroke: var(--color-orange-burnt); stroke-width: var(--stroke-outline); vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
   .bill__detail { display: grid; gap: var(--space); }
   .bill__detail p { margin: 0; }
-  .bill__stat-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space); }
-  .bill__stat { font-size: var(--text-h2); line-height: var(--leading-tight); }
-  .bill__stat-label { font-size: var(--text-small); }
+  .bill__stat-row { display: flex; align-items: baseline; gap: var(--space); }
+  .bill__stat { flex: none; white-space: nowrap; font-size: var(--text-h2); line-height: var(--leading-tight); }
+  .bill__stat-label { min-width: 0; font-size: var(--text-small); }
   .bill .bill__source { font-size: var(--text-small); color: var(--color-steel); }
   .bill__total {
     display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space);
     padding-top: calc(var(--space) * 2); border-top: var(--stroke-outline) solid var(--color-charcoal); font-weight: var(--weight-semibold);
   }
   .bill__total > :first-child { overflow-wrap: anywhere; }
-  .bill__total-value { font-size: var(--text-h3); }
+  .bill__total-value { font-size: var(--text-h2); line-height: var(--leading-tight); }
   .bill__total-note { grid-column: 1 / -1; margin: 0; font-weight: var(--weight-regular); }
   @media (max-width: 767px) {
     .bill__line { flex-direction: column; align-items: flex-start; }
+    .bill__stat-row { flex-direction: column; align-items: flex-start; }
   }
   @media (min-width: 768px) {
     .bill__item { grid-template-columns: minmax(max-content, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 4); align-items: start; }
