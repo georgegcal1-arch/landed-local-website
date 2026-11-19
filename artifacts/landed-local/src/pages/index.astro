@@ -131,23 +131,23 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     <div class="home-split home-split--about">
       <div class="home-about">
         <div class="home-about__intro">
-          <div>
-            <Eyebrow>MEET GEORGE</Eyebrow>
-            <h2 class="home-about__heading">The person you'll work with</h2>
-          </div>
           <div class="home-about__photo">
             <CornerFrame>
               <img src={founderSrc} alt={site.photos.founder ? `${business.ownerFirst}, founder of ${business.name}` : `${business.name} brand mark`} width="1080" height="1080" loading="lazy" decoding="async" />
             </CornerFrame>
           </div>
+          <div>
+            <Eyebrow>MEET GEORGE</Eyebrow>
+            <h2 class="home-about__heading">The person you'll work with</h2>
+          </div>
         </div>
         <p class="home-about__bio">Hi, I'm {business.ownerFirst}. I started {business.name} to help service companies stop losing work they already earned. I'm your one point of contact, from the first call to launch and every month after. A team of specialist developers, who've built these systems for other home-service companies, builds and maintains yours. (I'm studying business at Ohio State while building this here in {business.city}.)</p>
         <div class="home-values">
-          {values.map((v, i) => (
-            <>
-              {i > 0 && <div class="home-values__tick"><RulerDivider variant="orange" /></div>}
+          {values.map((v) => (
+            <div class="home-values__row">
+              <div class="home-values__tick"><RulerDivider variant="orange" /></div>
               <p>{v}</p>
-            </>
+            </div>
           ))}
         </div>
         <JobTicket class="home-about__contact" number="0002" title="Your point of contact" plainItems items={[
@@ -169,15 +169,19 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     <h2 class="home-h2 home-h2--tight">Book your free <PencilMark>{booking.callName}</PencilMark></h2>
     <p class="home-sub">{booking.bookReassurance}</p>
     <div class="home-split home-split--book">
-      <div class="home-book__copy">
-        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
-        <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
-        <p class="home-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
+      <div class="home-book__left">
+        <div class="home-book__copy">
+          <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
+          <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
+          <p class="home-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
+        </div>
+        <div class="home-book__details">
+          <p class="home-book__call">Zoom or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
+          <p class="home-small"><small>{site.otherTradesLine}</small></p>
+        </div>
       </div>
-      <div>
+      <div class="home-book__calendar">
         <BookingEmbed />
-        <p class="home-book__call">Zoom or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
-        <p class="home-small"><small>{site.otherTradesLine}</small></p>
       </div>
     </div>
   </Section>
@@ -242,7 +246,6 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   .home-split { display: grid; gap: calc(var(--space) * 6); align-items: start; }
   @media (min-width: 900px) {
     .home-split--about { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 6); }
-    .home-split--book { grid-template-columns: 5fr 7fr; gap: calc(var(--space) * 8); }
   }
 
   /* Proof */
@@ -263,7 +266,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
 
   /* About */
   .home-about { display: grid; gap: calc(var(--space) * 2); }
-  .home-about__intro { display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--space) * 15); gap: calc(var(--space) * 2); align-items: center; }
+  .home-about__intro { display: grid; grid-template-columns: calc(var(--space) * 15) minmax(0, 1fr); gap: calc(var(--space) * 2); align-items: center; }
   .home-about__heading { margin: calc(var(--space) * 1.5) 0 0; }
   .home-about__photo img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner); }
   .home-about__bio { margin: 0; }
@@ -275,13 +278,29 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     .home-about :global(.home-about__contact .ticket__title) { margin-block: var(--space); font-size: var(--text-h3); }
     .home-about :global(.home-about__contact .ticket__items) { gap: calc(var(--space) * 0.5); font-size: var(--text-small); line-height: var(--leading-tight); }
   }
-  .home-values { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space); }
-  .home-values p { flex: 1 1 calc(var(--space) * 15); margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-small); line-height: var(--leading-tight); }
-  .home-values__tick { flex: 0 0 var(--ruler-tick); }
-  @media (min-width: 900px) { .home-values { flex-wrap: nowrap; } }
+  .home-values { display: grid; gap: var(--space); }
+  .home-values__row { display: flex; align-items: baseline; gap: var(--space); }
+  .home-values p { min-width: 0; margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-small); line-height: var(--leading-tight); }
+  .home-values__tick { flex: 0 0 var(--ruler-tick); align-self: center; }
 
   /* Book */
+  /* Flatten only on phones so the single details block follows the calendar,
+     with the same 48px copy-to-calendar gap and paragraph spacing as before. */
+  .home-split--book { row-gap: 0; }
+  .home-book__left { display: contents; }
+  .home-book__copy { grid-row: 1; margin-bottom: calc(var(--space) * 6); }
+  .home-book__calendar { grid-row: 2; min-width: 0; }
+  .home-book__details { grid-row: 3; }
   .home-book__copy { display: grid; gap: calc(var(--space) * 2.5); }
   .home-book__copy p { margin: 0; }
   .home-book__call { margin: calc(var(--space) * 3) 0 var(--space); }
+  @media (min-width: 768px) {
+    .home-split--book { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: calc(var(--space) * 4); }
+    .home-book__left { display: block; grid-column: 1; grid-row: 1; min-width: 0; position: sticky; top: calc(var(--header-h) + var(--stroke-hair) + var(--space) * 3); }
+    .home-book__copy { margin-bottom: 0; }
+    .home-book__calendar { grid-column: 2; grid-row: 1; }
+  }
+  @media (min-width: 900px) {
+    .home-split--book { column-gap: calc(var(--space) * 8); }
+  }
 </style>
