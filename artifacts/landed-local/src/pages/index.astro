@@ -13,6 +13,7 @@ import CornerFrame from "../components/CornerFrame.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import FAQ from "../components/FAQ.astro";
 import CheckList from "../components/CheckList.astro";
+import PhoneDemo from "../components/PhoneDemo.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import { site } from "../config/site";
 
@@ -62,9 +63,13 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
         <p class="home-small home-hero__reassure"><small>{booking.reassurance}</small></p>
         <p class="home-small"><small>Based in {business.city}, {business.state} · You work with {business.ownerFirst} directly</small></p>
       </div>
-      <div class="home-hero__ticket home-stamp" data-reveal>
-        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "Free" }} stamp stampText="FREE" />
-      </div>
+      {site.heroDemo.show ? (
+        <div class="home-hero__demo"><PhoneDemo /></div>
+      ) : (
+        <div class="home-hero__ticket home-stamp" data-reveal>
+          <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "Free" }} stamp stampText="FREE" />
+        </div>
+      )}
     </div>
     {site.tools.show && <div class="home-hero__tools"><ToolStrip /></div>}
   </Section>
@@ -199,11 +204,13 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   .home-hero__lead { font-size: var(--hero-text-lead); margin: 0; }
   .home-hero__costs-link { align-self: center; }
   .home-hero__ticket { grid-row: 5; min-width: 0; }
+  .home-hero__demo { min-width: 0; display: flex; justify-content: center; padding-top: calc(var(--space) * 2); }
   .home-hero__tools { margin-top: calc(var(--space) * 8); }
   @media (min-width: 900px) {
     .home-hero__grid { grid-template-columns: 1.25fr 1fr; }
     .home-hero__copy { display: grid; gap: var(--hero-stack); min-width: 0; }
     .home-hero__ticket { grid-row: auto; transform: rotate(var(--hero-ticket-rotate)); }
+    .home-hero__demo { padding-top: 0; }
   }
 
   /* Stamps land once (Home-only wrappers) */

@@ -4,8 +4,10 @@ const booking = {
   buttonLabel: "Book a Free Missed-Jobs Review",
   /** Short wording for compact booking buttons. */
   shortLabel: "Book a call",
-  /** Reassurance beside the invitation: free, 30 minutes, no pitch deck. */
-  reassurance: "Free · 30 minutes · No pitch deck",
+  /** shorter label for the desktop header button only */
+  headerLabel: "Book a free review",
+  /** Reassurance beside the booking invitation. */
+  reassurance: "30 minutes · With George · No pitch deck",
   /** Booking-page reassurance explains the review's practical outcome. */
   bookReassurance: "30 minutes. We'll find where jobs are slipping through and what it's costing you.",
   /** Name of the free review call. */
@@ -166,6 +168,35 @@ export const site = {
     stamp: "COMPLETED",
     /** Attribution and results disclaimer. */
     note: "Built by the development team that builds Landed Local's systems. Results vary by business.",
+  },
+  /** example conversation in the hero; swap the business and job when the niche changes */
+  heroDemo: {
+    /** Whether the hero shows the example phone (false shows the FREE review ticket). */
+    show: true,
+    /** Eyebrow label above the phone. */
+    label: "Example",
+    /** Example business answering the missed call. */
+    businessName: "Riverside Heating & Air",
+    /** Example caller number; not a real contact or demo line. */
+    callerNumber: "(555) 014-2290",
+    /** Time of the missed call. */
+    missedCallTime: "7:42 PM",
+    /** Note under the missed call. */
+    missedCallNote: "You're on a job.",
+    /** Text messages, in order. */
+    messages: [
+      { from: "business", text: "Hi, this is Riverside Heating & Air. Sorry we missed you! What can we help with?" },
+      { from: "customer", text: "Our AC stopped blowing cold and it's 88° in here. Can someone come out?" },
+      { from: "business", text: "We can have a tech there tomorrow at 9:00 AM or 2:30 PM. Which works?" },
+      { from: "customer", text: "9 works." },
+      { from: "business", text: "You're booked for tomorrow at 9:00 AM. We'll text you a reminder tonight." },
+    ] as { from: "business" | "customer"; text: string }[],
+    /** Work-order title on the booked ticket. */
+    ticketTitle: "AC repair visit",
+    /** Booked time on the ticket. */
+    ticketTime: "Tomorrow · 9:00 AM",
+    /** Stamp wording on the booked ticket. */
+    stamp: "LANDED",
   },
   /** Optional founder photography. */
   photos: {

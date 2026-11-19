@@ -10,7 +10,7 @@ const bookingHref = isHome ? site.booking.homeAnchor : site.booking.bookPath;
   <div class="hdr__in container-content">
     <a href="/" class="hdr__logo"><img src={site.brand.headerLogo} alt={`${site.business.name} home`} width="276" height="56" loading="eager" decoding="async" /></a>
     <a href={site.contact.phoneHref} class="hdr__phone"><Phone size={18} aria-hidden="true" />{site.contact.phoneDisplay}</a>
-    <Button href={bookingHref} class="hdr__booking">{site.booking.buttonLabel}</Button>
+    <Button href={bookingHref} class="hdr__booking">{site.booking.headerLabel}</Button>
   </div>
 </header>
 
