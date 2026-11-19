@@ -12,8 +12,10 @@ import { site } from "../config/site";
 const loomEmbedUrl = site.preCall.loomEmbedUrl;
 
 const prep = [
-  { title: "Confirm the invite.", text: "Accept the calendar invite and mark the email as 'I know this sender' so reminders don't go to spam. Unconfirmed calls get released." },
-  { title: "Watch the video.", text: "Who we are, what we build and what the call covers." },
+  { title: "Confirm the invite.", text: "Accept the calendar invite so it's on your calendar, and mark the email as 'I know this sender' so reminders don't go to spam." },
+  loomEmbedUrl
+    ? { title: "Watch the video.", text: "Who we are, what we build and what the call covers." }
+    : { title: "Read this page.", text: "What we'll cover, what to have handy, and whether it's a fit." },
   { title: "Join from a computer.", text: "I'll be sharing my screen." },
 ];
 const cover = [
@@ -23,7 +25,10 @@ const cover = [
   "Whether AI can fix it, and what that would look like",
 ];
 const ready = [
-  "A rough idea of monthly revenue and how many leads you get",
+  "About how many calls you get a week",
+  "Your average job value",
+  "How new leads come in today",
+  "What happens to calls after hours",
   "The two or three things that frustrate you most right now",
   "30 minutes without interruptions",
 ];
@@ -52,14 +57,16 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
 ---
 <BaseLayout
   title="Before Our Call"
-  description="You're booked for your Missed-Jobs Review. Watch the short video, see what we'll cover and what to bring, so our 30 minutes are useful."
+  description={loomEmbedUrl
+    ? "You're booked for your Missed-Jobs Review. Watch the short video, see what we'll cover and what to bring, so our 30 minutes are useful."
+    : "You're booked for your Missed-Jobs Review. See what we'll cover, what to have handy and whether it's a fit."}
   robots="noindex, nofollow"
   hideBookingActions
 >
   <Section bg="paper" blueprint>
     <Eyebrow>Before our call</Eyebrow>
-    <h1 class="pc-h1">You're booked. Watch this before our call.</h1>
-    <p class="pc-lede">It's about 6 minutes, and it makes our time together far more useful.</p>
+    <h1 class="pc-h1">{loomEmbedUrl ? "You're booked. Watch this before our call." : "You're booked. Here's what to expect."}</h1>
+    <p class="pc-lede">{loomEmbedUrl ? "It's about 6 minutes, and it makes our time together far more useful." : "A few minutes here makes our 30 minutes far more useful."}</p>
     <ol class="pc-cards">
       {prep.map((p, i) => (
         <Card as="li" class="pc-card">
@@ -72,18 +79,18 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
   </Section>
   <RulerDivider variant="orange" />
 
-  <Section bg="offwhite">
-    <CornerFrame class="pc-frame">
-      {loomEmbedUrl ? (
-        <div class="pc-video">
-          <iframe src={loomEmbedUrl} title="Before our call video" loading="lazy" allow="fullscreen" allowfullscreen></iframe>
-        </div>
-      ) : (
-        <div class="pc-video pc-video--empty"><p>Video coming soon.</p></div>
-      )}
-    </CornerFrame>
-  </Section>
-  <RulerDivider />
+  {loomEmbedUrl && (
+    <>
+      <Section bg="offwhite">
+        <CornerFrame class="pc-frame">
+          <div class="pc-video">
+            <iframe src={loomEmbedUrl} title="Before our call video" loading="lazy" allow="fullscreen" allowfullscreen></iframe>
+          </div>
+        </CornerFrame>
+      </Section>
+      <RulerDivider />
+    </>
+  )}
 
   <Section bg="offwhite">
     <div class="pc-split">

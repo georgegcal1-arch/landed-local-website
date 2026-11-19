@@ -7,7 +7,8 @@
     "dev": "astro dev --ignore-lock --host 0.0.0.0 --port ${PORT:-4321}",
     "build": "astro build",
     "serve": "astro preview --host 0.0.0.0 --port ${PORT:-4321}",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "verify:booking-redirect": "node --experimental-strip-types scripts/verify-booking-redirect.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

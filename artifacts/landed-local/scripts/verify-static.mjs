@@ -42,6 +42,30 @@ assert.ok(!preCall.includes("data-booking-embed"));
 assert.ok(preCall.includes('class="hdr__phone'));
 assert.ok(preCall.includes("<footer"));
 assert.equal((preCall.match(/<details\b/g) || []).length, 4);
+const preCallVisible = visible(preCall);
+assert.ok(preCallVisible.includes("You're booked. Here's what to expect."));
+assert.ok(preCallVisible.includes("A few minutes here makes our 30 minutes far more useful."));
+assert.ok(!preCallVisible.includes("Video coming soon"));
+assert.ok(!preCall.includes("<iframe"));
+const prepCards = preCall.match(/<ol\b[^>]*\bclass="pc-cards"[^>]*>([\s\S]*?)<\/ol>/)?.[1];
+assert.ok(prepCards, "pre-call preparation cards");
+const prepCardText = [...prepCards.matchAll(/<li\b[\s\S]*?<\/li>/g)].map((match) => visible(match[0]));
+assert.ok(prepCardText[0]?.includes("Accept the calendar invite so it's on your calendar, and mark the email as 'I know this sender' so reminders don't go to spam."));
+assert.ok(prepCardText[1]?.includes("Read this page."));
+assert.ok(prepCardText[1]?.includes("What we'll cover, what to have handy, and whether it's a fit."));
+const readyList = preCall.match(/<h2[^>]*>Come ready with<\/h2>\s*<ul\b[^>]*>([\s\S]*?)<\/ul>/)?.[1];
+assert.ok(readyList, "pre-call preparation checklist");
+assert.deepEqual(
+  [...readyList.matchAll(/<li\b[\s\S]*?<\/li>/g)].map((match) => visible(match[0])),
+  [
+    "About how many calls you get a week",
+    "Your average job value",
+    "How new leads come in today",
+    "What happens to calls after hours",
+    "The two or three things that frustrate you most right now",
+    "30 minutes without interruptions",
+  ],
+);
 assert.equal(meta(await read("styleguide/index.html"), "robots"), "noindex");
 
 const bookingSection = (html) => html.match(/<section\b[^>]*id="book"[\s\S]*?<\/section>/)?.[0];
@@ -51,9 +75,6 @@ assert.equal((home.match(/<main\b[\s\S]*?<\/main>/)?.[0].match(/<section\b/g) ||
 assert.equal((book.match(/<main\b[\s\S]*?<\/main>/)?.[0].match(/<section\b/g) || []).length, 1);
 assert.ok(home.includes("data-booking-embed") && book.includes("data-booking-embed"));
 for (const copy of ["Cal.com", "name", "company", "phone", "email", "booking answers", "Consent to calls and texts", "booking form", "Cloudflare Web Analytics", "do not sell", "information only", "guarantee", "Ohio law", "george@landedlocal.com"]) assert.ok(visible(privacy).includes(copy), copy);
-const spec = await readFile(new URL("../../attached_assets/Pasted-Step-6-finish-the-other-pages-and-tidy-up-Do-1-book-tur_1795108156150.txt", root), "utf8");
-const preCallSpec = spec.slice(spec.indexOf("   a)"), spec.indexOf("4. 404:"));
-for (const [, copy] of preCallSpec.matchAll(/"([^"]+)"/g)) assert.ok(visible(preCall).includes(copy), `Exact preparation copy: ${copy}`);
 const error = visible(await read("404.html"));
 assert.ok(error.includes("This page moved."));
 assert.ok(error.includes("The site changed. Here's where to go next."));

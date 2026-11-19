@@ -2,6 +2,9 @@
  * Cal's official embed queue protocol, loaded only by BookingEmbed.
  * Each instance has its own namespace, readiness callbacks and failure fallback.
  */
+import { site } from "../config/site";
+import { registerBookingSuccess } from "./booking-success";
+
 type Instruction = unknown[];
 type CalQueue = ((...args: unknown[]) => void) & { q: Instruction[] };
 type CalApi = CalQueue & { ns: Record<string, CalQueue>; loaded?: boolean };
@@ -104,6 +107,7 @@ document.querySelectorAll<HTMLElement>("[data-booking-embed]").forEach((panel, i
       const api = cal.ns[namespace];
       api("on", { action: "linkReady", callback: ready });
       api("on", { action: "linkFailed", callback: failed });
+      registerBookingSuccess(api, site.preCall.path, (path) => window.location.assign(path));
       api("inline", {
         elementOrSelector: host,
         calLink,
