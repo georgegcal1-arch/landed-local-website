@@ -5,7 +5,9 @@ import Eyebrow from "../components/Eyebrow.astro";
 import Card from "../components/Card.astro";
 import CornerFrame from "../components/CornerFrame.astro";
 import CheckList from "../components/CheckList.astro";
+import JobTicket from "../components/JobTicket.astro";
 import RulerDivider from "../components/RulerDivider.astro";
+import WorkOrderSteps from "../components/WorkOrderSteps.astro";
 import FAQ from "../components/FAQ.astro";
 import { site } from "../config/site";
 
@@ -16,13 +18,15 @@ const prep = [
   loomEmbedUrl
     ? { title: "Watch the video.", text: "Who we are, what we build and what the call covers." }
     : { title: "Read this page.", text: "What we'll cover, what to have handy, and whether it's a fit." },
-  { title: "Join from a computer.", text: "I'll be sharing my screen." },
+  { title: "Join from a computer if you can.", text: "I'll share my screen, including a live demo. The Google Meet link is in your invite." },
 ];
 const cover = [
   "Where your leads come from and what happens when the phone rings",
   "How you follow up on new leads and open estimates",
   "Where jobs slip through and where your time goes",
   "Whether AI can fix it, and what that would look like",
+  "About how many calls you get a week",
+  "Your average job value",
 ];
 const ready = [
   "About how many calls you get a week",
@@ -43,9 +47,9 @@ const notFit = [
   "You're only curious about AI in general",
 ];
 const after = [
-  "Proposal: what we'd build, how it fits your business, the timeline and the investment.",
-  "Build: usually a few weeks. We handle setup, testing and training.",
-  "Launch and support: I stay your point of contact.",
+  { number: "01", title: "Proposal", text: "What we'd build, how it fits your business, the timeline and the investment.", stamp: "QUOTED" },
+  { number: "02", title: "Build", text: "Usually a few weeks. We handle setup, testing and training.", stamp: "BUILT" },
+  { number: "03", title: "Launch and support", text: "I stay your point of contact and send you a monthly report on results.", stamp: "LIVE" },
 ];
 const faqs = [
   { q: "Is this a sales call?", a: "No. It's a diagnosis. If AI isn't the right fix yet, I'll tell you." },
@@ -93,15 +97,9 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
   )}
 
   <Section bg="offwhite">
-    <div class="pc-split">
-      <div>
-        <h2 class="pc-h2">What we'll cover</h2>
-        <CheckList items={cover} />
-      </div>
-      <div>
-        <h2 class="pc-h2">Come ready with</h2>
-        <CheckList items={ready} />
-      </div>
+    <div class="pc-work-orders">
+      <JobTicket number="0001" title="Your Missed-Jobs Review" items={cover.map((label) => ({ label }))} />
+      <JobTicket number="0002" title="Bring to the call" plainItems items={ready.map((label) => ({ label }))} />
     </div>
   </Section>
 
@@ -124,11 +122,7 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
 
   <Section bg="offwhite">
     <h2 class="pc-h2">What happens after the call</h2>
-    <ol class="pc-steps">
-      {after.map((t, i) => (
-        <li><span class="pc-num" aria-hidden="true">{pad(i)}</span><p>{t}</p></li>
-      ))}
-    </ol>
+    <WorkOrderSteps steps={after} />
   </Section>
 
   <Section bg="offwhite">
@@ -152,12 +146,11 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
   .pc-video--empty p { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); color: var(--color-steel); }
   .pc-h2 { margin: 0 0 calc(var(--space) * 3); }
   .pc-h3 { margin: 0 0 calc(var(--space) * 2); }
+  .pc-work-orders { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space) * 3); align-items: start; }
+  @media (min-width: 768px) { .pc-work-orders { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .pc-split { display: grid; gap: calc(var(--space) * 5); align-items: start; }
   @media (min-width: 768px) { .pc-split { grid-template-columns: 1fr 1fr; } }
   .pc-dashes { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.5); }
   .pc-dashes li { display: grid; grid-template-columns: var(--check-size) 1fr; gap: calc(var(--space) * 1.5); align-items: start; }
   .pc-dash { width: var(--check-size); height: var(--stroke-check); background: var(--color-steel); margin-top: calc(var(--text-body) * var(--leading-body) / 2); }
-  .pc-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 3); max-width: var(--prose-max); }
-  .pc-steps li { display: grid; grid-template-columns: var(--steps-marker-size) 1fr; gap: calc(var(--space) * 2); align-items: baseline; border-top: var(--stroke-hair) solid var(--color-rule); padding-top: calc(var(--space) * 2); }
-  .pc-steps p { margin: 0; }
 </style>

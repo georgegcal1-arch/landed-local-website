@@ -45,6 +45,8 @@ assert.equal((preCall.match(/<details\b/g) || []).length, 4);
 const preCallVisible = visible(preCall);
 assert.ok(preCallVisible.includes("You're booked. Here's what to expect."));
 assert.ok(preCallVisible.includes("A few minutes here makes our 30 minutes far more useful."));
+assert.ok(preCallVisible.includes("Join from a computer if you can."));
+assert.ok(preCallVisible.includes("I'll share my screen, including a live demo. The Google Meet link is in your invite."));
 assert.ok(!preCallVisible.includes("Video coming soon"));
 assert.ok(!preCall.includes("<iframe"));
 const prepCards = preCall.match(/<ol\b[^>]*\bclass="pc-cards"[^>]*>([\s\S]*?)<\/ol>/)?.[1];
@@ -53,10 +55,35 @@ const prepCardText = [...prepCards.matchAll(/<li\b[\s\S]*?<\/li>/g)].map((match)
 assert.ok(prepCardText[0]?.includes("Accept the calendar invite so it's on your calendar, and mark the email as 'I know this sender' so reminders don't go to spam."));
 assert.ok(prepCardText[1]?.includes("Read this page."));
 assert.ok(prepCardText[1]?.includes("What we'll cover, what to have handy, and whether it's a fit."));
-const readyList = preCall.match(/<h2[^>]*>Come ready with<\/h2>\s*<ul\b[^>]*>([\s\S]*?)<\/ul>/)?.[1];
-assert.ok(readyList, "pre-call preparation checklist");
+const workOrdersStart = preCall.indexOf('class="pc-work-orders"');
+const workOrdersEnd = preCall.indexOf("</section>", workOrdersStart);
+assert.ok(workOrdersStart >= 0 && workOrdersEnd > workOrdersStart, "pre-call work orders");
+assert.ok(/\.pc-work-orders\[data-astro-cid-[\w-]+\]\{[^}]*grid-template-columns:minmax\(0,1fr\)/.test(preCall), "work orders stack by default");
+assert.ok(/@media \(width>=768px\)\{\.pc-work-orders\[data-astro-cid-[\w-]+\]\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}\}/.test(preCall), "work orders sit side by side on desktop");
+const workOrders = preCall.slice(workOrdersStart, workOrdersEnd);
+const workOrderHTML = [...workOrders.matchAll(/<article\b[\s\S]*?<\/article>/g)].map((match) => match[0]);
+assert.equal(workOrderHTML.length, 2, "two preparation work orders");
+const workOrderText = workOrderHTML.map(visible);
+assert.ok(workOrderText[0].includes("Work order No. 0001 Your Missed-Jobs Review"));
+assert.ok(workOrderText[1].includes("Work order No. 0002 Bring to the call"));
 assert.deepEqual(
-  [...readyList.matchAll(/<li\b[\s\S]*?<\/li>/g)].map((match) => visible(match[0])),
+  [...workOrderHTML[0].matchAll(/<span class="ticket__label"[^>]*>([\s\S]*?)<\/span>/g)].map((match) => visible(match[1])),
+  [
+    "Where your leads come from and what happens when the phone rings",
+    "How you follow up on new leads and open estimates",
+    "Where jobs slip through and where your time goes",
+    "Whether AI can fix it, and what that would look like",
+    "About how many calls you get a week",
+    "Your average job value",
+  ],
+);
+assert.equal((workOrderHTML[0].match(/class="ticket__check"/g) || []).length, 6, "checked review items");
+assert.ok(!workOrderHTML[0].includes("ticket__stamp"), "review work order has no stamp");
+assert.ok(workOrderHTML[1].includes("ticket__items--plain"), "bring-to-call items are plain");
+assert.ok(!workOrderHTML[1].includes("ticket__check"), "bring-to-call items have no checkmarks");
+assert.ok(!workOrderHTML[1].includes("ticket__stamp"), "bring-to-call work order has no stamp");
+assert.deepEqual(
+  [...workOrderHTML[1].matchAll(/<span class="ticket__label"[^>]*>([\s\S]*?)<\/span>/g)].map((match) => visible(match[1])),
   [
     "About how many calls you get a week",
     "Your average job value",
@@ -66,6 +93,13 @@ assert.deepEqual(
     "30 minutes without interruptions",
   ],
 );
+const afterCall = preCall.match(/<section\b[^>]*>[\s\S]*?<h2[^>]*>What happens after the call<\/h2>([\s\S]*?)<\/section>/)?.[1];
+assert.ok(afterCall?.includes('class="wos__list"'), "post-call work order steps");
+for (const copy of [
+  "No. 01 Proposal What we'd build, how it fits your business, the timeline and the investment. QUOTED",
+  "No. 02 Build Usually a few weeks. We handle setup, testing and training. BUILT",
+  "No. 03 Launch and support I stay your point of contact and send you a monthly report on results. LIVE",
+]) assert.ok(visible(afterCall).includes(copy), copy);
 assert.equal(meta(await read("styleguide/index.html"), "robots"), "noindex");
 
 const bookingSection = (html) => html.match(/<section\b[^>]*id="book"[\s\S]*?<\/section>/)?.[0];
