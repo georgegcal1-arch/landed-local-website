@@ -175,6 +175,16 @@
   --demo-ticket-w: 256px;
   --demo-stamp-scale: 1.5;
   --demo-stamp-duration: 300ms;
+  --demo-value-size: 28px;
+  --demo-ticket-pad: 12px;
+  --demo-ticket-gap: 28px;
+  --demo-ticket-desktop-gap: 4px;
+  --demo-stamp-phone-w: 110px;
+  --demo-stamp-rotate: -6deg;
+  --demo-stamp-right: -48px;
+  --demo-stamp-bottom: 52px;
+  --demo-stamp-desktop-right: -124px;
+  --demo-stamp-desktop-bottom: 24px;
 }
 @media (min-width: 768px) {
   :root {
