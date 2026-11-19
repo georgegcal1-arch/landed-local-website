@@ -18,6 +18,7 @@ import WorkOrderSteps from "../components/WorkOrderSteps.astro";
 import FAQ from "../components/FAQ.astro";
 import BookingEmbed from "../components/BookingEmbed.astro";
 import PhoneDemo from "../components/PhoneDemo.astro";
+import BookSection from "../components/BookSection.astro";
 import type { SectionBg } from "../components/Section.astro";
 import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
@@ -51,7 +52,7 @@ const proofCard = site.caseStudies.cards[0];
     <h1 class="sg-title"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
     <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
     <nav class="sg-toc" aria-label="Styleguide sections">
-      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "tool-strip", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "phone-demo"].map((s) => <a href={`#${s}`}>{s}</a>)}
+      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "tool-strip", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "phone-demo", "book-section"].map((s) => <a href={`#${s}`}>{s}</a>)}
     </nav>
   </Section>
   <RulerDivider variant="orange" />
@@ -279,6 +280,7 @@ const proofCard = site.caseStudies.cards[0];
     <h2 class="sg-h">Example conversation</h2>
     <PhoneDemo />
   </Section>
+  <BookSection id="book-section" />
 </BaseLayout>
 
 <style>

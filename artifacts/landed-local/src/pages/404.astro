@@ -11,23 +11,20 @@ import { site } from "../config/site";
     <div class="not-found__content">
       <RulerDivider variant="orange" />
       <Eyebrow>Page not found</Eyebrow>
-      <h1>This page doesn't measure up.</h1>
-      <p>It may have moved, or the link has a typo. Try one of these:</p>
+      <h1>This page moved.</h1>
+      <p>The site changed. Here's where to go next.</p>
       <nav class="not-found__links" aria-label="Helpful pages">
-        <a href="/">Home</a>
-        <a href={site.booking.bookPath}>Book a call</a>
-        <a href={site.shell.privacyHref}>Privacy</a>
+        <Button href="/" variant="secondary">Home</Button>
+        <Button href={site.booking.bookPath}>{site.booking.buttonLabel}</Button>
       </nav>
-      <Button href={site.booking.bookPath}>{site.booking.buttonLabel}</Button>
     </div>
   </Section>
 </BaseLayout>
 
 <style>
-  .not-found { min-height: min(680px, 75vh); display: grid; align-items: center; }
-  .not-found__content { width: min(100%, 760px); margin-inline: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  :global(.sec.not-found) { min-height: min(calc(var(--space) * 85), 75vh); display: grid; align-items: center; }
+  .not-found__content { width: min(100%, var(--prose-max)); margin-inline: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .not-found__content h1 { margin: calc(var(--space) * 4) 0 0; }
   .not-found__content p { margin: calc(var(--space) * 2) 0 0; }
   .not-found__links { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(var(--space) * 3); margin: calc(var(--space) * 3) 0 calc(var(--space) * 4); }
-  .not-found__links a { color: var(--color-teal); text-decoration: underline; text-decoration-thickness: var(--stroke-underline); text-underline-offset: var(--underline-offset); }
 </style>

@@ -1,6 +1,31 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import { site } from "../config/site";
 ---
-<BaseLayout title="Privacy">
-  <h1>Privacy</h1>
+<BaseLayout title="Privacy & Terms" description="How Landed Local handles booking information, calls and texts, and optional analytics, plus the terms for using this information-only website.">
+  <Section bg="offwhite">
+    <article class="privacy">
+      <h1>Privacy &amp; Terms</h1>
+      <h2>Privacy</h2>
+      <h3>Booking a call</h3>
+      <p>Booking is handled through Cal.com. When you book, Cal.com collects your name, company, phone number, email address and booking answers so we can arrange and prepare for your call.</p>
+      <p>Consent to calls and texts is given on the booking form. Review the consent information there before submitting your booking.</p>
+      <h3>Website analytics</h3>
+      <p>If analytics is set, this site uses Cloudflare Web Analytics to understand how people use the website. Analytics is currently {site.analytics.cloudflareToken ? "on" : "off"}.</p>
+      <h3>Your information</h3>
+      <p>We do not sell your data. For questions about your information, contact <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</p>
+      <h2>Terms</h2>
+      <p>This website is for information only. It does not promise or guarantee specific results. Any work we agree to do together will have its own agreed scope and terms.</p>
+      <p>Ohio law governs these terms. For questions, contact <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.</p>
+    </article>
+  </Section>
 </BaseLayout>
+
+<style>
+  .privacy { max-width: var(--prose-max); margin-inline: auto; }
+  .privacy h1 { margin: 0 0 calc(var(--space) * 5); }
+  .privacy h2 { margin: calc(var(--space) * 5) 0 calc(var(--space) * 2); }
+  .privacy h3 { margin: calc(var(--space) * 3) 0 var(--space); }
+  .privacy p { margin: 0 0 calc(var(--space) * 2); }
+</style>

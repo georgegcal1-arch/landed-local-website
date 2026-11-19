@@ -1,8 +1,8 @@
 ---
 import RulerDivider from "./RulerDivider.astro";
 export interface FaqItem { q: string; a: string }
-interface Props { items: FaqItem[]; headingAs?: "h3" | "h2"; class?: string }
-const { items, headingAs: H = "h3", class: extra } = Astro.props;
+interface Props { items: FaqItem[]; headingAs?: "h3" | "h2"; class?: string; structuredData?: boolean }
+const { items, headingAs: H = "h3", class: extra, structuredData = true } = Astro.props;
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -21,7 +21,7 @@ const jsonLd = JSON.stringify({
     </>
   ))}
 </div>
-<script type="application/ld+json" set:html={jsonLd} />
+{structuredData && <script type="application/ld+json" set:html={jsonLd} />}
 
 <style>
   .faq { max-width: var(--prose-max); }

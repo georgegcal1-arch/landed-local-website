@@ -13,7 +13,7 @@ import CornerFrame from "../components/CornerFrame.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import FAQ from "../components/FAQ.astro";
 import PhoneDemo from "../components/PhoneDemo.astro";
-import BookingEmbed from "../components/BookingEmbed.astro";
+import BookSection from "../components/BookSection.astro";
 import { site } from "../config/site";
 
 const { booking, business, contact, caseStudies } = site;
@@ -44,10 +44,10 @@ const faqs = [
   { q: "What if my problem isn't on your list?", a: "Tell me on the call. If no tool fixes it, we can build one, and we'll scope it with you before anything is built." },
   { q: "Do I have to buy everything?", a: "No. Most clients start with the one system that fixes their biggest leak, then add more once it pays off." },
 ];
-const callItems = ["How leads come in today, and where they slip through", "A rough dollar number on what that's costing you", "What fixing it looks like, and what it would take"];
+const callItems = booking.callItems;
 const values = ["A person, not a platform", "Done for you, not DIY", "Measured results, not promises"];
 ---
-<BaseLayout title="Landed Local · More landed jobs for roofing and HVAC">
+<BaseLayout title="AI Receptionist, Lead Follow-Up and Automation for Roofing and HVAC Companies">
   <!-- 1. Hero -->
   <Section bg="offwhite" blueprint class:list={["home-hero", { "home-hero--demo": site.heroDemo.show }]}>
     <div class="home-hero__grid">
@@ -164,27 +164,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   </Section>
 
   <!-- 7. Book -->
-  <Section id="book" bg="charcoal" blueprint class="home-target">
-    <Eyebrow>BOOK A CALL</Eyebrow>
-    <h2 class="home-h2 home-h2--tight">Book your free <PencilMark>{booking.callName}</PencilMark></h2>
-    <p class="home-sub">{booking.bookReassurance}</p>
-    <div class="home-split home-split--book">
-      <div class="home-book__left">
-        <div class="home-book__copy">
-          <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
-          <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
-          <p class="home-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
-        </div>
-        <div class="home-book__details">
-          <p class="home-book__call">Zoom or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
-          <p class="home-small"><small>{site.otherTradesLine}</small></p>
-        </div>
-      </div>
-      <div class="home-book__calendar">
-        <BookingEmbed />
-      </div>
-    </div>
-  </Section>
+  <BookSection />
 </BaseLayout>
 
 <script>
@@ -192,7 +172,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
 </script>
 
 <style>
-  :global(#costs), :global(#book) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
+  :global(#costs) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
 
   .home-h2 { margin: calc(var(--space) * 1.5) 0 calc(var(--space) * 4); }
   .home-h2--tight { margin-bottom: var(--space); }
@@ -283,24 +263,4 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   .home-values p { min-width: 0; margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-small); line-height: var(--leading-tight); }
   .home-values__tick { flex: 0 0 var(--ruler-tick); align-self: center; }
 
-  /* Book */
-  /* Flatten only on phones so the single details block follows the calendar,
-     with the same 48px copy-to-calendar gap and paragraph spacing as before. */
-  .home-split--book { row-gap: 0; }
-  .home-book__left { display: contents; }
-  .home-book__copy { grid-row: 1; margin-bottom: calc(var(--space) * 6); }
-  .home-book__calendar { grid-row: 2; min-width: 0; }
-  .home-book__details { grid-row: 3; }
-  .home-book__copy { display: grid; gap: calc(var(--space) * 2.5); }
-  .home-book__copy p { margin: 0; }
-  .home-book__call { margin: calc(var(--space) * 3) 0 var(--space); }
-  @media (min-width: 768px) {
-    .home-split--book { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: calc(var(--space) * 4); }
-    .home-book__left { display: block; grid-column: 1; grid-row: 1; min-width: 0; position: sticky; top: calc(var(--header-h) + var(--stroke-hair) + var(--space) * 3); }
-    .home-book__copy { margin-bottom: 0; }
-    .home-book__calendar { grid-column: 2; grid-row: 1; }
-  }
-  @media (min-width: 900px) {
-    .home-split--book { column-gap: calc(var(--space) * 8); }
-  }
 </style>

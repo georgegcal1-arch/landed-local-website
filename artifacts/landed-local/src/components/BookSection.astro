@@ -1,0 +1,55 @@
+---
+import Section from "./Section.astro";
+import Eyebrow from "./Eyebrow.astro";
+import PencilMark from "./PencilMark.astro";
+import JobTicket from "./JobTicket.astro";
+import BookingEmbed from "./BookingEmbed.astro";
+import { site } from "../config/site";
+
+interface Props { headingAs?: "h1" | "h2"; id?: string }
+const { headingAs: Heading = "h2", id = "book" } = Astro.props;
+const { booking, business, contact } = site;
+---
+<Section id={id} bg="charcoal" blueprint class="book-section">
+  <Eyebrow>BOOK A CALL</Eyebrow>
+  <Heading class="book-heading">Book your free <PencilMark>{booking.callName}</PencilMark></Heading>
+  <p class="book-sub">{booking.bookReassurance}</p>
+  <div class="book-split">
+    <div class="book-left">
+      <div class="book-copy">
+        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={booking.callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
+        <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
+        <p class="book-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
+      </div>
+      <div class="book-details">
+        <p class="book-call">Zoom or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
+        <p class="book-small"><small>{site.otherTradesLine}</small></p>
+      </div>
+    </div>
+    <div class="book-calendar"><BookingEmbed /></div>
+  </div>
+</Section>
+
+<style>
+  :global(.book-section) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
+  .book-heading { margin: calc(var(--space) * 1.5) 0 var(--space); }
+  .book-sub { margin: 0 0 calc(var(--space) * 4); max-width: var(--prose-max); }
+  .book-small { margin: 0; }
+  .book-small small { color: var(--color-rule); }
+  .book-split { display: grid; gap: 0 calc(var(--space) * 6); align-items: start; }
+  .book-left { display: contents; }
+  .book-copy { grid-row: 1; margin-bottom: calc(var(--space) * 6); display: grid; gap: calc(var(--space) * 2.5); }
+  .book-copy p { margin: 0; }
+  .book-calendar { grid-row: 2; min-width: 0; }
+  .book-details { grid-row: 3; }
+  .book-call { margin: calc(var(--space) * 3) 0 var(--space); }
+  @media (min-width: 768px) {
+    .book-split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: calc(var(--space) * 4); }
+    .book-left { display: block; grid-column: 1; grid-row: 1; min-width: 0; position: sticky; top: calc(var(--header-h) + var(--stroke-hair) + var(--space) * 3); }
+    .book-copy { margin-bottom: 0; }
+    .book-calendar { grid-column: 2; grid-row: 1; }
+  }
+  @media (min-width: 900px) {
+    .book-split { column-gap: calc(var(--space) * 8); }
+  }
+</style>

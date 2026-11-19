@@ -12,6 +12,8 @@ const booking = {
   bookReassurance: "30 minutes. We'll find where jobs are slipping through and what it's costing you.",
   /** Name of the free review call. */
   callName: "Missed-Jobs Review",
+  /** The same review outcomes on the hero ticket and both booking surfaces. */
+  callItems: ["How leads come in today, and where they slip through", "A rough dollar number on what that's costing you", "What fixing it looks like, and what it would take"],
   /** Cal.com event used by the future booking embed. */
   calLink: "https://cal.com/george-at-landed-local-u6v7fc/missed-jobs-review",
   /** Local booking page. */
@@ -31,6 +33,7 @@ export const site = {
     defaultDescription: "Landed Local finds where home-service companies lose jobs and time, then builds the AI systems that fix it. Book a free 30-minute call with George.",
     /** Default social share image under public. */
     ogImage: "/og-image.png",
+    ogImageAlt: "Landed Local — Land more local jobs. AI systems for roofing and HVAC companies",
   },
   /** Existing brand assets; keep the original files and aliases. */
   brand: {
@@ -99,6 +102,12 @@ export const site = {
   otherTradesLine: "Run a different home-service business? The same systems work for plumbing, foundation, restoration and more. Book a call and we'll tell you honestly if it fits.",
   /** Shared booking wording and destinations. */
   booking,
+  /** Hidden preparation page for people who have already booked. */
+  preCall: {
+    path: "/before-our-call",
+    // paste the Loom embed link here once the video is filmed
+    loomEmbedUrl: "" as string,
+  },
   /** Tool compatibility shown on the future agency site. */
   tools: {
     /** Whether the tools strip is visible. */
