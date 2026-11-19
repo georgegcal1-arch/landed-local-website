@@ -185,16 +185,19 @@ export const site = {
     missedCallNote: "You're on a job.",
     /** Text messages, in order. */
     messages: [
-      { from: "business", text: "Hi, this is Riverside Heating & Air. Sorry we missed you! What can we help with?" },
-      { from: "customer", text: "Our AC stopped blowing cold and it's 88° in here. Can someone come out?" },
-      { from: "business", text: "We can have a tech there tomorrow at 9:00 AM or 2:30 PM. Which works?" },
+      { from: "business", text: "Hi, it's Riverside Heating & Air. Sorry we missed you! How can we help?" },
+      { from: "customer", text: "AC died again and it's 88° in here. Can someone quote a new one?" },
+      { from: "business", text: "Free estimate tomorrow at 9:00 AM or 2:30 PM?" },
       { from: "customer", text: "9 works." },
-      { from: "business", text: "You're booked for tomorrow at 9:00 AM. We'll text you a reminder tonight." },
+      { from: "business", text: "Booked for 9:00 AM tomorrow. Reminder coming tonight." },
     ] as { from: "business" | "customer"; text: string }[],
     /** Work-order title on the booked ticket. */
-    ticketTitle: "AC repair visit",
+    ticketTitle: "AC replacement estimate",
     /** Booked time on the ticket. */
     ticketTime: "Tomorrow · 9:00 AM",
+    /** Estimated value of the example job, not a service price. */
+    ticketValueLabel: "Est. job value",
+    ticketValue: "$8,500",
     /** Stamp wording on the booked ticket. */
     stamp: "LANDED",
   },

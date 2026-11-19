@@ -61,7 +61,6 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
           <Button variant="text-link" href="#costs" class="home-hero__costs-link">See where jobs slip away ↓</Button>
         </div>
         <p class="home-small home-hero__reassure"><small>{booking.reassurance}</small></p>
-        <p class="home-small"><small>Based in {business.city}, {business.state} · You work with {business.ownerFirst} directly</small></p>
       </div>
       {site.heroDemo.show ? (
         <div class="home-hero__demo"><PhoneDemo /></div>
@@ -209,6 +208,9 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   @media (max-width: 767px) {
     :global(.sec.home-hero.home-hero--demo) { padding-bottom: calc(var(--space) * 4); }
     :global(.home-hero--demo) .home-hero__tools { margin-top: calc(var(--space) * 4); }
+  }
+  @media (min-width: 768px) {
+    :global(.sec.home-hero.home-hero--demo) { padding-top: var(--demo-hero-pad-top); }
   }
   @media (min-width: 900px) {
     .home-hero__grid { grid-template-columns: 1.25fr 1fr; }

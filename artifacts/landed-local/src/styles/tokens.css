@@ -166,6 +166,16 @@
   --placeholder-fill: #D6D3CD;
   --hero-compact-ticket-w: 240px;
 }
+/* Local hero-demo tokens; leave the shared site scale unchanged. */
+.home-hero--demo { --demo-hero-pad-top: 16px; }
+.pd {
+  --demo-phone-w: 320px;
+  --demo-phone-h: 500px;
+  --demo-panel-offset: 24px;
+  --demo-ticket-w: 256px;
+  --demo-stamp-scale: 1.5;
+  --demo-stamp-duration: 300ms;
+}
 @media (min-width: 768px) {
   :root {
     --hero-pad-top: 72px;

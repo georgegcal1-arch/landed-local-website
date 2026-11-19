@@ -2,6 +2,7 @@
 import Phone from "lucide-astro/Phone";
 import Eyebrow from "./Eyebrow.astro";
 import JobTicket from "./JobTicket.astro";
+import CornerFrame from "./CornerFrame.astro";
 import { site } from "../config/site";
 
 interface Props { class?: string }
@@ -15,6 +16,7 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
     <button type="button" class="pd__replay" data-pd-replay hidden>Replay ↻</button>
   </div>
   <div class="pd__stage">
+    <div class="pd__backdrop" aria-hidden="true" inert><CornerFrame /></div>
     <div class="pd__phone" role="group" aria-label="Example: a missed call answered by text and booked">
       <div class="pd__screen">
         <div class="pd__bar" aria-hidden="true">
@@ -39,7 +41,10 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
       </div>
     </div>
     <div class="pd__ticket" data-pd-ticket>
-      <JobTicket number="0003" title={demo.ticketTitle} plainItems items={[{ label: demo.ticketTime }]} stamp stampText={demo.stamp} />
+      <JobTicket number="0003" title={demo.ticketTitle} plainItems items={[
+        { label: demo.ticketTime },
+        { label: demo.ticketValueLabel, value: demo.ticketValue },
+      ]} stamp stampText={demo.stamp} />
     </div>
   </div>
 </figure>
@@ -52,9 +57,10 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
     margin: 0; width: var(--pd-w); max-width: 100%;
     display: flex; flex-direction: column; align-items: center; gap: calc(var(--space) * 2);
   }
-  @media (min-width: 768px) { .pd { --pd-w: calc(var(--space) * 42.5); --pd-h: calc(var(--space) * 76.25); } }
+  @media (min-width: 768px) { .pd { --pd-w: var(--demo-phone-w); --pd-h: var(--demo-phone-h); --pd-gap: var(--space); } }
   .pd__header { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: var(--button-min-h); }
   .pd__stage { position: relative; width: 100%; }
+  .pd__backdrop { display: none; }
 
   /* Device: charcoal body, offwhite screen, no hardware details. */
   .pd__phone {
@@ -120,6 +126,14 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   .pd__ticket :global(.ticket__head) { padding-bottom: var(--space); }
   .pd__ticket :global(.ticket__title) { margin: var(--space) 0 calc(var(--space) * 0.5); font-size: var(--text-body); }
   .pd__ticket :global(.ticket__items) { font-size: var(--text-small); }
+  /* Keep this demo's value on one line without changing shared ticket layouts. */
+  .pd__ticket :global(.ticket__items--plain .ticket__item--value) {
+    grid-template-columns: max-content minmax(var(--space), 1fr) max-content;
+    column-gap: calc(var(--space) * 0.75); font-size: var(--text-pill);
+  }
+  .pd__ticket :global(.ticket__item--value .ticket__label) { grid-column: 1; white-space: nowrap; }
+  .pd__ticket :global(.ticket__item--value .ticket__leader) { display: block; grid-column: 2; min-width: var(--space); }
+  .pd__ticket :global(.ticket__item--value .ticket__value) { grid-column: 3; white-space: nowrap; font-weight: var(--weight-heavy); }
   .pd__ticket :global(.ticket__head-meta) { display: none; }
   .pd__ticket :global(.ticket__stamp-row) { justify-content: flex-end; padding-top: calc(var(--space) * 1.5); }
   .pd__ticket :global(.ticket__stamp) { font-size: var(--text-pill); padding: calc(var(--space) * 0.5) var(--space); }
@@ -143,6 +157,28 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   @keyframes pd-in { from { opacity: 0; transform: translateY(var(--space)); } to { opacity: 1; transform: none; } }
   @keyframes pd-stamp {
     from { opacity: 0; transform: translateY(calc(var(--space) * -0.5)) rotate(calc(var(--stamp-rotate) * 2)) scale(1.4); }
+    to { opacity: 1; transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)) scale(1); }
+  }
+  @media (min-width: 768px) {
+    .pd__backdrop {
+      display: block; position: absolute; z-index: 0; pointer-events: none;
+      width: 100%; height: var(--pd-h);
+      top: var(--demo-panel-offset); left: var(--demo-panel-offset);
+    }
+    .pd__backdrop :global(.corner-frame) { height: 100%; padding: 0; background: var(--color-paper); }
+    .pd__body { padding-block: calc(var(--space) * 1.5); }
+    .pd__bubble { padding-block: calc(var(--space) * 0.75); }
+    /* Leave the panel's corner visible beside the centered, tucked ticket. */
+    .pd__ticket { width: var(--demo-ticket-w); }
+    .pd__ticket :global(.ticket__stamp) {
+      font-size: calc(var(--text-pill) * var(--demo-stamp-scale));
+      padding: calc(var(--space) * 0.5 * var(--demo-stamp-scale)) calc(var(--space) * var(--demo-stamp-scale));
+      border-width: calc(var(--stroke-focus) * var(--demo-stamp-scale));
+    }
+    .pd.is-armed .pd__ticket.is-stamped :global(.ticket__stamp) { animation: pd-stamp-desktop var(--demo-stamp-duration) var(--ease-out) both; }
+  }
+  @keyframes pd-stamp-desktop {
+    from { opacity: 0; transform: translateY(calc(var(--space) * -0.5)) rotate(calc(var(--stamp-rotate) * 2.5)) scale(1.6); }
     to { opacity: 1; transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)) scale(1); }
   }
   @media (prefers-reduced-motion: reduce) {
