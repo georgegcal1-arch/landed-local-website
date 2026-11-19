@@ -10,7 +10,10 @@ const demo = site.heroDemo;
 const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
 ---
 <figure class:list={["pd", extra]} data-phone-demo>
-  <Eyebrow class="pd__label">{demo.label}</Eyebrow>
+  <div class="pd__header">
+    <Eyebrow class="pd__label">{demo.label}</Eyebrow>
+    <button type="button" class="pd__replay" data-pd-replay hidden>Replay ↻</button>
+  </div>
   <div class="pd__stage">
     <div class="pd__phone" role="group" aria-label="Example: a missed call answered by text and booked">
       <div class="pd__screen">
@@ -39,30 +42,28 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
       <JobTicket number="0003" title={demo.ticketTitle} plainItems items={[{ label: demo.ticketTime }]} stamp stampText={demo.stamp} />
     </div>
   </div>
-  <div class="pd__controls">
-    <button type="button" class="pd__replay" data-pd-replay hidden>Replay ↻</button>
-  </div>
 </figure>
 
 <style>
   .pd {
-    --pd-w: calc(var(--space) * 32.5);
-    --pd-screen-h: calc(var(--space) * 52);
+    --pd-w: calc(var(--space) * 35);
+    --pd-h: calc(var(--space) * 57.5);
     --pd-gap: calc(var(--space) * 1.25);
     margin: 0; width: var(--pd-w); max-width: 100%;
     display: flex; flex-direction: column; align-items: center; gap: calc(var(--space) * 2);
   }
-  @media (min-width: 768px) { .pd { --pd-w: calc(var(--space) * 37.5); --pd-screen-h: calc(var(--space) * 56); } }
-  .pd__label { align-self: flex-start; }
+  @media (min-width: 768px) { .pd { --pd-w: calc(var(--space) * 42.5); --pd-h: calc(var(--space) * 76.25); } }
+  .pd__header { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: var(--button-min-h); }
   .pd__stage { position: relative; width: 100%; }
 
   /* Device: charcoal body, offwhite screen, no hardware details. */
   .pd__phone {
+    position: relative; z-index: 2; height: var(--pd-h);
     background: var(--color-charcoal); padding: var(--device-bezel-phone);
     border-radius: var(--device-radius-phone); box-shadow: var(--shadow-card);
   }
   .pd__screen {
-    display: flex; flex-direction: column; height: var(--pd-screen-h); overflow: hidden;
+    display: flex; flex-direction: column; height: 100%; overflow: hidden;
     background: var(--color-offwhite); border-radius: calc(var(--device-radius-phone) - var(--device-bezel-phone));
   }
   .pd__bar {
@@ -75,9 +76,11 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   .pd__tag { color: var(--color-teal); font-weight: var(--weight-semibold); }
   .pd__body {
     flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
-    padding: calc(var(--space) * 2) calc(var(--space) * 1.5) calc(var(--space) * 9);
+    padding: calc(var(--space) * 2) calc(var(--space) * 1.5);
     display: flex; flex-direction: column; gap: var(--pd-gap);
+    scrollbar-width: none; -ms-overflow-style: none;
   }
+  .pd__body::-webkit-scrollbar { display: none; }
   .pd__body:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: calc(var(--focus-offset) * -1); }
   .pd__missed {
     margin: 0 0 var(--space); display: grid; justify-items: center; gap: calc(var(--space) * 0.25); text-align: center;
@@ -107,8 +110,12 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   .pd__typing[data-from="customer"] { align-self: flex-start; background: var(--color-white); border: var(--stroke-hair) solid var(--color-rule); }
   @keyframes pd-dot { 0%, 100% { opacity: 0.35; transform: translateY(0); } 50% { opacity: 1; transform: translateY(calc(var(--space) * -0.375)); } }
 
-  /* Compact ticket overlapping the phone's bottom edge (scoped here; JobTicket itself unchanged). */
-  .pd__ticket { position: relative; z-index: 1; width: 88%; margin: calc(var(--space) * -7) auto 0; }
+  /* Keep the tucked edge behind the opaque device, never above its screen. */
+  .pd__ticket {
+    position: relative; z-index: 1; width: calc(100% - var(--space) * 5);
+    margin: calc(var(--space) * -1.5) auto 0;
+    transform: rotate(-2deg); transform-origin: top center;
+  }
   .pd__ticket :global(.ticket) { --card-pad: calc(var(--space) * 2); background: var(--color-white); }
   .pd__ticket :global(.ticket__head) { padding-bottom: var(--space); }
   .pd__ticket :global(.ticket__title) { margin: var(--space) 0 calc(var(--space) * 0.5); font-size: var(--text-body); }
@@ -117,7 +124,6 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   .pd__ticket :global(.ticket__stamp-row) { justify-content: flex-end; padding-top: calc(var(--space) * 1.5); }
   .pd__ticket :global(.ticket__stamp) { font-size: var(--text-pill); padding: calc(var(--space) * 0.5) var(--space); }
 
-  .pd__controls { min-height: var(--button-min-h); }
   .pd__replay {
     background: none; border: 0; padding: var(--space) calc(var(--space) * 0.5); cursor: pointer; min-height: var(--button-min-h);
     font-family: var(--font-body); font-weight: var(--weight-semibold); font-size: var(--text-small);
@@ -130,7 +136,7 @@ const firstBusiness = demo.messages.findIndex((m) => m.from === "business");
   /* Armed (JS + motion allowed): steps hide until their turn. Without JS the finished chat shows. */
   .pd.is-armed [data-pd-step]:not(.is-shown) { display: none; }
   .pd.is-armed [data-pd-step].is-shown { animation: pd-in 320ms var(--ease-out) both; }
-  .pd.is-armed .pd__ticket:not(.is-shown) { opacity: 0; transform: translateY(calc(var(--space) * 4)); }
+  .pd.is-armed .pd__ticket:not(.is-shown) { opacity: 0; transform: translateY(calc(var(--space) * 4)) rotate(-2deg); }
   .pd.is-armed .pd__ticket { transition: opacity var(--dur-check) var(--ease-out), transform var(--dur-ruler) var(--ease-out); }
   .pd.is-armed .pd__ticket:not(.is-stamped) :global(.ticket__stamp) { opacity: 0; }
   .pd.is-armed .pd__ticket.is-stamped :global(.ticket__stamp) { animation: pd-stamp var(--dur-check) var(--ease-out) both; }

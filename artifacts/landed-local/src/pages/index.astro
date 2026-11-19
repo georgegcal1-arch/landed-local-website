@@ -50,7 +50,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
 ---
 <BaseLayout title="Landed Local · More landed jobs for roofing and HVAC">
   <!-- 1. Hero -->
-  <Section bg="offwhite" blueprint class="home-hero">
+  <Section bg="offwhite" blueprint class:list={["home-hero", { "home-hero--demo": site.heroDemo.show }]}>
     <div class="home-hero__grid">
       <div class="home-hero__copy">
         <Eyebrow>{site.audienceLine}</Eyebrow>
@@ -206,6 +206,10 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   .home-hero__ticket { grid-row: 5; min-width: 0; }
   .home-hero__demo { min-width: 0; display: flex; justify-content: center; padding-top: calc(var(--space) * 2); }
   .home-hero__tools { margin-top: calc(var(--space) * 8); }
+  @media (max-width: 767px) {
+    :global(.sec.home-hero.home-hero--demo) { padding-bottom: calc(var(--space) * 4); }
+    :global(.home-hero--demo) .home-hero__tools { margin-top: calc(var(--space) * 4); }
+  }
   @media (min-width: 900px) {
     .home-hero__grid { grid-template-columns: 1.25fr 1fr; }
     .home-hero__copy { display: grid; gap: var(--hero-stack); min-width: 0; }
