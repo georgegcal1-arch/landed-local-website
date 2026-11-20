@@ -115,7 +115,7 @@ export const site = {
     /** Heading above the tools list. */
     label: "Works with the tools you already run",
     /** Only list tools the development team connects to. */
-    names: ["GoHighLevel", "Jobber", "ServiceTitan", "Housecall Pro", "JobNimbus", "AccuLynx", "QuickBooks", "Google Calendar"],
+    names: ["GoHighLevel", "Jobber", "ServiceTitan", "Housecall Pro", "QuickBooks", "Google Calendar"],
   },
   /** Optional local review research. */
   proof: {
@@ -132,8 +132,8 @@ export const site = {
   caseStudies: {
     show: true,
     eyebrow: "PROOF",
-    heading: "Systems our development team has built",
-    note: "Built for other businesses by the development team that builds Landed Local's systems. Results vary by business.",
+    heading: "Systems built by our partner developers",
+    note: "Past builds by our partner development team for other home-service companies. The same team builds yours. Results vary by business.",
     stamp: "COMPLETED",
     cards: [
       { number: "0417", trade: "Roofing company", system: "AI receptionist + speed-to-lead", label: "Calls answered", value: "51% → 100%" },
