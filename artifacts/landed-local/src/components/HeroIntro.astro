@@ -1,0 +1,52 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+import RulerDivider from "./RulerDivider.astro";
+interface Props {
+  eyebrow: string;
+  /** Heading tag; the hero uses h1. */
+  headingAs?: "h1" | "h2";
+  /** Short orange ruler above the eyebrow. */
+  ruler?: boolean;
+  class?: string;
+}
+const { eyebrow, headingAs: Heading = "h1", ruler = true, class: extra } = Astro.props;
+---
+<div class:list={["hero-intro", extra]} data-reveal>
+  {ruler && <div class="hero-intro__ruler" aria-hidden="true"><RulerDivider variant="orange" /></div>}
+  <div class="hero-intro__eyebrow"><Eyebrow>{eyebrow}</Eyebrow></div>
+  <Heading class="hero-intro__h">
+    <span class="hero-intro__line hero-intro__line--1"><slot name="line1" /></span>
+    <span class="hero-intro__line hero-intro__line--2"><slot name="line2" /></span>
+  </Heading>
+  <slot />
+</div>
+
+<style>
+  .hero-intro { display: grid; justify-items: center; text-align: center; gap: var(--sheet-stack); }
+  .hero-intro__ruler { width: min(100%, var(--hero-sheet-ruler-w)); }
+  .hero-intro__h {
+    margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy); color: var(--color-charcoal);
+    font-size: var(--hero-sheet-h1); line-height: var(--hero-sheet-leading); letter-spacing: var(--hero-sheet-tracking);
+  }
+  .hero-intro__line { display: block; }
+
+  /*
+   * Once-only sequence (~1.2s): ruler ticks draw, eyebrow fades, line 1 then line 2 rise,
+   * then the PencilMark draws. Retimes the shared RulerDivider/PencilMark reveals instead of
+   * adding a second animation. Start states exist only with html.motion-ok (JS + motion allowed).
+   */
+  :global(html.motion-ok) .hero-intro :global(.ruler.is-in .ruler__ticks) { transition-duration: var(--dur-intro-ruler); transition-delay: 0ms; }
+  :global(html.motion-ok) .hero-intro:not(.is-in) :is(.hero-intro__eyebrow, .hero-intro__line) { opacity: 0; }
+  :global(html.motion-ok) .hero-intro:not(.is-in) .hero-intro__line { transform: translateY(var(--intro-rise)); }
+  :global(html.motion-ok) .hero-intro.is-in :is(.hero-intro__eyebrow, .hero-intro__line) {
+    transition: opacity var(--dur-intro-fade) var(--ease-out), transform var(--dur-intro-fade) var(--ease-out);
+  }
+  :global(html.motion-ok) .hero-intro.is-in .hero-intro__eyebrow { transition-delay: var(--delay-intro-eyebrow); }
+  :global(html.motion-ok) .hero-intro.is-in .hero-intro__line--1 { transition-delay: var(--delay-intro-line-1); }
+  :global(html.motion-ok) .hero-intro.is-in .hero-intro__line--2 { transition-delay: var(--delay-intro-line-2); }
+  /* Pencil waits for the whole intro, not just its own reveal. */
+  :global(html.motion-ok) .hero-intro:not(.is-in) :global(.pencil .pencil__line) { clip-path: inset(-50% 100% -50% 0); }
+  :global(html.motion-ok) .hero-intro.is-in :global(.pencil.is-in .pencil__line) {
+    transition: clip-path var(--dur-intro-pencil) var(--ease-out) var(--delay-intro-pencil);
+  }
+</style>

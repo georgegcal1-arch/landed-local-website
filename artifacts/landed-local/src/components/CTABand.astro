@@ -1,12 +1,40 @@
 ---
 import Section from "./Section.astro";
 import Button from "./Button.astro";
+import Eyebrow from "./Eyebrow.astro";
+import JobTicket from "./JobTicket.astro";
 import { site } from "../config/site";
 
-interface Props { id?: string; headingAs?: "h2" | "h3" }
-const { id, headingAs: Heading = "h2" } = Astro.props;
+interface Props {
+  id?: string;
+  headingAs?: "h2" | "h3";
+  /** "centered" is the earlier single column; "ticket" is two columns with a paper JobTicket anchor (Home). */
+  layout?: "centered" | "ticket";
+}
+const { id, headingAs: Heading = "h2", layout = "centered" } = Astro.props;
+const ticketItems = ["How calls and leads move today", "What slips through, in dollars", "The one fix to start with"];
 const { booking, business, contact } = site;
 ---
+{layout === "ticket" ? (
+<Section id={id} bg="charcoal" blueprint class="cta-band cta-band--ticket">
+  <div class="cta-band__cols">
+    <div class="cta-band__copy" data-reveal>
+      <Eyebrow>NEXT STEP</Eyebrow>
+      <Heading class="cta-band__h cta-band__h--left">Find out what missed calls are costing you.</Heading>
+      <p class="cta-band__sub">30-minute consultation. You'll leave with a dollar number, whether we work together or not.</p>
+      <p class="cta-band__call"><a href={contact.phoneHref}>Or call or text {business.ownerFirst}: {contact.phoneDisplay}</a></p>
+    </div>
+    <div class="cta-band__ticket">
+      <JobTicket number="0001" title="Consultation" titleAs="h3"
+        items={ticketItems.map((label) => ({ label }))} total={{ label: "30 min", value: `With ${business.ownerFirst}` }}>
+        <div slot="after" class="cta-band__action">
+          <Button href={booking.bookPath} class="cta-band__btn cta-band__btn--ticket">{booking.buttonLabel}</Button>
+        </div>
+      </JobTicket>
+    </div>
+  </div>
+</Section>
+) : (
 <Section id={id} bg="charcoal" blueprint class="cta-band">
   <div class="cta-band__inner" data-reveal>
     <Heading class="cta-band__h">Find out what missed calls are costing you.</Heading>
@@ -15,6 +43,7 @@ const { booking, business, contact } = site;
     <p class="cta-band__call"><a href={contact.phoneHref}>Or call or text {business.ownerFirst}: {contact.phoneDisplay}</a></p>
   </div>
 </Section>
+)}
 
 <style>
   .cta-band__inner { display: grid; justify-items: center; text-align: center; gap: calc(var(--space) * 3); max-width: calc(var(--space) * 100); margin-inline: auto; }
@@ -29,4 +58,21 @@ const { booking, business, contact } = site;
   .cta-band__call a { color: var(--color-rule); text-underline-offset: var(--underline-offset); }
   .cta-band__call a:hover { color: var(--color-offwhite); }
   .cta-band__call a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
+
+  /* Ticket layout: two columns on desktop, stacked on phones. */
+  .cta-band__cols { display: grid; gap: var(--cta-col-gap); align-items: center; }
+  .cta-band__copy { display: grid; justify-items: start; gap: calc(var(--space) * 3); min-width: 0; }
+  .cta-band__h--left { font-size: var(--cta-h); text-align: left; text-wrap: balance; }
+  .cta-band__copy .cta-band__sub { max-width: var(--cta-copy-max); }
+  .cta-band__ticket { min-width: 0; width: 100%; max-width: var(--cta-ticket-max); justify-self: center; }
+  .cta-band__action { margin-top: calc(var(--space) * 3); }
+  .cta-band__action :global(.cta-band__btn--ticket) {
+    width: 100%; min-height: calc(var(--button-min-h) + var(--space));
+    font-size: calc(var(--text-button) + 1px); font-weight: var(--weight-semibold);
+  }
+  .cta-band__action :global(.cta-band__btn--ticket.btn--primary) { color: var(--color-charcoal); }
+  @media (min-width: 900px) {
+    .cta-band__cols { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .cta-band__ticket { justify-self: end; transform: rotate(var(--hero-ticket-rotate)); }
+  }
 </style>

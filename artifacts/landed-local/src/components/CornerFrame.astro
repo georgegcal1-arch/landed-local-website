@@ -1,9 +1,13 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-type Props = HTMLAttributes<"div"> & { hideBracket?: boolean };
-const { class: extra, hideBracket = false, ...rest } = Astro.props;
+type Props = HTMLAttributes<"div"> & {
+  hideBracket?: boolean;
+  /** Where the orange square sits. Default "bottom-left"; "top-left" is opt-in (DraftSheet on Home). */
+  corner?: "bottom-left" | "top-left";
+};
+const { class: extra, hideBracket = false, corner = "bottom-left", ...rest } = Astro.props;
 ---
-<div class:list={["corner-frame", extra]} {...rest}>
+<div class:list={["corner-frame", corner === "top-left" && "corner-frame--top-left", extra]} {...rest}>
   <div class="corner-frame__content"><slot /></div>
   {!hideBracket && <span class="corner-frame__square" aria-hidden="true"></span>}
 </div>
@@ -25,5 +29,11 @@ const { class: extra, hideBracket = false, ...rest } = Astro.props;
     border-left: var(--stroke-square) solid var(--color-orange);
     border-bottom: var(--stroke-square) solid var(--color-orange);
     border-bottom-left-radius: var(--radius-square-corner);
+  }
+  .corner-frame--top-left { padding-bottom: 0; padding-top: var(--frame-inset); }
+  .corner-frame--top-left .corner-frame__square {
+    top: 0; bottom: auto;
+    border-bottom: 0; border-top: var(--stroke-square) solid var(--color-orange);
+    border-bottom-left-radius: 0; border-top-left-radius: var(--radius-square-corner);
   }
 </style>

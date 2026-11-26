@@ -47,18 +47,18 @@ const faqs = [
 const values = ["A person, not a platform", "Done for you, not DIY", "Measured results, not promises"];
 ---
 <BaseLayout title="AI Receptionist, Lead Follow-Up and Automation for Roofing and HVAC Companies">
-  <!-- 1. Hero: centered, type-only -->
-  <Hero layout="centered" tall eyebrow={site.audienceLine} ctaHref={book} ctaLabel={booking.buttonLabel}
+  <!-- 1. Hero: type-only on the paper DraftSheet -->
+  <Hero layout="sheet" eyebrow={site.audienceLine} ctaHref={book} ctaLabel={booking.buttonLabel}
     secondaryHref="#costs" secondaryLabel="See where jobs slip away ↓" reassurance={booking.reassurance}>
-    <span class="hero__line">More Landed Jobs.</span>
-    <span class="hero__line hero__accent"><PencilMark size="lg">No New Hires.</PencilMark></span>
+    <Fragment slot="line1"><span class="hero__more">More </span><PencilMark size="lg" class="hero__accent">Landed Jobs.</PencilMark></Fragment>
+    <Fragment slot="line2">No New Hires.</Fragment>
     <Fragment slot="lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</Fragment>
   </Hero>
 
   <!-- 1b. Tools band -->
   {site.tools.show && (
     <Section bg="charcoal" class="home-tools">
-      <ToolStrip variant="band" />
+      <ToolStrip size="lg" />
     </Section>
   )}
 
@@ -130,7 +130,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   </Section>
 
   <!-- 7. Call to action -->
-  <CTABand />
+  <CTABand layout="ticket" />
 </BaseLayout>
 
 <style>
@@ -148,8 +148,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   .home-closer { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
 
   /* Tools band */
-  :global(.sec.home-tools) { padding-block: 60px; }
-  @media (min-width: 768px) { :global(.sec.home-tools) { padding-block: 88px; } }
+  :global(.sec.home-tools) { padding-block: var(--tools-lg-pad); }
 
   /* Splits */
   .home-split { display: grid; gap: calc(var(--space) * 6); align-items: start; }

@@ -30,8 +30,12 @@ const handy = ["Calls a week", "Average job value", "How leads come in", "What h
   </div>
 </Section>
 <RulerDivider variant="orange" />
-<Section bg="offwhite" class="book-cal-section">
-  <BookingEmbed variant="inline" />
+<Section bg="charcoal" blueprint class="book-cal-section">
+  <div class="book-cal-head">
+    <h2 class="book-cal-heading">Pick a time that works</h2>
+    <p class="book-cal-sub">Times show in your time zone. You'll get a confirmation email right away.</p>
+  </div>
+  <BookingEmbed variant="card" />
   <p class="book-call">Google Meet or phone. Or <a class="accent" href={contact.phoneHref}>call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a></p>
 </Section>
 
@@ -49,5 +53,8 @@ const handy = ["Calls a week", "Average job value", "How leads come in", "What h
     .book-ticket { transform: rotate(var(--hero-ticket-rotate)); margin-top: calc(var(--space) * 2); }
   }
   :global(.book-cal-section) { padding-top: calc(var(--space) * 6); }
-  .book-call { margin: calc(var(--space) * 3) 0 0; text-align: center; font-size: var(--text-small); }
+  .book-cal-head { display: grid; justify-items: center; gap: calc(var(--space) * 1.5); text-align: center; margin-bottom: calc(var(--space) * 5); }
+  .book-cal-heading { margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: var(--cal-heading); line-height: var(--leading-h2); color: var(--color-white); }
+  .book-cal-sub { margin: 0; color: var(--color-offwhite); }
+  .book-call { margin: calc(var(--space) * 3) auto 0; text-align: center; font-size: var(--text-small); color: var(--color-offwhite); }
 </style>

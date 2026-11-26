@@ -7,8 +7,11 @@ interface Props {
   variant?: "loop" | "band";
   /** Heading level for the band variant. */
   headingAs?: "h2" | "h3";
+  /** Loop only. "lg" is the large charcoal-band loop: centered heading, big names, orange dots, edge fades. */
+  size?: "default" | "lg";
 }
-const { class: extra, variant = "loop", headingAs: Heading = "h2" } = Astro.props;
+const { class: extra, variant = "loop", headingAs: Heading = "h2", size = "default" } = Astro.props;
+const lg = size === "lg";
 const { show, label, names } = site.tools;
 ---
 {show && variant === "band" && (
@@ -20,9 +23,9 @@ const { show, label, names } = site.tools;
   </div>
 )}
 {show && variant === "loop" && (
-  <div class:list={["tools", extra]} data-tool-strip>
+  <div class:list={["tools", { "tools--lg": lg }, extra]} data-tool-strip>
     <div class="tools__head">
-      <Eyebrow as="p">{label}</Eyebrow>
+      {lg ? <Heading class="tools__heading">{label}</Heading> : <Eyebrow as="p">{label}</Eyebrow>}
       <button type="button" class="tools__toggle" aria-pressed="false" hidden data-tool-toggle>
         <span class="tools__toggle-icon" aria-hidden="true"></span>
         <span data-tool-toggle-label>Pause</span><span class="visually-hidden"> tool names scrolling</span>
@@ -31,10 +34,10 @@ const { show, label, names } = site.tools;
     <div class="tools__viewport">
       <div class="tools__track">
         <ul class="tools__list">
-          {names.map((n) => <li class="tools__item"><span>{n}</span><span class="tools__tick" aria-hidden="true"></span></li>)}
+          {names.map((n) => <li class="tools__item"><span>{n}</span>{lg ? <span class="tools__dot" aria-hidden="true"></span> : <span class="tools__tick" aria-hidden="true"></span>}</li>)}
         </ul>
         <ul class="tools__list tools__list--copy" aria-hidden="true">
-          {names.map((n) => <li class="tools__item"><span>{n}</span><span class="tools__tick"></span></li>)}
+          {names.map((n) => <li class="tools__item"><span>{n}</span>{lg ? <span class="tools__dot"></span> : <span class="tools__tick"></span>}</li>)}
         </ul>
       </div>
     </div>
@@ -94,8 +97,15 @@ const { show, label, names } = site.tools;
     .tools.is-enhanced .tools__track { width: max-content; animation: tools-loop calc(var(--dur-ruler) * 64) linear infinite; }
     .tools.is-enhanced .tools__list { flex-wrap: nowrap; max-width: none; }
     .tools.is-enhanced .tools__list--copy { display: flex; }
-    .tools:focus-within .tools__track,
+    /* Pause follows the toggle state only, so keyboard Resume restarts it while the button keeps focus. */
     .tools.is-paused .tools__track { animation-play-state: paused; }
+    .tools--lg.tools.is-enhanced .tools__track { animation-duration: var(--dur-tools-lg); }
+    .tools--lg.tools.is-enhanced .tools__list { justify-content: flex-start; }
+    .tools--lg.tools.is-enhanced .tools__viewport {
+      -webkit-mask-image: linear-gradient(90deg, transparent, currentColor var(--tools-lg-fade), currentColor calc(100% - var(--tools-lg-fade)), transparent);
+      mask-image: linear-gradient(90deg, transparent, currentColor var(--tools-lg-fade), currentColor calc(100% - var(--tools-lg-fade)), transparent);
+    }
+    .tools--lg.tools.is-enhanced .tools__list .tools__item:last-child .tools__dot { display: block; }
   }
   @media (prefers-reduced-motion: no-preference) and (hover: hover) {
     .tools__viewport:hover .tools__track { animation-play-state: paused; }
@@ -122,6 +132,24 @@ const { show, label, names } = site.tools;
     .tools-band__item + .tools-band__item { border-left: 0; }
     .tools-band__item:not(:last-child)::after { content: ""; width: var(--stroke-ruler); height: var(--ruler-tick-mid); margin-left: calc(var(--space) * 3.5); margin-right: calc(var(--space) * -1.75); background: var(--color-ruler-rule-dark); }
   }
+  /* Large loop for the charcoal band */
+  .tools--lg { gap: calc(var(--space) * 4); }
+  .tools--lg .tools__head { flex-direction: column; justify-content: center; text-align: center; gap: calc(var(--space) * 2); }
+  .tools--lg .tools__heading {
+    margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy);
+    font-size: var(--tools-lg-heading); line-height: var(--leading-tight); color: var(--color-white);
+  }
+  .tools--lg .tools__toggle { order: 2; }
+  .tools--lg .tools__viewport { border-block: 0; padding-block: var(--space); cursor: pointer; }
+  .tools--lg .tools__track { justify-content: center; }
+  .tools--lg .tools__list { justify-content: center; row-gap: calc(var(--space) * 2); }
+  .tools--lg .tools__item {
+    gap: var(--tools-lg-half-gap); padding-right: var(--tools-lg-half-gap);
+    font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--tools-lg-size);
+    line-height: var(--leading-tight); color: var(--color-offwhite);
+  }
+  .tools--lg .tools__item:last-child .tools__dot { display: none; }
+  .tools__dot { flex: none; width: var(--tools-lg-dot); height: var(--tools-lg-dot); border-radius: 50%; background: var(--color-orange); }
   @keyframes tools-loop { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) {
     .tools__track { width: auto; }

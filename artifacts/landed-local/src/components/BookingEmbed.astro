@@ -11,12 +11,25 @@ if (calendarUrl.origin !== "https://cal.com") {
 const calLink = calendarUrl.pathname.replace(/^\/+|\/+$/g, "");
 if (!calLink) throw new Error("The Cal.com booking event is missing.");
 interface Props {
-  /** "panel" is the framed card; "inline" is a full-width host for a standalone page. */
-  variant?: "panel" | "inline";
+  /**
+   * "panel" is the framed card; "inline" is a full-width host; "card" is a light, rounded
+   * calendar card for a charcoal Section with the fallback button below it (/book).
+   */
+  variant?: "panel" | "inline" | "card";
 }
 const { variant = "panel" } = Astro.props;
 ---
-{variant === "inline" ? (
+{variant === "card" ? (
+  <div class="booking-embed booking-embed--card" data-booking-embed data-booking-variant="card" data-cal-link={calLink}>
+    <div class="booking-embed__card" data-tone="light">
+      <p class="booking-embed__status" data-cal-status role="status" aria-live="polite" hidden>Loading available times…</p>
+      <div class="booking-embed__calendar" data-cal-host role="region" aria-label="Consultation booking calendar" hidden></div>
+    </div>
+    <div class="booking-embed__fallback" data-cal-fallback>
+      <Button href={calendarUrl.href} target="_blank" rel="noopener noreferrer" variant="secondary" fullWidthMobile>Open the booking calendar</Button>
+    </div>
+  </div>
+) : variant === "inline" ? (
   <div class="booking-embed booking-embed--inline" data-booking-embed data-booking-variant="inline" data-cal-link={calLink} data-tone="light">
     <p class="booking-embed__status" data-cal-status role="status" aria-live="polite" hidden>Loading available times…</p>
     <div class="booking-embed__calendar" data-cal-host role="region" aria-label="Consultation booking calendar" hidden></div>
@@ -57,5 +70,15 @@ const { variant = "panel" } = Astro.props;
   .booking-embed--inline .booking-embed__calendar { min-height: calc(var(--space) * 80); overflow: visible; }
   .booking-embed--inline .booking-embed__status { padding: calc(var(--space) * 2) 0; }
   .booking-embed--inline .booking-embed__fallback { padding: calc(var(--space) * 3) 0 0; display: flex; justify-content: center; }
+  /* Card: light calendar card on charcoal; fallback sits under it in the dark context. */
+  .booking-embed--card { width: 100%; max-width: var(--cal-card-max); margin-inline: auto; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+  .booking-embed--card .booking-embed__card {
+    background: var(--color-paper); color: var(--color-charcoal); padding: var(--cal-card-pad);
+    border-radius: var(--cal-card-radius); box-shadow: var(--cal-card-shadow); overflow: visible;
+  }
+  .booking-embed--card:not([data-cal-state]) .booking-embed__card { display: none; }
+  .booking-embed--card .booking-embed__calendar { min-height: calc(var(--space) * 80); overflow: visible; }
+  .booking-embed--card .booking-embed__status { padding: calc(var(--space) * 2); }
+  .booking-embed--card .booking-embed__fallback { padding: calc(var(--space) * 4) 0 0; display: flex; justify-content: center; }
   [hidden] { display: none; }
 </style>

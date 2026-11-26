@@ -22,6 +22,8 @@ import BookSection from "../components/BookSection.astro";
 import type { SectionBg } from "../components/Section.astro";
 import Hero from "../components/Hero.astro";
 import CTABand from "../components/CTABand.astro";
+import DraftSheet from "../components/DraftSheet.astro";
+import HeroIntro from "../components/HeroIntro.astro";
 import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
 
@@ -54,7 +56,7 @@ const proofCard = site.caseStudies.cards[0];
     <h1 class="sg-title"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
     <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
     <nav class="sg-toc" aria-label="Styleguide sections">
-      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "pencil-lg", "hero-centered", "hero-split", "tool-strip", "tool-band", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "booking-inline", "cta-band", "phone-demo", "book-section"].map((s) => <a href={`#${s}`}>{s}</a>)}
+      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "pencil-lg", "draft-sheet", "hero-intro", "hero-sheet", "hero-centered", "hero-split", "tool-strip", "tool-strip-lg", "tool-band", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "booking-inline", "booking-card", "cta-band", "cta-band-ticket", "phone-demo", "book-section"].map((s) => <a href={`#${s}`}>{s}</a>)}
     </nav>
   </Section>
   <RulerDivider variant="orange" />
@@ -178,6 +180,15 @@ const proofCard = site.caseStudies.cards[0];
       </CornerFrame>
     </div>
   </Section>
+  <Section bg="offwhite">
+    <Eyebrow>08b CornerFrame corner="top-left"</Eyebrow>
+    <p class="sg-meta">Opt-in. Only on the Home hero DraftSheet, the one bracket on that screen. Default stays bottom-left.</p>
+    <div class="sg-split">
+      <CornerFrame corner="top-left">
+        <Card><h3>Top-left bracket</h3><p>Same square, same 8px inset, mirrored to the top edge.</p></Card>
+      </CornerFrame>
+    </div>
+  </Section>
   <Section id="dark-placeholder" bg="charcoal">
     <Eyebrow>Dark-background photo placeholder</Eyebrow>
     <div class="sg-frame-img">
@@ -237,10 +248,50 @@ const proofCard = site.caseStudies.cards[0];
     <h2 class="sg-h">Large mark for the big headline</h2>
     <p class="sg-pencil-lg"><PencilMark size="lg">No New Hires.</PencilMark></p>
     <p class="sg-meta">Same draw-in, heavier stroke. With reduced motion the line is simply there.</p>
+    <p class="sg-pencil-lg sg-pencil-lg--hero">More <PencilMark size="lg">Landed Jobs.</PencilMark></p>
+    <p class="sg-meta">Home hero: burnt-orange "Landed Jobs." with the orange mark under that phrase only; it never splits across lines.</p>
   </Section>
 
+  <Section id="draft-sheet" bg="offwhite">
+    <Eyebrow>11d DraftSheet</Eyebrow>
+    <h2 class="sg-h">Tilted paper sheet</h2>
+    <p class="sg-meta">Usage: wrap a block of key copy that should read as a drawing on the board. Paper, soft shadow, -1deg (-0.5deg on phones), max 960px. Props: corner (top-left bracket, once per screen), marks (crosshairs + dimension line, default on), intro (marks fade in last, once). Content motion belongs to HeroIntro.</p>
+    <div class="sg-sheet-demo">
+      <DraftSheet>
+        <h3>Sheet with drafting marks</h3>
+        <p>Crosshair registration marks at the four corners and a dimension line with end ticks along the bottom, in steel at low opacity.</p>
+      </DraftSheet>
+      <DraftSheet corner>
+        <h3>Sheet with the top-left CornerFrame</h3>
+        <p>The orange square sits outside the paper's top-left corner and tilts with it.</p>
+      </DraftSheet>
+    </div>
+  </Section>
+
+  <Section id="hero-intro" bg="offwhite" blueprint>
+    <Eyebrow>11e HeroIntro</Eyebrow>
+    <h2 class="sg-h">Load sequence</h2>
+    <p class="sg-meta">Usage: the hero's ruler, eyebrow and two headline lines (slot="line1", slot="line2"); anything in the default slot follows still. Once, about 1.2s: ruler ticks draw, eyebrow fades, lines rise 12px one after the other, then the PencilMark draws. Reduced motion or no JS: all visible, no motion. Works inside DraftSheet.</p>
+    <DraftSheet intro>
+      <HeroIntro eyebrow={site.audienceLine} headingAs="h2">
+        <Fragment slot="line1">More <PencilMark size="lg" class="sg-accent">Landed Jobs.</PencilMark></Fragment>
+        <Fragment slot="line2">No New Hires.</Fragment>
+      </HeroIntro>
+    </DraftSheet>
+  </Section>
+
+  <div id="hero-sheet">
+    <Section bg="paper"><Eyebrow>11f Hero layout="sheet"</Eyebrow><p class="sg-meta">Used on Home. Type-only on a DraftSheet with corner bracket and HeroIntro, over an edge-faded blueprint grid. Sized so the tools heading shows on a 1440x900 laptop.</p></Section>
+    <Hero layout="sheet" eyebrow={site.audienceLine} ctaHref={site.booking.bookPath} ctaLabel={site.booking.buttonLabel}
+      secondaryHref="#cost-bill" secondaryLabel="See where jobs slip away ↓" reassurance={site.booking.reassurance}>
+      <Fragment slot="line1"><span class="hero__more">More </span><PencilMark size="lg" class="hero__accent">Landed Jobs.</PencilMark></Fragment>
+      <Fragment slot="line2">No New Hires.</Fragment>
+      <Fragment slot="lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</Fragment>
+    </Hero>
+  </div>
+
   <div id="hero-centered">
-    <Section bg="paper"><Eyebrow>11b Hero layout="centered" tall</Eyebrow><p class="sg-meta">Type-only, used on Home. About 75% of the viewport on laptop and desktop.</p></Section>
+    <Section bg="paper"><Eyebrow>11b Hero layout="centered" tall</Eyebrow><p class="sg-meta">Earlier type-only layout. Not used on live pages. About 75% of the viewport on laptop and desktop.</p></Section>
     <Hero layout="centered" tall eyebrow={site.audienceLine} ctaHref={site.booking.bookPath} ctaLabel={site.booking.buttonLabel}
       secondaryHref="#cost-bill" secondaryLabel="See where jobs slip away ↓" reassurance={site.booking.reassurance}>
       <span class="hero__line">More Landed Jobs.</span>
@@ -264,8 +315,12 @@ const proofCard = site.caseStudies.cards[0];
     <h2 class="sg-h">Tools strip</h2>
     <ToolStrip />
   </Section>
+  <Section id="tool-strip-lg" bg="charcoal">
+    <p class="sg-meta sg-meta--center">11g ToolStrip size="lg" on charcoal (Home). Usage: the same loop, bigger: Manrope 700 names, orange dots, edge fades, ~34s seamless loop. Pause/Resume button, hover pause, tap to toggle; reduced motion shows one static centered row.</p>
+    <ToolStrip size="lg" headingAs="h3" />
+  </Section>
   <Section id="tool-band" bg="charcoal" class="sg-tool-band">
-    <p class="sg-meta sg-meta--center">11d ToolStrip variant="band" on charcoal: static, centered, wraps on mobile</p>
+    <p class="sg-meta sg-meta--center">11h ToolStrip variant="band" on charcoal: static, centered, wraps on mobile. Not used on live pages</p>
     <ToolStrip variant="band" headingAs="h3" />
   </Section>
   <RulerDivider />
@@ -314,9 +369,20 @@ const proofCard = site.caseStudies.cards[0];
     <BookingEmbed variant="inline" />
   </Section>
 
+  <Section id="booking-card" bg="charcoal" blueprint>
+    <Eyebrow>16c BookingEmbed variant="card"</Eyebrow>
+    <h2 class="sg-h">Calendar card on the charcoal blueprint</h2>
+    <p class="sg-meta">Used on /book. Light Cal.com theme with orange, max 1000px, rounded, soft shadow; time-zone picker stays visible. The fallback uses the secondary button for charcoal.</p>
+    <BookingEmbed variant="card" />
+  </Section>
+
   <div id="cta-band">
-    <Section bg="paper"><Eyebrow>16c CTABand</Eyebrow><p class="sg-meta">Section bg="charcoal" with the blueprint grid. Ends Home, above the footer's orange ruler.</p></Section>
+    <Section bg="paper"><Eyebrow>16d CTABand layout="centered"</Eyebrow><p class="sg-meta">Earlier single-column version. Not used on live pages.</p></Section>
     <CTABand headingAs="h3" />
+  </div>
+  <div id="cta-band-ticket">
+    <Section bg="paper"><Eyebrow>16e CTABand layout="ticket"</Eyebrow><p class="sg-meta">Usage: ends Home, above the footer's orange ruler. Two columns on desktop, stacked on phones: copy left, a tilted paper JobTicket right with the full-width orange booking button in its "after" slot.</p></Section>
+    <CTABand headingAs="h3" layout="ticket" />
   </div>
 
   <Section id="phone-demo" bg="offwhite" blueprint>
@@ -359,4 +425,8 @@ const proofCard = site.caseStudies.cards[0];
   .sg-pencil-lg { margin: 0 0 calc(var(--space) * 2); font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: clamp(40px, 7vw, 88px); line-height: 1; color: var(--color-orange-burnt); }
   .sg-meta--center { text-align: center; margin-bottom: calc(var(--space) * 4); }
   .sg-dark-strip { background: var(--color-charcoal); display: grid; gap: calc(var(--space) * 3); padding-bottom: calc(var(--space) * 4); }
+  .sg-pencil-lg--hero { color: var(--color-charcoal); }
+  .sg-pencil-lg--hero :global(.pencil), .sg-hero-intro-accent, :global(.sg-accent) { color: var(--color-orange-burnt); }
+  .sg-sheet-demo { display: grid; gap: calc(var(--space) * 8); }
+  .sg-sheet-demo :global(h3) { margin-top: 0; }
 </style>

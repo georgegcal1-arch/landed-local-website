@@ -124,12 +124,35 @@ for (const copy of [
   "Find out what missed calls are costing you.",
   "30-minute consultation. You'll leave with a dollar number, whether we work together or not.",
 ]) assert.ok(visible(homeMain).includes(copy), copy);
-const tools = homeMain.match(/<section\b[^>]*>[\s\S]*?Works with the tools you already run[\s\S]*?<\/section>/)?.[0];
+const tools = [...homeMain.matchAll(/<section\b[^>]*>[\s\S]*?<\/section>/g)].map((m) => m[0]).find((section) => section.includes("Works with the tools you already run"));
 assert.ok(tools, "tools band exists");
+const accessibleTools = tools.replace(/<ul\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/ul>/g, "");
 for (const name of ["GoHighLevel", "Jobber", "ServiceTitan", "Housecall Pro", "QuickBooks", "Google Calendar"]) {
-  assert.equal(visible(tools).split(name).length - 1, 1, `${name} appears once`);
+  assert.equal(visible(accessibleTools).split(name).length - 1, 1, `${name} appears once accessibly`);
 }
-assert.ok(!/data-tool-toggle|class="[^"]*tools__list--copy|Trusted by/.test(tools.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/g, "")), "static tools have no controls or duplicates");
+assert.ok(tools.includes("data-tool-toggle"), "loop has a pause/play control");
+assert.match(tools, /<ul\b[^>]*aria-hidden="true"/, "loop repeat is decorative");
+assert.ok(!visible(tools).includes("Trusted by"), "no trust claim");
+const homeHeadline = homeMain.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1];
+assert.ok(homeHeadline, "Home headline");
+assert.ok(homeMain.includes("draft-sheet") && homeMain.includes("hero-intro"), "Home composes the reusable drafting components");
+assert.equal((homeHeadline.match(/class="[^"]*\bpencil\b/g) || []).length, 1, "only one headline underline");
+assert.match(homeHeadline, /pencil__text[^>]*>Landed Jobs\.<\/span>/, "underline belongs to Landed Jobs.");
+assert.ok(!/pencil__text[^>]*>No New Hires\./.test(homeHeadline), "No New Hires has no underline");
+const cta = [...homeMain.matchAll(/<section\b[^>]*>[\s\S]*?<\/section>/g)].map((m) => m[0]).find((section) => section.includes("cta-band--ticket"));
+assert.ok(cta, "Home ticket CTA");
+for (const copy of ["NEXT STEP", "No. 0001", "Consultation", "How calls and leads move today", "What slips through, in dollars", "The one fix to start with", "30 min", "With George"]) {
+  assert.ok(visible(cta).includes(copy), `CTA: ${copy}`);
+}
+assert.equal((cta.match(/class="ticket__check"/g) || []).length, 3, "CTA uses checked ticket items");
+assert.match(cta, /href="\/book"[^>]*>[\s\S]*?Book a Consultation/, "ticket action navigates to booking");
+const calendarSection = [...bookMain.matchAll(/<section\b[^>]*>[\s\S]*?<\/section>/g)].map((m) => m[0]).find((section) => section.includes("data-booking-embed"));
+assert.match(calendarSection, /sec--charcoal/);
+assert.match(calendarSection, /sec--blueprint/);
+for (const copy of ["Pick a time that works", "Times show in your time zone. You'll get a confirmation email right away."]) {
+  assert.ok(visible(calendarSection).includes(copy), `calendar: ${copy}`);
+}
+assert.ok(calendarSection.includes("booking-embed--card"), "calendar uses the bounded light-card variant");
 assert.ok(!/Systems built by our partner developers|Past builds by our partner development team/.test(visible(homeMain)), "proof copy removed");
 for (const copy of [
   "BOOK A CALL", "Book a Consultation", "30 minutes · No pressure · Clear numbers",
@@ -150,7 +173,7 @@ assert.ok(bookMain.indexOf("data-cal-host") < bookMain.indexOf("data-cal-fallbac
 assert.ok(bookMain.includes(`href="${event}"`), "fallback uses same event");
 assert.ok(visible(bookMain).includes("Open the booking calendar"));
 const styleguide = await read("styleguide/index.html");
-for (const variant of ["pencil--lg", "tools-band", "booking-embed--inline", "hero--centered", "Not used on live pages", "Find out what missed calls are costing you."]) {
+for (const variant of ["draft-sheet", "hero-intro", "cta-band--ticket", "tools--lg", "booking-embed--card", "pencil--lg", "tools-band", "booking-embed--inline", "hero--centered", "Not used on live pages", "Find out what missed calls are costing you."]) {
   assert.ok(styleguide.includes(variant), `styleguide: ${variant}`);
 }
 assert.ok(styleguide.includes("More Landed Jobs.") && styleguide.includes("No New Hires."), "styleguide hero");
@@ -193,4 +216,4 @@ for await (const path of files(dist)) {
 const png = await readFile(new URL("public/og-image.png", root));
 assert.equal(png.readUInt32BE(16), 1200);
 assert.equal(png.readUInt32BE(20), 630);
-console.log("Static output passed: refreshed Home and /book boundaries, copy, booking destinations, static tools, styleguide variants, calendar configuration, schema, robots, redirects, sitemap, hidden links, and OG dimensions.");
+console.log("Static output passed: refreshed Home and /book boundaries, copy, booking destinations, accessible tools loop, styleguide variants, calendar configuration, schema, robots, redirects, sitemap, hidden links, and OG dimensions.");

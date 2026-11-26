@@ -207,3 +207,81 @@
   --pricing-main-size: 48px;
   --pricing-care-size: 32px;
 }
+
+/* DraftSheet: tilted paper sheet with drafting marks (phone values; desktop below) */
+:root {
+  --sheet-max: 960px;
+  --sheet-pad: 30px;
+  --sheet-rotate: -0.5deg;
+  --sheet-shadow: 0 1px 2px rgba(22, 26, 31, 0.08), 0 14px 32px -14px rgba(22, 26, 31, 0.22);
+  --sheet-mark-opacity: 0.5;
+  --sheet-cross: 14px;
+  --sheet-cross-inset: 10px;
+  --sheet-dim-inset: 28px;
+  --sheet-dim-bottom: 12px;
+  --sheet-dim-tick: 9px;
+  --sheet-stack: 18px;
+  /* Home hero: stronger, edge-faded blueprint grid around the sheet */
+  --hero-grid-line: color-mix(in srgb, var(--color-charcoal) 7%, transparent);
+  --hero-grid-fade-inner: 45%;
+  --hero-grid-fade-outer: 92%;
+  --hero-sheet-pad-top: 24px;
+  --hero-sheet-pad-bottom: 40px;
+  --hero-sheet-h1: clamp(30px, 9vw, 44px);
+  --hero-sheet-leading: 1.02;
+  --hero-sheet-tracking: -0.025em;
+  --hero-sheet-lead-max: 640px;
+  --hero-sheet-ruler-w: 192px;
+  /* HeroIntro: once-only load sequence, about 1.2s total */
+  --intro-rise: 12px;
+  --dur-intro-ruler: 360ms;
+  --dur-intro-fade: 300ms;
+  --delay-intro-eyebrow: 220ms;
+  --delay-intro-line-1: 360ms;
+  --delay-intro-line-2: 520ms;
+  --delay-intro-pencil: 760ms;
+  --dur-intro-pencil: 440ms;
+  --delay-sheet-marks: 880ms;
+  /* ToolStrip size="lg" on the charcoal band */
+  --tools-lg-heading: 28px;
+  --tools-lg-size: 23px;
+  --tools-lg-half-gap: 20px;
+  --tools-lg-dot: 6px;
+  --tools-lg-fade: 40px;
+  --tools-lg-pad: 48px;
+  --dur-tools-lg: 34s;
+  /* CTABand layout="ticket" */
+  --cta-h: 36px;
+  --cta-col-gap: 40px;
+  --cta-ticket-max: 440px;
+  --cta-copy-max: 520px;
+  /* /book calendar on the charcoal blueprint */
+  --cal-heading: 30px;
+  --cal-card-max: 1000px;
+  --cal-card-radius: 12px;
+  --cal-card-pad: 8px;
+  --cal-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.18), 0 24px 48px -20px rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 768px) {
+  :root {
+    --sheet-pad: 64px;
+    --sheet-rotate: -1deg;
+    --sheet-cross: 18px;
+    --sheet-cross-inset: 14px;
+    --sheet-dim-inset: 48px;
+    --sheet-dim-bottom: 18px;
+    --sheet-stack: 20px;
+    --hero-sheet-pad-top: 40px;
+    --hero-sheet-pad-bottom: 48px;
+    --hero-sheet-h1: clamp(48px, 5.4vw, 76px);
+    --tools-lg-heading: 32px;
+    --tools-lg-size: 32px;
+    --tools-lg-half-gap: 30px;
+    --tools-lg-fade: 96px;
+    --tools-lg-pad: 64px;
+    --cta-h: 52px;
+    --cta-col-gap: 80px;
+    --cal-heading: 38px;
+    --cal-card-pad: 16px;
+  }
+}

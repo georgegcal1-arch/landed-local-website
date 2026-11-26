@@ -3,10 +3,16 @@ import Section from "./Section.astro";
 import Eyebrow from "./Eyebrow.astro";
 import Button from "./Button.astro";
 import RulerDivider from "./RulerDivider.astro";
+import DraftSheet from "./DraftSheet.astro";
+import HeroIntro from "./HeroIntro.astro";
 
 interface Props {
-  /** "centered" is type-only; "split" is the original copy + side panel (pass the panel in slot="aside"). */
-  layout?: "centered" | "split";
+  /**
+   * "sheet" is type-only on a tilted DraftSheet with the HeroIntro load sequence (Home; pass the two
+   * headline lines in slot="line1" / slot="line2"). "centered" is the earlier type-only layout;
+   * "split" is the original copy + side panel (pass the panel in slot="aside").
+   */
+  layout?: "sheet" | "centered" | "split";
   eyebrow: string;
   ctaHref: string;
   ctaLabel: string;
@@ -21,6 +27,25 @@ interface Props {
 const { layout = "centered", eyebrow, ctaHref, ctaLabel, secondaryHref, secondaryLabel, reassurance, tall = false, class: extra, id } = Astro.props;
 const hasAside = Astro.slots.has("aside");
 ---
+{layout === "sheet" ? (
+<Section id={id} bg="offwhite" contained={false} class:list={["hero", "hero--sheet", extra]}>
+  <div class="hero__grid-fade" aria-hidden="true"></div>
+  <div class="container-content hero__sheet-wrap">
+  <DraftSheet corner intro>
+    <HeroIntro eyebrow={eyebrow}>
+      <Fragment slot="line1"><slot name="line1" /></Fragment>
+      <Fragment slot="line2"><slot name="line2" /></Fragment>
+      <p class="hero__lead hero__lead--sheet"><slot name="lead" /></p>
+      <div class="hero__actions hero__actions--sheet">
+        <Button href={ctaHref} fullWidthMobile>{ctaLabel}</Button>
+        {secondaryHref && secondaryLabel && <Button variant="text-link" href={secondaryHref} class="hero__secondary">{secondaryLabel}</Button>}
+      </div>
+      {reassurance && <p class="hero__reassure"><small>{reassurance}</small></p>}
+    </HeroIntro>
+  </DraftSheet>
+  </div>
+</Section>
+) : (
 <Section id={id} bg="offwhite" blueprint class:list={["hero", `hero--${layout}`, { "hero--tall": tall }, extra]}>
   <div class="hero__grid">
     <div class="hero__copy">
@@ -37,6 +62,7 @@ const hasAside = Astro.slots.has("aside");
     {layout === "split" && hasAside && <div class="hero__aside"><slot name="aside" /></div>}
   </div>
 </Section>
+)}
 
 <style>
   :global(.hero) { padding-top: var(--hero-pad-top); }
@@ -64,6 +90,26 @@ const hasAside = Astro.slots.has("aside");
     :global(.hero--tall) { min-height: 75svh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--space) * 6); padding-bottom: calc(var(--space) * 8); }
     :global(.hero--tall) > :global(*) { width: 100%; }
   }
+
+  /* Sheet: paper DraftSheet on an edge-faded blueprint grid, sized so the tools heading shows at 1440x900. */
+  :global(.sec.hero--sheet) { padding-top: var(--hero-sheet-pad-top); padding-bottom: var(--hero-sheet-pad-bottom); overflow-x: clip; }
+  .hero__grid-fade {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--hero-grid-line) var(--stroke-hair), transparent var(--stroke-hair)),
+      linear-gradient(90deg, var(--hero-grid-line) var(--stroke-hair), transparent var(--stroke-hair));
+    background-size: var(--grid-cell) var(--grid-cell);
+    -webkit-mask-image: radial-gradient(ellipse at center, currentColor var(--hero-grid-fade-inner), transparent var(--hero-grid-fade-outer));
+    mask-image: radial-gradient(ellipse at center, currentColor var(--hero-grid-fade-inner), transparent var(--hero-grid-fade-outer));
+  }
+  .hero__sheet-wrap { position: relative; }
+  .hero__lead--sheet { font-size: var(--hero-text-lead); max-width: var(--hero-sheet-lead-max); }
+  .hero__actions--sheet { justify-content: center; width: 100%; }
+  @media (min-width: 640px) { .hero__actions--sheet { width: auto; } }
+  /* "Landed Jobs." is one unbreakable unit; phones read More / Landed Jobs. / No New Hires. */
+  :global(.hero--sheet .hero__accent) { color: var(--color-orange-burnt); }
+  :global(.hero--sheet .hero__accent .pencil__line path) { stroke: var(--color-orange); }
+  @media (max-width: 639px) { :global(.hero--sheet .hero__more) { display: block; } }
 
   /* Split (original layout: copy left, panel right) */
   .hero--split .hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }

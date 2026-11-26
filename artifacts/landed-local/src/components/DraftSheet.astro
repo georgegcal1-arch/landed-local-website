@@ -1,0 +1,68 @@
+---
+import CornerFrame from "./CornerFrame.astro";
+interface Props {
+  /** Orange carpenter-square bracket on the top-left corner (use once per screen). */
+  corner?: boolean;
+  /** Steel crosshair registration marks at the four corners and a dimension line along the bottom. */
+  marks?: boolean;
+  /**
+   * Once-only load-in: its drafting marks fade in last.
+   * Content motion belongs to HeroIntro, so the two never animate the same thing.
+   */
+  intro?: boolean;
+  class?: string;
+}
+const { corner = false, marks = true, intro = false, class: extra } = Astro.props;
+const crosses = ["tl", "tr", "bl", "br"];
+---
+<div class:list={["draft-sheet", { "draft-sheet--intro": intro }, extra]} data-reveal={intro ? "" : undefined}>
+  <div class="draft-sheet__tilt">
+    <CornerFrame corner="top-left" hideBracket={!corner} class="draft-sheet__frame">
+      <div class="draft-sheet__paper" data-tone="light">
+        {marks && (
+          <div class="draft-sheet__marks" aria-hidden="true">
+            {crosses.map((c) => (
+              <svg class={`draft-sheet__cross draft-sheet__cross--${c}`} viewBox="0 0 16 16" focusable="false">
+                <circle cx="8" cy="8" r="4" /><path d="M8 0 V16 M0 8 H16" />
+              </svg>
+            ))}
+            <span class="draft-sheet__dim"></span>
+          </div>
+        )}
+        <div class="draft-sheet__content"><slot /></div>
+      </div>
+    </CornerFrame>
+  </div>
+</div>
+
+<style>
+  .draft-sheet { width: 100%; max-width: var(--sheet-max); margin-inline: auto; }
+  .draft-sheet__tilt { transform: rotate(var(--sheet-rotate)); }
+  .draft-sheet__paper {
+    position: relative; background: var(--color-paper); color: var(--color-charcoal);
+    border: var(--stroke-hair) solid var(--color-rule);
+    border-radius: var(--radius-sharp) var(--radius-sharp) var(--radius-sharp) var(--radius-corner);
+    box-shadow: var(--sheet-shadow); padding: var(--sheet-pad);
+  }
+  .draft-sheet__content { position: relative; z-index: 1; min-width: 0; }
+  .draft-sheet__marks { position: absolute; inset: 0; pointer-events: none; color: var(--color-steel); opacity: var(--sheet-mark-opacity); }
+  .draft-sheet__cross { position: absolute; width: var(--sheet-cross); height: var(--sheet-cross); overflow: visible; }
+  .draft-sheet__cross :is(circle, path) { fill: none; stroke: currentColor; stroke-width: var(--stroke-hair); vector-effect: non-scaling-stroke; }
+  .draft-sheet__cross--tl { top: var(--sheet-cross-inset); left: var(--sheet-cross-inset); }
+  .draft-sheet__cross--tr { top: var(--sheet-cross-inset); right: var(--sheet-cross-inset); }
+  .draft-sheet__cross--bl { bottom: var(--sheet-cross-inset); left: var(--sheet-cross-inset); }
+  .draft-sheet__cross--br { bottom: var(--sheet-cross-inset); right: var(--sheet-cross-inset); }
+  .draft-sheet__dim {
+    position: absolute; left: var(--sheet-dim-inset); right: var(--sheet-dim-inset); bottom: var(--sheet-dim-bottom);
+    height: var(--sheet-dim-tick); border-bottom: var(--stroke-hair) solid currentColor; transform: translateY(-50%);
+  }
+  .draft-sheet__dim::before, .draft-sheet__dim::after {
+    content: ""; position: absolute; bottom: calc(var(--sheet-dim-tick) / -2); width: var(--stroke-hair); height: var(--sheet-dim-tick); background: currentColor;
+  }
+  .draft-sheet__dim::before { left: 0; }
+  .draft-sheet__dim::after { right: 0; }
+
+  /* Optional load-in: marks fade in after HeroIntro's content sequence. Only with JS + motion allowed. */
+  :global(html.motion-ok) .draft-sheet--intro:not(.is-in) .draft-sheet__marks { opacity: 0; }
+  :global(html.motion-ok) .draft-sheet--intro.is-in .draft-sheet__marks { transition: opacity var(--dur-intro-fade) var(--ease-out) var(--delay-sheet-marks); }
+</style>
