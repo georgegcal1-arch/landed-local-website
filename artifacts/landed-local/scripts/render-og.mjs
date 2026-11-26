@@ -31,7 +31,7 @@ await sharp({ create: { width: 1200, height: 630, channels: 4, background: color
     { input: await sharp(new URL("public/brand/website-header-logo.svg", root).pathname).resize({ width: 360 }).png().toBuffer(), left: 80, top: 70 },
     { input: Buffer.from(ruler), left: 0, top: 0 },
     { input: await text("Land more local jobs.", "Manrope", 800, 64, "charcoal"), left: 112, top: 250 },
-    { input: await text("AI systems for roofing and HVAC companies", "Inter", 400, 30, "teal"), left: 112, top: 365 },
+    { input: await text("AI systems for local service businesses", "Inter", 400, 30, "teal"), left: 112, top: 365 },
   ])
   .png()
   .toFile(new URL("public/og-image.png", root).pathname);

@@ -8,11 +8,11 @@ const booking = {
   headerLabel: "Book a Consultation",
   /** Reassurance beside the booking invitation. */
   reassurance: "30 minutes · With George · No pitch deck",
-  /** Booking-page reassurance explains the review's practical outcome. */
+  /** Booking-page reassurance explains the consultation's practical outcome. */
   bookReassurance: "30 minutes. We'll find where jobs are slipping through and what it's costing you.",
-  /** Name of the free review call. */
-  callName: "Missed-Jobs Review",
-  /** The same review outcomes on the hero ticket and both booking surfaces. */
+  /** Name of the consultation. */
+  callName: "Consultation",
+  /** The same consultation outcomes on the hero ticket and booking surface. */
   callItems: ["How leads come in today, and where they slip through", "A rough dollar number on what that's costing you", "What fixing it looks like, and what it would take"],
   /** Cal.com event used by the future booking embed. */
   calLink: "https://cal.com/george-at-landed-local-u6v7fc/missed-jobs-review",
@@ -30,10 +30,10 @@ export const site = {
     /** Canonical domain without a trailing slash. */
     url: "https://www.landedlocal.com",
     /** Default search and social description for pages without their own. */
-    defaultDescription: "Landed Local finds where home-service companies lose jobs and time, then builds the AI systems that fix it. Book a free 30-minute call with George.",
+    defaultDescription: "Landed Local finds where local service businesses lose jobs and time, then builds the AI systems that fix it. Book a 30-minute consultation with George.",
     /** Default social share image under public. */
     ogImage: "/og-image.png",
-    ogImageAlt: "Landed Local — Land more local jobs. AI systems for roofing and HVAC companies",
+    ogImageAlt: "Landed Local — Land more local jobs. AI systems for local service businesses",
   },
   /** Existing brand assets; keep the original files and aliases. */
   brand: {
@@ -97,7 +97,7 @@ export const site = {
     email: "george@landedlocal.com",
   },
   /** Main audience shown in the agency copy. */
-  audienceLine: "For roofing and HVAC companies",
+  audienceLine: "For local service businesses",
   /** Invitation for home-service businesses outside the starting niches. */
   otherTradesLine: "Run a different home-service business? The same systems work for plumbing, foundation, restoration and more. Book a call and we'll tell you honestly if it fits.",
   /** Shared booking wording and destinations. */
@@ -124,7 +124,7 @@ export const site = {
     /** Main research figure. */
     value: "51%",
     /** Explanation of the research figure. */
-    text: "We read 285 one- and two-star reviews of Columbus home-service companies. For roofers, 51% came down to a call nobody returned or an appointment nobody kept.",
+    text: "We read 285 one- and two-star reviews of Columbus home-service companies. For local service businesses, 51% came down to a call nobody returned or an appointment nobody kept.",
     /** Attribution for the research. */
     source: "Landed Local review research, November 2026",
   },
@@ -136,14 +136,14 @@ export const site = {
     note: "Past builds by our partner development team for other home-service companies. The same team builds yours. Results vary by business.",
     stamp: "COMPLETED",
     cards: [
-      { number: "0417", trade: "Roofing company", system: "AI receptionist + speed-to-lead", label: "Calls answered", value: "51% → 100%" },
+      { number: "0417", trade: "Service company", system: "AI receptionist + speed-to-lead", label: "Calls answered", value: "40% → 95%" },
       { number: "0418", trade: "Electrical contractor", system: "Custom bid analyzer", label: "Bid review", value: "2 days → 4 min" },
       { number: "0419", trade: "Plumbing company", system: "Internal knowledge assistant", label: "New-tech onboarding", value: "1 month → 1 week" },
     ],
   },
   /** example conversation in the hero; swap the business and job when the niche changes */
   heroDemo: {
-    /** Whether the hero shows the example phone (false shows the FREE review ticket). */
+    /** Whether the hero shows the example phone (false shows the consultation ticket). */
     show: true,
     /** Eyebrow label above the phone. */
     label: "Example",
@@ -198,7 +198,7 @@ export const site = {
     nav: [
       {
         /** Navigation text. */
-        label: "Book a call",
+        label: "Book a Consultation",
         /** Destination page. */
         href: booking.bookPath,
       },
@@ -213,7 +213,7 @@ export const site = {
       },
       {
         /** Navigation text. */
-        label: "Book a call",
+        label: "Book a Consultation",
         /** Destination page. */
         href: booking.bookPath,
       },

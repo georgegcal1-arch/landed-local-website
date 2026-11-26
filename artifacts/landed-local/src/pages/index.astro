@@ -31,10 +31,10 @@ const services = [
   { number: "02", outcome: "TURN MORE LEADS INTO JOBS", name: "Speed-to-Lead & Reactivation", description: "Calls every new form or ad lead within a minute, while they're still deciding who to hire. Then works through the old quotes and past customers already in your system and books the ones ready now.", bullets: ["New leads called within a minute", "Old quotes and past customers called again", "Appointments land right on your calendar", "Built to follow calling and texting consent rules"] },
   { number: "03", outcome: "GET YOUR EVENINGS BACK", name: "Workflow Automation", description: "Takes the repeat office work off your plate: invoices, estimates, follow-up texts, review requests and reports. Connected to the tools you already use.", bullets: ["Invoices and estimates sent automatically", "Follow-ups and review requests on autopilot", "No more copying info between apps", "Documented and monitored, so nothing breaks quietly"] },
   { number: "04", outcome: "EVERY LEAD IN ONE PLACE", name: "CRM Buildout", description: "One system where every call, text, form and job lives, set up around how you actually sell. Already paying for one nobody uses? We fix it.", bullets: ["Pipeline built around your sales steps", "One inbox for calls, texts and email", "A dashboard of leads, booked jobs and revenue", "Your team trained on it"] },
-  { number: "05", outcome: "FIX WHAT NO SOFTWARE DOES", name: "Custom AI Tools", description: "Problem not on this list? For the one that's specific to your business, we scope a tool with you, build it, and hand it over working.", bullets: ["Quoting tools that price a job in minutes", "A knowledge assistant your crew asks instead of calling you", "Built on your own pricing and process", "Scoped on a free call before any build"], wide: true },
+  { number: "05", outcome: "FIX WHAT NO SOFTWARE DOES", name: "Custom AI Tools", description: "Problem not on this list? For the one that's specific to your business, we scope a tool with you, build it, and hand it over working.", bullets: ["Quoting tools that price a job in minutes", "A knowledge assistant your crew asks instead of calling you", "Built on your own pricing and process", "Scoped on a consultation"], wide: true },
 ];
 const steps = [
-  { number: "001", title: "Find the leaks", text: "Free 30-minute call. We put a dollar number on what's slipping.", stamp: "FOUND" },
+  { number: "001", title: "Find the leaks", text: "30-minute consultation. We put a dollar number on what's slipping.", stamp: "FOUND" },
   { number: "002", title: "Build the fix", text: "Our partner developers build it around your tools. You approve it before launch.", stamp: "BUILT" },
   { number: "003", title: "Measure it", text: "A monthly report on calls answered, leads followed up and jobs booked.", stamp: "RESULTS" },
 ];
@@ -46,7 +46,7 @@ const faqs = [
 ];
 const values = ["A person, not a platform", "Done for you, not DIY", "Measured results, not promises"];
 ---
-<BaseLayout title="AI Receptionist, Lead Follow-Up and Automation for Roofing and HVAC Companies">
+<BaseLayout title="AI Receptionist, Lead Follow-Up and Automation for Local Service Businesses">
   <!-- 1. Hero: type-only on the paper DraftSheet -->
   <Hero layout="sheet" eyebrow={site.audienceLine} ctaHref={book} ctaLabel={booking.buttonLabel}
     secondaryHref="#costs" secondaryLabel="See where jobs slip away ↓" reassurance={booking.reassurance}>
@@ -66,7 +66,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   <Section id="costs" bg="paper" class="home-target">
     <Eyebrow>THE PROBLEM</Eyebrow>
     <h2 class="home-h2">What it's costing you</h2>
-    <CostBill label="COST OF DOING NOTHING" items={costs} total={{ label: "YOUR TOTAL", value: "?", note: "We'll put a dollar number on it in a free 30-minute call." }} />
+    <CostBill label="COST OF DOING NOTHING" items={costs} total={{ label: "YOUR TOTAL", value: "?", note: "We'll put a dollar number on it in a 30-minute consultation." }} />
     <div class="home-actions home-after">
       <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
       <p class="home-small"><small>{booking.reassurance}</small></p>
@@ -107,7 +107,7 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
             <h2 class="home-about__heading">The person you'll work with</h2>
           </div>
         </div>
-        <p class="home-about__bio">Hi, I'm {business.ownerFirst}. I started {business.name} to help service companies stop losing work they already earned. I'm your one point of contact, from the first call to launch and every month after. A partner team of specialist developers, who've built these systems for other home-service companies, builds and maintains yours. (I'm studying business at Ohio State while building this here in {business.city}.)</p>
+        <p class="home-about__bio">Hi, I'm {business.ownerFirst}. I started {business.name} to help service companies stop losing work they already earned. I'm your one point of contact, from the first call to launch and every month after. A partner team of specialist developers, who've built these systems for other home-service companies, builds and maintains yours.</p>
         <div class="home-values">
           {values.map((v) => (
             <div class="home-values__row">

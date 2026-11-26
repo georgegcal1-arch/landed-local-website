@@ -60,10 +60,10 @@ const faqs = [
 const pad = (n: number) => String(n + 1).padStart(2, "0");
 ---
 <BaseLayout
-  title="Before Our Call"
+  title="Before Our Consultation"
   description={loomEmbedUrl
-    ? "You're booked for your Missed-Jobs Review. Watch the short video, see what we'll cover and what to bring, so our 30 minutes are useful."
-    : "You're booked for your Missed-Jobs Review. See what we'll cover, what to have handy and whether it's a fit."}
+    ? "You're booked for your consultation. Watch the short video, see what we'll cover and what to bring, so our 30 minutes are useful."
+    : "You're booked for your consultation. See what we'll cover, what to have handy and whether it's a fit."}
   robots="noindex, nofollow"
   hideBookingActions
 >
@@ -98,7 +98,7 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
 
   <Section bg="offwhite">
     <div class="pc-work-orders">
-      <JobTicket number="0001" title="Your Missed-Jobs Review" items={cover.map((label) => ({ label }))} />
+      <JobTicket number="0001" title="Your Consultation" items={cover.map((label) => ({ label }))} />
       <JobTicket number="0002" title="Bring to the call" plainItems items={ready.map((label) => ({ label }))} />
     </div>
   </Section>
