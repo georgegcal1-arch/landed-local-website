@@ -5,8 +5,7 @@ import { site } from "../../config/site";
 interface Props { hideBooking?: boolean }
 const { hideBooking = false } = Astro.props;
 
-const isHome = Astro.url.pathname === "/";
-const bookingHref = isHome ? site.booking.homeAnchor : site.booking.bookPath;
+const bookingHref = site.booking.bookPath;
 ---
 <header class="hdr">
   <div class="hdr__in container-content">

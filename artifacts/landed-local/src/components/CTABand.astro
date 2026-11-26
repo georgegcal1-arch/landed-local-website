@@ -1,0 +1,32 @@
+---
+import Section from "./Section.astro";
+import Button from "./Button.astro";
+import { site } from "../config/site";
+
+interface Props { id?: string; headingAs?: "h2" | "h3" }
+const { id, headingAs: Heading = "h2" } = Astro.props;
+const { booking, business, contact } = site;
+---
+<Section id={id} bg="charcoal" blueprint class="cta-band">
+  <div class="cta-band__inner" data-reveal>
+    <Heading class="cta-band__h">Find out what missed calls are costing you.</Heading>
+    <p class="cta-band__sub">30-minute consultation. You'll leave with a dollar number, whether we work together or not.</p>
+    <Button href={booking.bookPath} class="cta-band__btn" fullWidthMobile>{booking.buttonLabel}</Button>
+    <p class="cta-band__call"><a href={contact.phoneHref}>Or call or text {business.ownerFirst}: {contact.phoneDisplay}</a></p>
+  </div>
+</Section>
+
+<style>
+  .cta-band__inner { display: grid; justify-items: center; text-align: center; gap: calc(var(--space) * 3); max-width: calc(var(--space) * 100); margin-inline: auto; }
+  .cta-band__h {
+    margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy); color: var(--color-white);
+    font-size: clamp(34px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.015em; text-wrap: balance;
+  }
+  .cta-band__sub { margin: 0; max-width: 600px; color: var(--color-offwhite); font-size: var(--hero-text-lead); }
+  .cta-band__inner :global(.cta-band__btn) { margin-top: var(--space); min-height: calc(var(--button-min-h) + var(--space)); padding-inline: calc(var(--button-pad-x) * 1.5); font-size: calc(var(--text-button) + 1px); }
+  @media (max-width: 639px) { .cta-band__inner :global(.cta-band__btn) { width: 100%; } }
+  .cta-band__call { margin: 0; font-size: var(--text-small); }
+  .cta-band__call a { color: var(--color-rule); text-underline-offset: var(--underline-offset); }
+  .cta-band__call a:hover { color: var(--color-offwhite); }
+  .cta-band__call a:focus-visible { outline: var(--stroke-focus) solid var(--color-teal-light); outline-offset: var(--focus-offset); }
+</style>

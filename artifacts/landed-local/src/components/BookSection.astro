@@ -1,55 +1,53 @@
 ---
 import Section from "./Section.astro";
 import Eyebrow from "./Eyebrow.astro";
-import PencilMark from "./PencilMark.astro";
 import JobTicket from "./JobTicket.astro";
+import CheckList from "./CheckList.astro";
+import RulerDivider from "./RulerDivider.astro";
 import BookingEmbed from "./BookingEmbed.astro";
 import { site } from "../config/site";
 
 interface Props { headingAs?: "h1" | "h2"; id?: string }
-const { headingAs: Heading = "h2", id = "book" } = Astro.props;
+const { headingAs: Heading = "h1", id = "book" } = Astro.props;
 const { booking, business, contact } = site;
+const handy = ["Calls a week", "Average job value", "How leads come in", "What happens to calls after hours"];
 ---
-<Section id={id} bg="charcoal" blueprint class="book-section">
-  <Eyebrow>BOOK A CALL</Eyebrow>
-  <Heading class="book-heading">Book your free <PencilMark>{booking.callName}</PencilMark></Heading>
-  <p class="book-sub">{booking.bookReassurance}</p>
-  <div class="book-split">
-    <div class="book-left">
-      <div class="book-copy">
-        <JobTicket number="0001" title={`FREE ${booking.callName}`} items={booking.callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "$0" }} stamp stampText="FREE" />
-        <p>You'll leave with a clear list of what to fix first, whether you work with us or not.</p>
-        <p class="book-small"><small>I work with a small number of companies so every build gets my full attention.</small></p>
+<Section id={id} bg="offwhite" blueprint class="book-section">
+  <div class="book-top">
+    <div class="book-intro">
+      <Eyebrow>BOOK A CALL</Eyebrow>
+      <Heading class="book-heading">Book a Consultation</Heading>
+      <p class="book-sub">30 minutes · No pressure · Clear numbers</p>
+      <div class="book-handy">
+        <h2 class="book-handy__h">Have these handy</h2>
+        <CheckList items={handy} />
       </div>
-      <div class="book-details">
-        <p class="book-call">Google Meet or phone. Rather talk now? <a class="accent" href={contact.phoneHref}>Call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
-        <p class="book-small"><small>{site.otherTradesLine}</small></p>
-      </div>
+      <p class="book-capacity">I only take on a few new companies at a time.</p>
     </div>
-    <div class="book-calendar"><BookingEmbed /></div>
+    <div class="book-ticket" data-reveal>
+      <JobTicket number="0001" title="Consultation" titleAs="h2" items={booking.callItems.map((label) => ({ label }))} total={{ label: "30 min", value: `With ${business.ownerFirst}` }} />
+    </div>
   </div>
+</Section>
+<RulerDivider variant="orange" />
+<Section bg="offwhite" class="book-cal-section">
+  <BookingEmbed variant="inline" />
+  <p class="book-call">Google Meet or phone. Or <a class="accent" href={contact.phoneHref}>call</a> or <a class="accent" href={contact.smsHref}>text</a> {business.ownerFirst}: <a class="accent" href={contact.phoneHref}>{contact.phoneDisplay}</a></p>
 </Section>
 
 <style>
   :global(.book-section) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
+  .book-top { display: grid; gap: calc(var(--space) * 5); align-items: start; }
   .book-heading { margin: calc(var(--space) * 1.5) 0 var(--space); }
-  .book-sub { margin: 0 0 calc(var(--space) * 4); max-width: var(--prose-max); }
-  .book-small { margin: 0; }
-  .book-small small { color: var(--color-rule); }
-  .book-split { display: grid; gap: 0 calc(var(--space) * 6); align-items: start; }
-  .book-left { display: contents; }
-  .book-copy { grid-row: 1; margin-bottom: calc(var(--space) * 6); display: grid; gap: calc(var(--space) * 2.5); }
-  .book-copy p { margin: 0; }
-  .book-calendar { grid-row: 2; min-width: 0; }
-  .book-details { grid-row: 3; }
-  .book-call { margin: calc(var(--space) * 3) 0 var(--space); }
-  @media (min-width: 768px) {
-    .book-split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: calc(var(--space) * 4); }
-    .book-left { display: block; grid-column: 1; grid-row: 1; min-width: 0; position: sticky; top: calc(var(--header-h) + var(--stroke-hair) + var(--space) * 3); }
-    .book-copy { margin-bottom: 0; }
-    .book-calendar { grid-column: 2; grid-row: 1; }
-  }
+  .book-sub { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--hero-text-lead); color: var(--color-steel); }
+  .book-handy { margin-top: calc(var(--space) * 4); padding-top: calc(var(--space) * 3); border-top: var(--stroke-hair) solid var(--color-rule); }
+  .book-handy__h { margin: 0 0 calc(var(--space) * 2); font-size: var(--text-h3); }
+  .book-capacity { margin: calc(var(--space) * 3) 0 0; font-size: var(--text-small); color: var(--color-steel); }
+  .book-ticket { min-width: 0; }
   @media (min-width: 900px) {
-    .book-split { column-gap: calc(var(--space) * 8); }
+    .book-top { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: calc(var(--space) * 8); }
+    .book-ticket { transform: rotate(var(--hero-ticket-rotate)); margin-top: calc(var(--space) * 2); }
   }
+  :global(.book-cal-section) { padding-top: calc(var(--space) * 6); }
+  .book-call { margin: calc(var(--space) * 3) 0 0; text-align: center; font-size: var(--text-small); }
 </style>

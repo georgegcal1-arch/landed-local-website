@@ -1,11 +1,25 @@
 ---
 import Eyebrow from "./Eyebrow.astro";
 import { site } from "../config/site";
-interface Props { class?: string }
-const { class: extra } = Astro.props;
+interface Props {
+  class?: string;
+  /** "loop" scrolls (light grounds); "band" is a static centered row for a charcoal Section. */
+  variant?: "loop" | "band";
+  /** Heading level for the band variant. */
+  headingAs?: "h2" | "h3";
+}
+const { class: extra, variant = "loop", headingAs: Heading = "h2" } = Astro.props;
 const { show, label, names } = site.tools;
 ---
-{show && (
+{show && variant === "band" && (
+  <div class:list={["tools-band", extra]} data-reveal>
+    <Heading class="tools-band__heading">{label}</Heading>
+    <ul class="tools-band__list">
+      {names.map((n) => <li class="tools-band__item">{n}</li>)}
+    </ul>
+  </div>
+)}
+{show && variant === "loop" && (
   <div class:list={["tools", extra]} data-tool-strip>
     <div class="tools__head">
       <Eyebrow as="p">{label}</Eyebrow>
@@ -85,6 +99,28 @@ const { show, label, names } = site.tools;
   }
   @media (prefers-reduced-motion: no-preference) and (hover: hover) {
     .tools__viewport:hover .tools__track { animation-play-state: paused; }
+  }
+  /* Band: static, centered, wraps. No loop, no copy, no toggle. */
+  .tools-band { display: grid; justify-items: center; gap: calc(var(--space) * 4); text-align: center; }
+  .tools-band__heading {
+    margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold);
+    font-size: clamp(24px, 3vw, 32px); line-height: var(--leading-tight); color: var(--color-white);
+  }
+  .tools-band__list {
+    list-style: none; margin: 0; padding: calc(var(--space) * 3) 0 0; display: flex; flex-wrap: wrap; justify-content: center;
+    gap: calc(var(--space) * 2) 0; max-width: 100%; border-top: var(--stroke-hair) solid var(--color-ruler-rule-dark);
+  }
+  .tools-band__item {
+    display: inline-flex; align-items: center; padding-inline: calc(var(--space) * 2.5);
+    font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: clamp(20px, 2.1vw, 26px);
+    line-height: var(--leading-tight); color: var(--color-offwhite); white-space: nowrap;
+  }
+  .tools-band__item + .tools-band__item { border-left: var(--stroke-ruler) solid var(--color-ruler-rule-dark); }
+  @media (max-width: 639px) {
+    .tools-band__list { gap: calc(var(--space) * 1.5) 0; }
+    .tools-band__item { padding-inline: calc(var(--space) * 1.75); }
+    .tools-band__item + .tools-band__item { border-left: 0; }
+    .tools-band__item:not(:last-child)::after { content: ""; width: var(--stroke-ruler); height: var(--ruler-tick-mid); margin-left: calc(var(--space) * 3.5); margin-right: calc(var(--space) * -1.75); background: var(--color-ruler-rule-dark); }
   }
   @keyframes tools-loop { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) {

@@ -10,7 +10,21 @@ if (calendarUrl.origin !== "https://cal.com") {
 }
 const calLink = calendarUrl.pathname.replace(/^\/+|\/+$/g, "");
 if (!calLink) throw new Error("The Cal.com booking event is missing.");
+interface Props {
+  /** "panel" is the framed card; "inline" is a full-width host for a standalone page. */
+  variant?: "panel" | "inline";
+}
+const { variant = "panel" } = Astro.props;
 ---
+{variant === "inline" ? (
+  <div class="booking-embed booking-embed--inline" data-booking-embed data-booking-variant="inline" data-cal-link={calLink} data-tone="light">
+    <p class="booking-embed__status" data-cal-status role="status" aria-live="polite" hidden>Loading available times…</p>
+    <div class="booking-embed__calendar" data-cal-host role="region" aria-label="Consultation booking calendar" hidden></div>
+    <div class="booking-embed__fallback" data-cal-fallback>
+      <Button href={calendarUrl.href} target="_blank" rel="noopener noreferrer" variant="secondary" fullWidthMobile>Open the booking calendar</Button>
+    </div>
+  </div>
+) : (
 <CornerFrame>
   <div class="booking-embed" data-booking-embed data-cal-link={calLink} data-tone="light">
     <p class="booking-embed__status" data-cal-status role="status" aria-live="polite" hidden>Loading available times…</p>
@@ -21,6 +35,7 @@ if (!calLink) throw new Error("The Cal.com booking event is missing.");
     </div>
   </div>
 </CornerFrame>
+)}
 
 <script>
   import "../scripts/booking-embed";
@@ -38,5 +53,9 @@ if (!calLink) throw new Error("The Cal.com booking event is missing.");
   .booking-embed__fallback { padding: var(--card-pad); }
   .booking-embed__fallback p { margin: calc(var(--space) * 2) 0 0; font-size: var(--text-small); }
   .booking-embed__fallback a:not(.btn) { color: var(--color-teal); text-underline-offset: var(--underline-offset); }
+  .booking-embed--inline { width: 100%; background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+  .booking-embed--inline .booking-embed__calendar { min-height: calc(var(--space) * 80); overflow: visible; }
+  .booking-embed--inline .booking-embed__status { padding: calc(var(--space) * 2) 0; }
+  .booking-embed--inline .booking-embed__fallback { padding: calc(var(--space) * 3) 0 0; display: flex; justify-content: center; }
   [hidden] { display: none; }
 </style>

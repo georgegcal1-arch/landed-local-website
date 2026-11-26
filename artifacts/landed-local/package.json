@@ -8,6 +8,7 @@
     "build": "astro build",
     "serve": "astro preview --host 0.0.0.0 --port ${PORT:-4321}",
     "typecheck": "astro check",
+    "verify:static": "node scripts/verify-static.mjs",
     "verify:booking-redirect": "node --experimental-strip-types scripts/verify-booking-redirect.mjs"
   },
   "devDependencies": {

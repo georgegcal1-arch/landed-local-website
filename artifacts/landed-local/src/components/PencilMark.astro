@@ -1,8 +1,8 @@
 ---
-interface Props { class?: string }
-const { class: extra } = Astro.props;
+interface Props { class?: string; size?: "default" | "lg" }
+const { class: extra, size = "default" } = Astro.props;
 ---
-<span class:list={["pencil", extra]} data-reveal><span class="pencil__text"><slot /></span><svg class="pencil__line" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 9 C 50 8.8, 98 8.4, 145 7.8 S 181 6.8, 197 5.4" pathLength="1" /></svg></span>
+<span class:list={["pencil", size === "lg" && "pencil--lg", extra]} data-reveal><span class="pencil__text"><slot /></span><svg class="pencil__line" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 9 C 50 8.8, 98 8.4, 145 7.8 S 181 6.8, 197 5.4" pathLength="1" /></svg></span>
 
 <style>
   .pencil { position: relative; display: inline-block; white-space: nowrap; padding-bottom: var(--pencil-descender-space); }
@@ -12,9 +12,14 @@ const { class: extra } = Astro.props;
     fill: none; stroke: var(--color-orange); stroke-width: var(--stroke-pencil);
     stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
   }
+  /* Large: for the big hero headline. Heavier stroke, slightly tighter to the baseline. */
+  .pencil--lg { --pencil-h: 0.18em; --pencil-descender-space: 0.2em; }
+  .pencil--lg .pencil__line path { stroke-width: calc(var(--stroke-pencil) * 1.6); }
+  @media (min-width: 768px) { .pencil--lg .pencil__line path { stroke-width: calc(var(--stroke-pencil) * 2); } }
   :global(html.motion-ok) .pencil:not(.is-in) .pencil__line { clip-path: inset(-50% 100% -50% 0); }
   :global(html.motion-ok) .pencil.is-in .pencil__line {
     clip-path: inset(-50% -2% -50% -2%);
     transition: clip-path var(--dur-pencil) var(--ease-out) var(--delay-pencil);
   }
+  :global(html.motion-ok) .pencil--lg.is-in .pencil__line { transition-duration: calc(var(--dur-pencil) * 1.3); }
 </style>

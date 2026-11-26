@@ -1,0 +1,75 @@
+---
+import Section from "./Section.astro";
+import Eyebrow from "./Eyebrow.astro";
+import Button from "./Button.astro";
+import RulerDivider from "./RulerDivider.astro";
+
+interface Props {
+  /** "centered" is type-only; "split" is the original copy + side panel (pass the panel in slot="aside"). */
+  layout?: "centered" | "split";
+  eyebrow: string;
+  ctaHref: string;
+  ctaLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  reassurance?: string;
+  /** Size to ~75% of the viewport on laptop and desktop. */
+  tall?: boolean;
+  class?: string;
+  id?: string;
+}
+const { layout = "centered", eyebrow, ctaHref, ctaLabel, secondaryHref, secondaryLabel, reassurance, tall = false, class: extra, id } = Astro.props;
+const hasAside = Astro.slots.has("aside");
+---
+<Section id={id} bg="offwhite" blueprint class:list={["hero", `hero--${layout}`, { "hero--tall": tall }, extra]}>
+  <div class="hero__grid">
+    <div class="hero__copy">
+      {layout === "centered" && <div class="hero__ruler" aria-hidden="true"><RulerDivider variant="orange" /></div>}
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h1 class="hero__h1"><slot /></h1>
+      <p class="hero__lead"><slot name="lead" /></p>
+      <div class="hero__actions">
+        <Button href={ctaHref} fullWidthMobile>{ctaLabel}</Button>
+        {secondaryHref && secondaryLabel && <Button variant="text-link" href={secondaryHref} class="hero__secondary">{secondaryLabel}</Button>}
+      </div>
+      {reassurance && <p class="hero__reassure"><small>{reassurance}</small></p>}
+    </div>
+    {layout === "split" && hasAside && <div class="hero__aside"><slot name="aside" /></div>}
+  </div>
+</Section>
+
+<style>
+  :global(.hero) { padding-top: var(--hero-pad-top); }
+  .hero__h1 { margin: 0; }
+  .hero__lead, .hero__reassure { margin: 0; }
+  .hero__reassure small { color: var(--color-steel); }
+  .hero__actions { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-button-stack); }
+  .hero__secondary { align-self: center; }
+  @media (min-width: 640px) { .hero__actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 3); } }
+
+  /* Centered, type-only */
+  .hero--centered .hero__copy { display: grid; justify-items: center; text-align: center; gap: calc(var(--hero-stack) * 1.25); max-width: calc(var(--space) * 120); margin-inline: auto; }
+  .hero__ruler { width: min(100%, calc(var(--space) * 30)); }
+  .hero--centered .hero__h1 {
+    font-family: var(--font-display); font-weight: var(--weight-heavy); color: var(--color-charcoal);
+    font-size: clamp(40px, 11.4vw, 96px); line-height: 0.98; letter-spacing: -0.025em;
+  }
+  @media (min-width: 768px) { .hero--centered .hero__h1 { font-size: clamp(64px, 7.2vw, 96px); } }
+  .hero--centered .hero__h1 :global(.hero__line) { display: block; }
+  .hero--centered .hero__h1 :global(.hero__accent) { color: var(--color-orange-burnt); }
+  .hero--centered .hero__lead { font-size: var(--hero-text-lead); max-width: 640px; }
+  .hero--centered .hero__actions { justify-content: center; width: 100%; margin-top: var(--space); }
+  @media (min-width: 640px) { .hero--centered .hero__actions { width: auto; } }
+  @media (min-width: 900px) {
+    :global(.hero--tall) { min-height: 75svh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--space) * 6); padding-bottom: calc(var(--space) * 8); }
+    :global(.hero--tall) > :global(*) { width: 100%; }
+  }
+
+  /* Split (original layout: copy left, panel right) */
+  .hero--split .hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }
+  .hero--split .hero__copy { display: grid; gap: var(--hero-stack); min-width: 0; }
+  .hero--split .hero__h1 { font-size: var(--hero-h1); }
+  .hero--split .hero__lead { font-size: var(--hero-text-lead); }
+  .hero__aside { min-width: 0; display: flex; justify-content: center; }
+  @media (min-width: 900px) { .hero--split .hero__grid { grid-template-columns: 1.25fr 1fr; } }
+</style>

@@ -10,7 +10,7 @@ const visible = (html) => decode(html.replace(/<(script|style|svg)\b[^>]*>[\s\S]
 const meta = (html, name) => html.match(new RegExp(`<meta (?:name|property)="${name}" content="([^"]*)"`))?.[1];
 const pages = {
   "index.html": "AI Receptionist, Lead Follow-Up and Automation for Roofing and HVAC Companies | Landed Local",
-  "book/index.html": "Book a Free Missed-Jobs Review | Landed Local",
+  "book/index.html": "Book a Consultation | Landed Local",
   "privacy/index.html": "Privacy &amp; Terms | Landed Local",
   "before-our-call/index.html": "Before Our Call | Landed Local",
 };
@@ -102,12 +102,68 @@ for (const copy of [
 ]) assert.ok(visible(afterCall).includes(copy), copy);
 assert.equal(meta(await read("styleguide/index.html"), "robots"), "noindex");
 
-const bookingSection = (html) => html.match(/<section\b[^>]*id="book"[\s\S]*?<\/section>/)?.[0];
-assert.ok(bookingSection(home));
-assert.equal(bookingSection(home), bookingSection(book).replace(/<h1\b/g, "<h2").replace(/<\/h1>/g, "</h2>"));
-assert.equal((home.match(/<main\b[\s\S]*?<\/main>/)?.[0].match(/<section\b/g) || []).length, 7);
-assert.equal((book.match(/<main\b[\s\S]*?<\/main>/)?.[0].match(/<section\b/g) || []).length, 1);
-assert.ok(home.includes("data-booking-embed") && book.includes("data-booking-embed"));
+const main = (html) => html.match(/<main\b[\s\S]*?<\/main>/)?.[0] ?? "";
+const homeMain = main(home);
+const bookMain = main(book);
+assert.equal((homeMain.match(/<section\b/g) || []).length, 7, "hero, tools, costs, services, steps, about/FAQ, CTA");
+assert.equal((bookMain.match(/<section\b/g) || []).length, 2, "booking details followed by full-width calendar");
+assert.ok(!/data-phone-demo|data-proof|id="proof"|id="book"|data-booking-embed|home-proof/.test(homeMain), "Home has no live demo, proof or calendar");
+assert.ok(!/href=["'][^"']*#(?:book|proof)/.test(home), "no obsolete Home anchors");
+assert.ok(!home.includes("data-home-booking"), "sticky bar uses normal page navigation");
+const homeBookingLinks = [...home.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)]
+  .filter((m) => /Book a Consultation|See if this fits your business/.test(visible(m[2])));
+assert.ok(homeBookingLinks.length >= 11, "header, hero, costs, services, mobile service links, CTA and sticky bar");
+for (const [, attrs] of homeBookingLinks) assert.match(attrs, /href="\/book"/, "every Home booking destination");
+assert.ok(home.includes('class="svc__grid"') && home.includes('class="svc__rows"'), "both service presentations retained");
+for (const copy of [
+  "More Landed Jobs.", "No New Hires.",
+  "We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.",
+  "30 minutes · With George · No pitch deck", "What it's costing you",
+  "Five ways we fix the leaks", "Three work orders, start to finish",
+  "The person you'll work with", "Straight answers",
+  "Find out what missed calls are costing you.",
+  "30-minute consultation. You'll leave with a dollar number, whether we work together or not.",
+]) assert.ok(visible(homeMain).includes(copy), copy);
+const tools = homeMain.match(/<section\b[^>]*>[\s\S]*?Works with the tools you already run[\s\S]*?<\/section>/)?.[0];
+assert.ok(tools, "tools band exists");
+for (const name of ["GoHighLevel", "Jobber", "ServiceTitan", "Housecall Pro", "QuickBooks", "Google Calendar"]) {
+  assert.equal(visible(tools).split(name).length - 1, 1, `${name} appears once`);
+}
+assert.ok(!/data-tool-toggle|class="[^"]*tools__list--copy|Trusted by/.test(tools.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/g, "")), "static tools have no controls or duplicates");
+assert.ok(!/Systems built by our partner developers|Past builds by our partner development team/.test(visible(homeMain)), "proof copy removed");
+for (const copy of [
+  "BOOK A CALL", "Book a Consultation", "30 minutes · No pressure · Clear numbers",
+  "No. 0001", "Consultation",
+  "How leads come in today, and where they slip through",
+  "A rough dollar number on what that's costing you",
+  "What fixing it looks like, and what it would take",
+  "30 min", "With George", "Have these handy",
+  "calls a week", "average job value", "how leads come in", "what happens to calls after hours",
+  "I only take on a few new companies at a time.",
+  "Google Meet or phone. Or call or text George: 614-321-8001",
+]) assert.ok(visible(bookMain).toLowerCase().includes(copy.toLowerCase()), copy);
+assert.ok(!/\bFREE\b|\$0|Run a different home-service business/.test(visible(bookMain)), "no free stats or other-trades note");
+assert.ok(bookMain.includes("data-booking-embed"), "calendar is on /book");
+const event = "https://cal.com/george-at-landed-local-u6v7fc/missed-jobs-review";
+assert.match(bookMain, /data-cal-link="george-at-landed-local-u6v7fc\/missed-jobs-review"/);
+assert.ok(bookMain.indexOf("data-cal-host") < bookMain.indexOf("data-cal-fallback"), "fallback is below calendar");
+assert.ok(bookMain.includes(`href="${event}"`), "fallback uses same event");
+assert.ok(visible(bookMain).includes("Open the booking calendar"));
+const styleguide = await read("styleguide/index.html");
+for (const variant of ["pencil--lg", "tools-band", "booking-embed--inline", "hero--centered", "Not used on live pages", "Find out what missed calls are costing you."]) {
+  assert.ok(styleguide.includes(variant), `styleguide: ${variant}`);
+}
+assert.ok(styleguide.includes("More Landed Jobs.") && styleguide.includes("No New Hires."), "styleguide hero");
+assert.ok(styleguide.includes("data-phone-demo"), "retained PhoneDemo sample");
+const embedScript = await readFile(new URL("src/scripts/booking-embed.ts", root), "utf8");
+assert.ok(embedScript.includes('https://app.cal.com/embed/embed.js'), "official embed");
+assert.ok(embedScript.includes('layout: "month_view"') && embedScript.includes('theme: "light"'), "month view and light theme");
+assert.ok(embedScript.includes('"cal-brand": token("color-orange")'), "brand color from existing token");
+assert.ok(embedScript.includes("showTimezoneWhenEventDetailsHidden: true"), "timezone selector remains available");
+assert.ok(!embedScript.includes("fallback!.hidden = true"), "fallback remains available after readiness");
+// The shared footer and the explicitly preserved pages should not acquire new copy.
+const footer = (html) => html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].replace(/ruler-[a-z0-9]{7}/g, "ruler-instance");
+assert.equal(footer(home), footer(book), "same shared footer apart from unique SVG pattern IDs");
 for (const copy of ["Cal.com", "name", "company", "phone", "email", "booking answers", "Consent to calls and texts", "booking form", "Cloudflare Web Analytics", "do not sell", "information only", "guarantee", "Ohio law", "george@landedlocal.com"]) assert.ok(visible(privacy).includes(copy), copy);
 const error = visible(await read("404.html"));
 assert.ok(error.includes("This page moved."));
@@ -137,4 +193,4 @@ for await (const path of files(dist)) {
 const png = await readFile(new URL("public/og-image.png", root));
 assert.equal(png.readUInt32BE(16), 1200);
 assert.equal(png.readUInt32BE(20), 630);
-console.log("Static output passed: exact titles/copy, shared booking, schema, robots, six redirects, sitemap, hidden links, retired copy, and OG dimensions.");
+console.log("Static output passed: refreshed Home and /book boundaries, copy, booking destinations, static tools, styleguide variants, calendar configuration, schema, robots, redirects, sitemap, hidden links, and OG dimensions.");

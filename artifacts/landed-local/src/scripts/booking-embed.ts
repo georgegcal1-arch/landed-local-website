@@ -78,7 +78,8 @@ document.querySelectorAll<HTMLElement>("[data-booking-embed]").forEach((panel, i
       window.clearTimeout(timeout);
       panel.dataset.calState = "ready";
       status!.hidden = true;
-      fallback!.hidden = true;
+      // Keep the same-event link available even when the inline calendar loads.
+      fallback!.hidden = false;
     };
     const timeout = window.setTimeout(failed, 20000);
     try {

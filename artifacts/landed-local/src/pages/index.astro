@@ -12,12 +12,12 @@ import WorkOrderSteps from "../components/WorkOrderSteps.astro";
 import CornerFrame from "../components/CornerFrame.astro";
 import RulerDivider from "../components/RulerDivider.astro";
 import FAQ from "../components/FAQ.astro";
-import PhoneDemo from "../components/PhoneDemo.astro";
-import BookSection from "../components/BookSection.astro";
+import Hero from "../components/Hero.astro";
+import CTABand from "../components/CTABand.astro";
 import { site } from "../config/site";
 
-const { booking, business, contact, caseStudies } = site;
-const book = booking.homeAnchor;
+const { booking, business, contact } = site;
+const book = booking.bookPath;
 const founderSrc = site.photos.founder ?? site.brand.profilePhoto;
 
 const costs = [
@@ -44,33 +44,23 @@ const faqs = [
   { q: "What if my problem isn't on your list?", a: "Tell me on the call. If no tool fixes it, we can build one, and we'll scope it with you before anything is built." },
   { q: "Do I have to buy everything?", a: "No. Most clients start with the one system that fixes their biggest leak, then add more once it pays off." },
 ];
-const callItems = booking.callItems;
 const values = ["A person, not a platform", "Done for you, not DIY", "Measured results, not promises"];
 ---
 <BaseLayout title="AI Receptionist, Lead Follow-Up and Automation for Roofing and HVAC Companies">
-  <!-- 1. Hero -->
-  <Section bg="offwhite" blueprint class:list={["home-hero", { "home-hero--demo": site.heroDemo.show }]}>
-    <div class="home-hero__grid">
-      <div class="home-hero__copy">
-        <Eyebrow>{site.audienceLine}</Eyebrow>
-        <h1 class="home-hero__h1"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
-        <p class="home-hero__lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</p>
-        <div class="home-actions">
-          <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
-          <Button variant="text-link" href="#costs" class="home-hero__costs-link">See where jobs slip away ↓</Button>
-        </div>
-        <p class="home-small home-hero__reassure"><small>{booking.reassurance}</small></p>
-      </div>
-      {site.heroDemo.show ? (
-        <div class="home-hero__demo"><PhoneDemo /></div>
-      ) : (
-        <div class="home-hero__ticket home-stamp" data-reveal>
-          <JobTicket number="0001" title={`FREE ${booking.callName}`} items={callItems.map((label) => ({ label }))} total={{ label: "30 min", value: "Free" }} stamp stampText="FREE" />
-        </div>
-      )}
-    </div>
-    {site.tools.show && <div class="home-hero__tools"><ToolStrip /></div>}
-  </Section>
+  <!-- 1. Hero: centered, type-only -->
+  <Hero layout="centered" tall eyebrow={site.audienceLine} ctaHref={book} ctaLabel={booking.buttonLabel}
+    secondaryHref="#costs" secondaryLabel="See where jobs slip away ↓" reassurance={booking.reassurance}>
+    <span class="hero__line">More Landed Jobs.</span>
+    <span class="hero__line hero__accent"><PencilMark size="lg">No New Hires.</PencilMark></span>
+    <Fragment slot="lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</Fragment>
+  </Hero>
+
+  <!-- 1b. Tools band -->
+  {site.tools.show && (
+    <Section bg="charcoal" class="home-tools">
+      <ToolStrip variant="band" />
+    </Section>
+  )}
 
   <!-- 2. Costs -->
   <Section id="costs" bg="paper" class="home-target">
@@ -94,30 +84,6 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
       <Button href={book} fullWidthMobile>{booking.buttonLabel}</Button>
     </div>
   </Section>
-
-  <!-- 4. Proof -->
-  {caseStudies.show && (
-    <Section id="proof" bg="offwhite">
-      <Eyebrow>{caseStudies.eyebrow}</Eyebrow>
-      <h2 id="proof-heading" class="home-h2">{caseStudies.heading}</h2>
-      <div data-proof>
-        <div id="proof-cards" class="home-proof__cards" data-proof-row role="region" aria-labelledby="proof-heading" tabindex="0">
-          {caseStudies.cards.map((card) => (
-            <div id={`proof-${card.number}`} class="home-proof__card">
-              <JobTicket number={card.number} title={card.trade} description={card.system} compactResult plainItems
-                items={[{ label: card.label, value: card.value }]} stamp stampText={caseStudies.stamp} />
-            </div>
-          ))}
-        </div>
-        <div class="home-proof__dots" data-proof-dots role="group" aria-label="Choose a development-team result" hidden>
-          {caseStudies.cards.map((card, i) => (
-            <button type="button" data-proof-dot aria-label={`Show result ${i + 1}: ${card.trade}`} aria-controls={`proof-${card.number}`} aria-current={i === 0 ? "true" : "false"}><span aria-hidden="true"></span></button>
-          ))}
-        </div>
-      </div>
-      <p class="home-note"><small>{caseStudies.note}</small></p>
-    </Section>
-  )}
 
   <!-- 5. How it works -->
   <Section bg="paper">
@@ -163,13 +129,9 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
     </div>
   </Section>
 
-  <!-- 7. Book -->
-  <BookSection />
+  <!-- 7. Call to action -->
+  <CTABand />
 </BaseLayout>
-
-<script>
-  import "../scripts/proof-cards";
-</script>
 
 <style>
   :global(#costs) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
@@ -185,64 +147,15 @@ const values = ["A person, not a platform", "Done for you, not DIY", "Measured r
   @media (min-width: 640px) { .home-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 3); } }
   .home-closer { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-tight); }
 
-  /* Hero */
-  :global(.home-hero) { padding-top: var(--hero-pad-top); }
-  .home-hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }
-  .home-hero__copy { display: contents; }
-  .home-hero__grid { row-gap: var(--hero-stack); }
-  .home-hero__h1 { font-size: var(--hero-h1); margin: 0; }
-  .home-hero__lead { font-size: var(--hero-text-lead); margin: 0; }
-  .home-hero__costs-link { align-self: center; }
-  .home-hero__ticket { grid-row: 5; min-width: 0; }
-  .home-hero__demo { min-width: 0; display: flex; justify-content: center; padding-top: calc(var(--space) * 2); }
-  .home-hero__tools { margin-top: calc(var(--space) * 8); }
-  @media (max-width: 767px) {
-    :global(.sec.home-hero.home-hero--demo) { padding-bottom: calc(var(--space) * 4); }
-    :global(.home-hero--demo) .home-hero__tools { margin-top: calc(var(--space) * 4); }
-  }
-  @media (min-width: 768px) {
-    :global(.sec.home-hero.home-hero--demo) { padding-top: var(--demo-hero-pad-top); }
-  }
-  @media (min-width: 900px) {
-    .home-hero__grid { grid-template-columns: 1.25fr 1fr; }
-    .home-hero__copy { display: grid; gap: var(--hero-stack); min-width: 0; }
-    .home-hero__ticket { grid-row: auto; transform: rotate(var(--hero-ticket-rotate)); }
-    .home-hero__demo { padding-top: 0; }
-  }
-
-  /* Stamps land once (Home-only wrappers) */
-  :global(html.motion-ok) .home-stamp:not(.is-in) :global(.ticket__stamp) { opacity: 0; }
-  :global(html.motion-ok) .home-stamp.is-in :global(.ticket__stamp) { animation: home-stamp var(--dur-check) var(--ease-out) var(--dur-ruler) both; }
-  @keyframes home-stamp {
-    from { opacity: 0; transform: translateY(calc(var(--space) * -0.5)) rotate(calc(var(--stamp-rotate) * 2)) scale(1.4); }
-    to { opacity: 1; transform: translateY(calc(var(--space) * -0.5)) rotate(var(--stamp-rotate)) scale(1); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .home-stamp :global(.ticket__stamp) { opacity: 1; animation: none; transition: none; }
-    .home-hero__ticket { transition: none; }
-  }
+  /* Tools band */
+  :global(.sec.home-tools) { padding-block: 60px; }
+  @media (min-width: 768px) { :global(.sec.home-tools) { padding-block: 88px; } }
 
   /* Splits */
   .home-split { display: grid; gap: calc(var(--space) * 6); align-items: start; }
   @media (min-width: 900px) {
     .home-split--about { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: calc(var(--space) * 6); }
   }
-
-  /* Proof */
-  .home-proof__cards { display: flex; gap: calc(var(--space) * 2); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; margin-right: calc(var(--gutter) * -1); padding-block: var(--space); padding-right: var(--gutter); }
-  .home-proof__card { display: flex; flex: 0 0 85vw; min-width: 0; scroll-snap-align: start; }
-  .home-proof__card :global(.ticket) { width: 100%; }
-  .home-proof__dots:not([hidden]) { display: flex; justify-content: center; }
-  .home-proof__dots button { display: grid; place-items: center; width: var(--button-min-h); height: var(--button-min-h); padding: 0; border: 0; background: transparent; cursor: pointer; }
-  .home-proof__dots button span { width: var(--space); height: var(--space); border: var(--stroke-outline) solid var(--color-steel); border-radius: 50%; }
-  .home-proof__dots button[aria-current="true"] span { background: var(--color-teal); border-color: var(--color-teal); }
-  .home-proof__dots button:focus-visible, .home-proof__cards:focus-visible { outline: var(--stroke-focus) solid var(--color-teal); outline-offset: var(--focus-offset); }
-  @media (min-width: 1100px) {
-    .home-proof__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-right: 0; padding-right: 0; overflow: visible; }
-    .home-proof__dots:not([hidden]) { display: none; }
-  }
-  .home-note { margin: calc(var(--space) * 5) 0 0; }
-  .home-note small { color: var(--color-steel); }
 
   /* About */
   .home-about { display: grid; gap: calc(var(--space) * 2); }

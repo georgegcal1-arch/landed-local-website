@@ -20,6 +20,8 @@ import BookingEmbed from "../components/BookingEmbed.astro";
 import PhoneDemo from "../components/PhoneDemo.astro";
 import BookSection from "../components/BookSection.astro";
 import type { SectionBg } from "../components/Section.astro";
+import Hero from "../components/Hero.astro";
+import CTABand from "../components/CTABand.astro";
 import { site } from "../config/site";
 import tokens from "../styles/tokens.css?raw";
 
@@ -52,7 +54,7 @@ const proofCard = site.caseStudies.cards[0];
     <h1 class="sg-title"><PencilMark>More Landed Jobs.</PencilMark> No New Hires.</h1>
     <p class="sg-lede">Every shared component and variant, measured once. Scroll slowly: rulers, checks and pencil marks draw in once each.</p>
     <nav class="sg-toc" aria-label="Styleguide sections">
-      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "tool-strip", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "phone-demo", "book-section"].map((s) => <a href={`#${s}`}>{s}</a>)}
+      {["colors", "type", "buttons", "labels", "rulers", "checks", "cards", "frames", "tickets", "sections", "pencil-lg", "hero-centered", "hero-split", "tool-strip", "tool-band", "cost-bill", "service-grid", "work-order-steps", "agency-faq", "booking-embed", "booking-inline", "cta-band", "phone-demo", "book-section"].map((s) => <a href={`#${s}`}>{s}</a>)}
     </nav>
   </Section>
   <RulerDivider variant="orange" />
@@ -230,10 +232,41 @@ const proofCard = site.caseStudies.cards[0];
     )))}
   </div>
 
+  <Section id="pencil-lg" bg="offwhite" blueprint>
+    <Eyebrow>11a PencilMark size="lg"</Eyebrow>
+    <h2 class="sg-h">Large mark for the big headline</h2>
+    <p class="sg-pencil-lg"><PencilMark size="lg">No New Hires.</PencilMark></p>
+    <p class="sg-meta">Same draw-in, heavier stroke. With reduced motion the line is simply there.</p>
+  </Section>
+
+  <div id="hero-centered">
+    <Section bg="paper"><Eyebrow>11b Hero layout="centered" tall</Eyebrow><p class="sg-meta">Type-only, used on Home. About 75% of the viewport on laptop and desktop.</p></Section>
+    <Hero layout="centered" tall eyebrow={site.audienceLine} ctaHref={site.booking.bookPath} ctaLabel={site.booking.buttonLabel}
+      secondaryHref="#cost-bill" secondaryLabel="See where jobs slip away ↓" reassurance={site.booking.reassurance}>
+      <span class="hero__line">More Landed Jobs.</span>
+      <span class="hero__line hero__accent"><PencilMark size="lg">No New Hires.</PencilMark></span>
+      <Fragment slot="lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</Fragment>
+    </Hero>
+  </div>
+
+  <div id="hero-split">
+    <Section bg="paper"><Eyebrow>11c Hero layout="split"</Eyebrow><p class="sg-meta">The original layout with a side panel. Not used on live pages.</p></Section>
+    <Hero layout="split" eyebrow={site.audienceLine} ctaHref={site.booking.bookPath} ctaLabel={site.booking.buttonLabel}
+      secondaryHref="#cost-bill" secondaryLabel="See where jobs slip away ↓" reassurance={site.booking.reassurance}>
+      <PencilMark>More Landed Jobs.</PencilMark> No New Hires.
+      <Fragment slot="lead">We build systems that answer calls, follow up on leads and clear the admin off your plate, so you get your evenings back.</Fragment>
+      <div slot="aside"><PhoneDemo /></div>
+    </Hero>
+  </div>
+
   <Section id="tool-strip" bg="offwhite">
     <Eyebrow>11 ToolStrip</Eyebrow>
     <h2 class="sg-h">Tools strip</h2>
     <ToolStrip />
+  </Section>
+  <Section id="tool-band" bg="charcoal" class="sg-tool-band">
+    <p class="sg-meta sg-meta--center">11d ToolStrip variant="band" on charcoal: static, centered, wraps on mobile</p>
+    <ToolStrip variant="band" headingAs="h3" />
   </Section>
   <RulerDivider />
 
@@ -275,12 +308,24 @@ const proofCard = site.caseStudies.cards[0];
     <BookingEmbed />
   </Section>
 
+  <Section id="booking-inline" bg="offwhite">
+    <Eyebrow>16b BookingEmbed variant="inline"</Eyebrow>
+    <h2 class="sg-h">Inline calendar, full content width</h2>
+    <BookingEmbed variant="inline" />
+  </Section>
+
+  <div id="cta-band">
+    <Section bg="paper"><Eyebrow>16c CTABand</Eyebrow><p class="sg-meta">Section bg="charcoal" with the blueprint grid. Ends Home, above the footer's orange ruler.</p></Section>
+    <CTABand headingAs="h3" />
+  </div>
+
   <Section id="phone-demo" bg="offwhite" blueprint>
     <Eyebrow>17 PhoneDemo</Eyebrow>
     <h2 class="sg-h">Example conversation</h2>
+    <p class="sg-meta">Not used on live pages. Kept so it can come back later.</p>
     <PhoneDemo />
   </Section>
-  <BookSection id="book-section" />
+  <BookSection id="book-section" headingAs="h2" />
 </BaseLayout>
 
 <style>
@@ -311,5 +356,7 @@ const proofCard = site.caseStudies.cards[0];
   @media (min-width: 640px) {
     .sg-mobile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 2); }
   }
+  .sg-pencil-lg { margin: 0 0 calc(var(--space) * 2); font-family: var(--font-display); font-weight: var(--weight-heavy); font-size: clamp(40px, 7vw, 88px); line-height: 1; color: var(--color-orange-burnt); }
+  .sg-meta--center { text-align: center; margin-bottom: calc(var(--space) * 4); }
   .sg-dark-strip { background: var(--color-charcoal); display: grid; gap: calc(var(--space) * 3); padding-bottom: calc(var(--space) * 4); }
 </style>

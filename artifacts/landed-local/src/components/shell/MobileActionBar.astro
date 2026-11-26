@@ -11,7 +11,6 @@ const hidden = site.shell.hideActionBarOn.includes(path);
     <Button
       href={site.shell.cta.href}
       class="bar__btn"
-      data-home-booking={path === "/" ? site.booking.homeAnchor : undefined}
     >{site.shell.cta.shortLabel}</Button>
   </div>
 )}
@@ -21,7 +20,7 @@ const hidden = site.shell.hideActionBarOn.includes(path);
   @media (max-width: 767px) {
     :global(body:has([data-action-bar])) { padding-bottom: calc(var(--actionbar-h) + env(safe-area-inset-bottom)); }
     .bar {
-      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space);
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space);
       position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-actionbar);
       padding: var(--space) var(--gutter) calc(var(--space) + env(safe-area-inset-bottom));
       background: var(--color-offwhite); border-top: var(--stroke-hair) solid var(--color-rule);

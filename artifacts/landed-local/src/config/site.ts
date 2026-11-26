@@ -1,11 +1,11 @@
 /** Booking copy and destinations shared by the site and its temporary shell. */
 const booking = {
-  /** Main button invites visitors to book the free review. */
-  buttonLabel: "Book a Free Missed-Jobs Review",
+  /** Main consultation invitation. */
+  buttonLabel: "Book a Consultation",
   /** Short wording for compact booking buttons. */
-  shortLabel: "Book a call",
+  shortLabel: "Book a Consultation",
   /** shorter label for the desktop header button only */
-  headerLabel: "Book a free review",
+  headerLabel: "Book a Consultation",
   /** Reassurance beside the booking invitation. */
   reassurance: "30 minutes · With George · No pitch deck",
   /** Booking-page reassurance explains the review's practical outcome. */
@@ -18,8 +18,8 @@ const booking = {
   calLink: "https://cal.com/george-at-landed-local-u6v7fc/missed-jobs-review",
   /** Local booking page. */
   bookPath: "/book",
-  /** Booking section on the future Home page. */
-  homeAnchor: "#book",
+  /** Home booking controls use the standalone page, not an in-page section. */
+  homeAnchor: "/book",
 };
 
 const BRAND = "/brand/";
