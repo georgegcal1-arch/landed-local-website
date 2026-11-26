@@ -5,7 +5,7 @@ interface Props {
   eyebrow: string;
   /** Heading tag; the hero uses h1. */
   headingAs?: "h1" | "h2";
-  /** Short orange ruler above the eyebrow. */
+   /** Orange ruler printed along the DraftSheet's top edge. */
   ruler?: boolean;
   class?: string;
 }
@@ -22,13 +22,24 @@ const { eyebrow, headingAs: Heading = "h1", ruler = true, class: extra } = Astro
 </div>
 
 <style>
-  .hero-intro { display: grid; justify-items: center; text-align: center; gap: var(--sheet-stack); }
-  .hero-intro__ruler { width: min(100%, var(--hero-sheet-ruler-w)); }
+  .hero-intro { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: var(--sheet-stack); min-width: 0; }
+  .hero-intro > :global(*) { min-width: 0; max-width: 100%; }
+  .hero-intro .hero-intro__ruler {
+    position: absolute; top: calc(var(--sheet-pad) * -1); left: calc(var(--sheet-pad) * -1);
+    width: calc(100% + var(--sheet-pad) * 2); max-width: none; transform: rotate(180deg);
+  }
+  .hero-intro__eyebrow { max-width: 100%; }
+  .hero-intro__eyebrow :global(.eyebrow) { justify-content: center; text-align: left; }
+  .hero-intro__eyebrow :global(.eyebrow > :last-child) { min-width: 0; text-wrap: balance; }
   .hero-intro__h {
-    margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy); color: var(--color-charcoal);
+    margin: calc(var(--hero-sheet-heading-gap) - var(--sheet-stack)) 0 0; font-family: var(--font-display); font-weight: var(--weight-heavy); color: var(--color-charcoal);
     font-size: var(--hero-sheet-h1); line-height: var(--hero-sheet-leading); letter-spacing: var(--hero-sheet-tracking);
   }
-  .hero-intro__line { display: block; }
+  .hero-intro__line { display: block; white-space: nowrap; }
+  @media (max-width: 639px) {
+    .hero-intro__line--1 :global(.pencil) { display: block; }
+    .hero-intro__line--2 { font-size: var(--hero-sheet-phone-line-2); }
+  }
 
   /*
    * Once-only sequence (~1.2s): ruler ticks draw, eyebrow fades, line 1 then line 2 rise,

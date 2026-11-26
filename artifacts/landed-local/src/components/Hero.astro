@@ -26,6 +26,7 @@ interface Props {
 }
 const { layout = "centered", eyebrow, ctaHref, ctaLabel, secondaryHref, secondaryLabel, reassurance, tall = false, class: extra, id } = Astro.props;
 const hasAside = Astro.slots.has("aside");
+const reassuranceParts = reassurance?.split(" · ");
 ---
 {layout === "sheet" ? (
 <Section id={id} bg="offwhite" contained={false} class:list={["hero", "hero--sheet", extra]}>
@@ -40,7 +41,7 @@ const hasAside = Astro.slots.has("aside");
         <Button href={ctaHref} fullWidthMobile>{ctaLabel}</Button>
         {secondaryHref && secondaryLabel && <Button variant="text-link" href={secondaryHref} class="hero__secondary">{secondaryLabel}</Button>}
       </div>
-      {reassurance && <p class="hero__reassure"><small>{reassurance}</small></p>}
+      {reassuranceParts && <p class="hero__reassure"><small>{reassuranceParts.map((part, i) => <span class="hero__reassure-part">{part}{i < reassuranceParts.length - 1 && <span aria-hidden="true"> ·</span>}</span>)}</small></p>}
     </HeroIntro>
   </DraftSheet>
   </div>
@@ -69,6 +70,8 @@ const hasAside = Astro.slots.has("aside");
   .hero__h1 { margin: 0; }
   .hero__lead, .hero__reassure { margin: 0; }
   .hero__reassure small { color: var(--color-steel); }
+  .hero__reassure-part { display: inline-block; white-space: nowrap; }
+  .hero__reassure-part + .hero__reassure-part { margin-left: var(--space); }
   .hero__actions { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-button-stack); }
   .hero__secondary { align-self: center; }
   @media (min-width: 640px) { .hero__actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: calc(var(--space) * 3); } }
@@ -102,7 +105,7 @@ const hasAside = Astro.slots.has("aside");
     -webkit-mask-image: radial-gradient(ellipse at center, currentColor var(--hero-grid-fade-inner), transparent var(--hero-grid-fade-outer));
     mask-image: radial-gradient(ellipse at center, currentColor var(--hero-grid-fade-inner), transparent var(--hero-grid-fade-outer));
   }
-  .hero__sheet-wrap { position: relative; }
+  .hero__sheet-wrap { position: relative; max-width: calc(var(--sheet-max) + var(--gutter) * 2); }
   .hero__lead--sheet { font-size: var(--hero-text-lead); max-width: var(--hero-sheet-lead-max); }
   .hero__actions--sheet { justify-content: center; width: 100%; }
   @media (min-width: 640px) { .hero__actions--sheet { width: auto; } }

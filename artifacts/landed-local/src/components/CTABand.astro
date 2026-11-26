@@ -65,14 +65,16 @@ const { booking, business, contact } = site;
   .cta-band__h--left { font-size: var(--cta-h); text-align: left; text-wrap: balance; }
   .cta-band__copy .cta-band__sub { max-width: var(--cta-copy-max); }
   .cta-band__ticket { min-width: 0; width: 100%; max-width: var(--cta-ticket-max); justify-self: center; }
+  .cta-band__ticket :global(.ticket__title) { font-size: var(--cta-ticket-title); }
+  .cta-band__ticket :global(.ticket__items) { font-size: var(--cta-ticket-text); }
   .cta-band__action { margin-top: calc(var(--space) * 3); }
   .cta-band__action :global(.cta-band__btn--ticket) {
-    width: 100%; min-height: calc(var(--button-min-h) + var(--space));
+    width: 100%; min-height: var(--cta-ticket-button);
     font-size: calc(var(--text-button) + 1px); font-weight: var(--weight-semibold);
   }
   .cta-band__action :global(.cta-band__btn--ticket.btn--primary) { color: var(--color-charcoal); }
   @media (min-width: 900px) {
-    .cta-band__cols { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .cta-band__cols { grid-template-columns: minmax(0, 1fr) minmax(0, var(--cta-ticket-max)); }
     .cta-band__ticket { justify-self: end; transform: rotate(var(--hero-ticket-rotate)); }
   }
 </style>

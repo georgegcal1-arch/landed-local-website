@@ -8,16 +8,18 @@ type Props = HTMLAttributes<"ul"> & {
   items: string[];
   /** Use teal-light checks for dark backgrounds. */
   onDark?: boolean;
+  /** Empty orange boxes for preparation items, not completed results. */
+  variant?: "checks" | "preparation";
 };
-const { items, onDark = false, class: extra, ...rest } = Astro.props;
+const { items, onDark = false, variant = "checks", class: extra, ...rest } = Astro.props;
 const hasRenderer = Astro.slots.has("default");
 const rendered = hasRenderer ? await Promise.all(items.map((item, i) => Astro.slots.render("default", [item, i]))) : null;
 ---
-<ul class:list={["checklist", { "checklist--dark": onDark }, extra]} data-reveal {...rest}>
+<ul class:list={["checklist", { "checklist--dark": onDark, "checklist--preparation": variant === "preparation" }, extra]} data-reveal {...rest}>
   {items.map((item, i) => (
         <li style={`--i:${i}`}>
           <svg class="checklist__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M4 12.5 L9.5 18 L20 5" pathLength="1" />
+            {variant === "preparation" ? <rect x="4" y="4" width="16" height="16" /> : <path d="M4 12.5 L9.5 18 L20 5" pathLength="1" />}
           </svg>
           {rendered ? <span set:html={rendered[i]} /> : <span>{item}</span>}
         </li>
@@ -28,6 +30,7 @@ const rendered = hasRenderer ? await Promise.all(items.map((item, i) => Astro.sl
   .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--space) * 1.5); }
   .checklist :global(li) { display: grid; grid-template-columns: var(--check-size) 1fr; gap: calc(var(--space) * 1.5); align-items: start; }
   .checklist__mark { width: var(--check-size); height: var(--check-size); margin-top: calc(var(--space) * 0.25); }
+  .checklist__mark rect { fill: none; stroke: var(--color-orange); stroke-width: var(--stroke-outline); }
   .checklist__mark path {
     fill: none; stroke: var(--color-teal); stroke-width: var(--stroke-check);
     stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0;

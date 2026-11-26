@@ -154,6 +154,12 @@ const proofCard = site.caseStudies.cards[0];
     ))}
   </div>
 
+  <Section bg="offwhite">
+    <Eyebrow>06b CheckList variant="preparation"</Eyebrow>
+    <h2 class="sg-h">Things to bring, not completed results</h2>
+    <CheckList variant="preparation" items={["Calls a week", "Average job value", "How leads come in", "What happens to calls after hours"]} />
+  </Section>
+
   <Section id="cards" bg="paper">
     <Eyebrow>07 Card and PencilMark</Eyebrow>
     <div class="sg-split">
@@ -255,7 +261,7 @@ const proofCard = site.caseStudies.cards[0];
   <Section id="draft-sheet" bg="offwhite">
     <Eyebrow>11d DraftSheet</Eyebrow>
     <h2 class="sg-h">Tilted paper sheet</h2>
-    <p class="sg-meta">Usage: wrap a block of key copy that should read as a drawing on the board. Paper, soft shadow, -1deg (-0.5deg on phones), max 960px. Props: corner (top-left bracket, once per screen), marks (crosshairs + dimension line, default on), intro (marks fade in last, once). Content motion belongs to HeroIntro.</p>
+    <p class="sg-meta">Usage: wrap a block of key copy that should read as a drawing on the board. Paper, soft shadow, -1deg (-0.5deg on phones), max 1160px. Props: corner (top-left bracket, once per screen), marks (crosshairs + dimension line, default on), intro (marks fade in last, once). Content motion belongs to HeroIntro.</p>
     <div class="sg-sheet-demo">
       <DraftSheet>
         <h3>Sheet with drafting marks</h3>
@@ -271,10 +277,10 @@ const proofCard = site.caseStudies.cards[0];
   <Section id="hero-intro" bg="offwhite" blueprint>
     <Eyebrow>11e HeroIntro</Eyebrow>
     <h2 class="sg-h">Load sequence</h2>
-    <p class="sg-meta">Usage: the hero's ruler, eyebrow and two headline lines (slot="line1", slot="line2"); anything in the default slot follows still. Once, about 1.2s: ruler ticks draw, eyebrow fades, lines rise 12px one after the other, then the PencilMark draws. Reduced motion or no JS: all visible, no motion. Works inside DraftSheet.</p>
+    <p class="sg-meta">Usage: inside DraftSheet, the full top-edge ruler, eyebrow and two headline lines (slot="line1", slot="line2"); anything in the default slot follows still. Once, about 1.2s: ruler ticks draw, eyebrow fades, lines rise 12px one after the other, then the PencilMark draws. Reduced motion or no JS: all visible, no motion.</p>
     <DraftSheet intro>
       <HeroIntro eyebrow={site.audienceLine} headingAs="h2">
-        <Fragment slot="line1">More <PencilMark size="lg" class="sg-accent">Landed Jobs.</PencilMark></Fragment>
+        <Fragment slot="line1"><span class="hero__more">More </span><PencilMark size="lg" class="sg-accent">Landed Jobs.</PencilMark></Fragment>
         <Fragment slot="line2">No New Hires.</Fragment>
       </HeroIntro>
     </DraftSheet>
@@ -315,8 +321,8 @@ const proofCard = site.caseStudies.cards[0];
     <h2 class="sg-h">Tools strip</h2>
     <ToolStrip />
   </Section>
-  <Section id="tool-strip-lg" bg="charcoal">
-    <p class="sg-meta sg-meta--center">11g ToolStrip size="lg" on charcoal (Home). Usage: the same loop, bigger: Manrope 700 names, orange dots, edge fades, ~34s seamless loop. Pause/Resume button, hover pause, tap to toggle; reduced motion shows one static centered row.</p>
+  <Section bg="paper"><p class="sg-meta">11g ToolStrip size="lg" on charcoal (Home): compact band, centered eyebrow, larger white Manrope 700 names, orange dots and a round inline Pause/Resume control. Hover or tap pauses the ~34s loop; reduced motion shows one static wrapped row. Names stay text-only unless official single-color marks are available for all six tools.</p></Section>
+  <Section id="tool-strip-lg" bg="charcoal" class="sg-tools-live">
     <ToolStrip size="lg" headingAs="h3" />
   </Section>
   <Section id="tool-band" bg="charcoal" class="sg-tool-band">
@@ -381,7 +387,7 @@ const proofCard = site.caseStudies.cards[0];
     <CTABand headingAs="h3" />
   </div>
   <div id="cta-band-ticket">
-    <Section bg="paper"><Eyebrow>16e CTABand layout="ticket"</Eyebrow><p class="sg-meta">Usage: ends Home, above the footer's orange ruler. Two columns on desktop, stacked on phones: copy left, a tilted paper JobTicket right with the full-width orange booking button in its "after" slot.</p></Section>
+    <Section bg="paper"><Eyebrow>16e CTABand layout="ticket"</Eyebrow><p class="sg-meta">Usage: ends Home, above the footer's orange ruler. Two columns on desktop, stacked on phones: copy left, a tilted 460px paper JobTicket right, 28px title, 18px teal-check list and a full-width 56px orange booking button in its "after" slot.</p></Section>
     <CTABand headingAs="h3" layout="ticket" />
   </div>
 
@@ -428,5 +434,6 @@ const proofCard = site.caseStudies.cards[0];
   .sg-pencil-lg--hero { color: var(--color-charcoal); }
   .sg-pencil-lg--hero :global(.pencil), .sg-hero-intro-accent, :global(.sg-accent) { color: var(--color-orange-burnt); }
   .sg-sheet-demo { display: grid; gap: calc(var(--space) * 8); }
+  :global(.sec.sg-tools-live) { padding-block: var(--tools-lg-pad); }
   .sg-sheet-demo :global(h3) { margin-top: 0; }
 </style>

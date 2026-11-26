@@ -20,7 +20,7 @@ const handy = ["Calls a week", "Average job value", "How leads come in", "What h
       <p class="book-sub">30 minutes · No pressure · Clear numbers</p>
       <div class="book-handy">
         <h2 class="book-handy__h">Have these handy</h2>
-        <CheckList items={handy} />
+        <CheckList items={handy} variant="preparation" />
       </div>
       <p class="book-capacity">I only take on a few new companies at a time.</p>
     </div>
@@ -40,7 +40,7 @@ const handy = ["Calls a week", "Average job value", "How leads come in", "What h
 </Section>
 
 <style>
-  :global(.book-section) { scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
+  :global(.book-section) { --grid-line: var(--hero-grid-line); scroll-margin-top: calc(var(--header-h) + var(--space) * 2); }
   .book-top { display: grid; gap: calc(var(--space) * 5); align-items: start; }
   .book-heading { margin: calc(var(--space) * 1.5) 0 var(--space); }
   .book-sub { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--hero-text-lead); color: var(--color-steel); }

@@ -6,3 +6,4 @@
 - [Accessibility constraints](accessibility-constraints.md) — preserve the design during audits; full orange is large-text only, and small labels on charcoal need teal-light.
 - [Booking presentation](booking-presentation.md) — keep the phone header CTA hidden; calendar time-zone choice must remain visible when hiding event details.
 - [Tools motion exception](tools-motion-exception.md) — the user explicitly permits a controlled continuous tools loop; other animation stays once-only.
+- [Tool brand marks](tools-brand-marks.md) — official single-color logos must be available for the complete six-tool set; otherwise keep every name text-only.

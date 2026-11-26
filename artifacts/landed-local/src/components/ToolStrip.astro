@@ -25,12 +25,13 @@ const { show, label, names } = site.tools;
 {show && variant === "loop" && (
   <div class:list={["tools", { "tools--lg": lg }, extra]} data-tool-strip>
     <div class="tools__head">
-      {lg ? <Heading class="tools__heading">{label}</Heading> : <Eyebrow as="p">{label}</Eyebrow>}
+      {lg ? <Heading class="tools__heading"><Eyebrow as="span">{label}</Eyebrow></Heading> : <Eyebrow as="p">{label}</Eyebrow>}
+    </div>
+    <div class="tools__row">
       <button type="button" class="tools__toggle" aria-pressed="false" hidden data-tool-toggle>
         <span class="tools__toggle-icon" aria-hidden="true"></span>
-        <span data-tool-toggle-label>Pause</span><span class="visually-hidden"> tool names scrolling</span>
+        <span class:list={{ "visually-hidden": lg }} data-tool-toggle-label>Pause</span><span class="visually-hidden"> tool names scrolling</span>
       </button>
-    </div>
     <div class="tools__viewport">
       <div class="tools__track">
         <ul class="tools__list">
@@ -40,6 +41,7 @@ const { show, label, names } = site.tools;
           {names.map((n) => <li class="tools__item"><span>{n}</span>{lg ? <span class="tools__dot"></span> : <span class="tools__tick"></span>}</li>)}
         </ul>
       </div>
+    </div>
     </div>
   </div>
 )}
@@ -65,6 +67,9 @@ const { show, label, names } = site.tools;
 <style>
   .tools { display: grid; gap: calc(var(--space) * 2); }
   .tools__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space) calc(var(--space) * 2); }
+  .tools__row { display: flex; align-items: center; gap: var(--space); min-width: 0; }
+  .tools__row .tools__viewport { min-width: 0; flex: 1; }
+  .tools__toggle { order: 2; flex: none; }
   .tools__toggle {
     display: inline-flex; align-items: center; gap: var(--space); min-height: var(--button-min-h);
     padding: 0 calc(var(--space) * 2); background: transparent; color: var(--color-steel);
@@ -133,20 +138,28 @@ const { show, label, names } = site.tools;
     .tools-band__item:not(:last-child)::after { content: ""; width: var(--stroke-ruler); height: var(--ruler-tick-mid); margin-left: calc(var(--space) * 3.5); margin-right: calc(var(--space) * -1.75); background: var(--color-ruler-rule-dark); }
   }
   /* Large loop for the charcoal band */
-  .tools--lg { gap: calc(var(--space) * 4); }
-  .tools--lg .tools__head { flex-direction: column; justify-content: center; text-align: center; gap: calc(var(--space) * 2); }
+  .tools--lg { gap: calc(var(--space) * 2); }
+  .tools--lg .tools__head { justify-content: center; text-align: center; }
   .tools--lg .tools__heading {
-    margin: 0; font-family: var(--font-display); font-weight: var(--weight-heavy);
-    font-size: var(--tools-lg-heading); line-height: var(--leading-tight); color: var(--color-white);
+    margin: 0; max-width: var(--tools-lg-eyebrow-max); font-size: var(--tools-lg-heading); line-height: var(--leading-tight);
   }
-  .tools--lg .tools__toggle { order: 2; }
+  .tools--lg .tools__heading :global(.eyebrow) { justify-content: center; text-align: left; color: var(--tools-lg-label); }
+  .tools--lg .tools__heading :global(.eyebrow > :last-child) { min-width: 0; text-wrap: balance; }
+  .tools--lg .tools__toggle {
+    position: relative; justify-content: center; width: var(--tools-lg-target); height: var(--tools-lg-target);
+    min-height: var(--tools-lg-target); padding: 0; border: 0; border-radius: 50%; color: var(--color-offwhite);
+  }
+  .tools--lg .tools__toggle::before {
+    content: ""; position: absolute; width: var(--tools-lg-control); height: var(--tools-lg-control);
+    border: var(--stroke-hair) solid currentColor; border-radius: 50%;
+  }
   .tools--lg .tools__viewport { border-block: 0; padding-block: var(--space); cursor: pointer; }
   .tools--lg .tools__track { justify-content: center; }
   .tools--lg .tools__list { justify-content: center; row-gap: calc(var(--space) * 2); }
   .tools--lg .tools__item {
     gap: var(--tools-lg-half-gap); padding-right: var(--tools-lg-half-gap);
     font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--tools-lg-size);
-    line-height: var(--leading-tight); color: var(--color-offwhite);
+    line-height: var(--leading-tight); color: var(--color-white);
   }
   .tools--lg .tools__item:last-child .tools__dot { display: none; }
   .tools__dot { flex: none; width: var(--tools-lg-dot); height: var(--tools-lg-dot); border-radius: 50%; background: var(--color-orange); }

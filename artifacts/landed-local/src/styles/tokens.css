@@ -210,8 +210,8 @@
 
 /* DraftSheet: tilted paper sheet with drafting marks (phone values; desktop below) */
 :root {
-  --sheet-max: 960px;
-  --sheet-pad: 30px;
+  --sheet-max: 1160px;
+  --sheet-pad: 18px;
   --sheet-rotate: -0.5deg;
   --sheet-shadow: 0 1px 2px rgba(22, 26, 31, 0.08), 0 14px 32px -14px rgba(22, 26, 31, 0.22);
   --sheet-mark-opacity: 0.5;
@@ -227,9 +227,11 @@
   --hero-grid-fade-outer: 92%;
   --hero-sheet-pad-top: 24px;
   --hero-sheet-pad-bottom: 40px;
-  --hero-sheet-h1: clamp(30px, 9vw, 44px);
+  --hero-sheet-h1: clamp(36px, 13.1vw, 52px);
   --hero-sheet-leading: 1.02;
   --hero-sheet-tracking: -0.025em;
+  --hero-sheet-heading-gap: 8px;
+  --hero-sheet-phone-line-2: 0.9em;
   --hero-sheet-lead-max: 640px;
   --hero-sheet-ruler-w: 192px;
   /* HeroIntro: once-only load sequence, about 1.2s total */
@@ -243,17 +245,24 @@
   --dur-intro-pencil: 440ms;
   --delay-sheet-marks: 880ms;
   /* ToolStrip size="lg" on the charcoal band */
-  --tools-lg-heading: 28px;
-  --tools-lg-size: 23px;
+  --tools-lg-heading: var(--text-eyebrow);
+  --tools-lg-eyebrow-max: 270px;
+  --tools-lg-size: 26px;
   --tools-lg-half-gap: 20px;
   --tools-lg-dot: 6px;
   --tools-lg-fade: 40px;
-  --tools-lg-pad: 48px;
+  --tools-lg-pad: 32px;
+  --tools-lg-control: 32px;
+  --tools-lg-target: 44px;
+  --tools-lg-label: color-mix(in srgb, var(--color-offwhite) 70%, var(--color-charcoal));
   --dur-tools-lg: 34s;
   /* CTABand layout="ticket" */
   --cta-h: 36px;
   --cta-col-gap: 40px;
-  --cta-ticket-max: 440px;
+  --cta-ticket-max: 460px;
+  --cta-ticket-title: 28px;
+  --cta-ticket-text: 18px;
+  --cta-ticket-button: 56px;
   --cta-copy-max: 520px;
   /* /book calendar on the charcoal blueprint */
   --cal-heading: 30px;
@@ -273,12 +282,12 @@
     --sheet-stack: 20px;
     --hero-sheet-pad-top: 40px;
     --hero-sheet-pad-bottom: 48px;
-    --hero-sheet-h1: clamp(48px, 5.4vw, 76px);
-    --tools-lg-heading: 32px;
-    --tools-lg-size: 32px;
+    --hero-sheet-h1: clamp(64px, 7.5vw, 112px);
+    --tools-lg-size: 40px;
+    --tools-lg-eyebrow-max: none;
     --tools-lg-half-gap: 30px;
     --tools-lg-fade: 96px;
-    --tools-lg-pad: 64px;
+    --tools-lg-pad: 44px;
     --cta-h: 52px;
     --cta-col-gap: 80px;
     --cal-heading: 38px;
