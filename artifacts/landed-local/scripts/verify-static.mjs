@@ -47,7 +47,7 @@ const business = schema.find((item) => item["@type"] === "ProfessionalService");
 assert.ok(business);
 for (const field of ["name", "legalName", "url", "logo", "image", "telephone", "email", "address", "areaServed"]) assert.ok(business[field], field);
 assert.ok(!/price|founder|owner/i.test(JSON.stringify(business)));
-assert.ok(!/free|roofing|hvac|missed-jobs review|ohio state/i.test(JSON.stringify(schema)));
+assert.ok(!/free|roofing|hvac|missed-jobs review|ohio[\s\u00a0]+state/i.test(JSON.stringify(schema)));
 assert.equal(schema.filter((item) => item["@type"] === "ProfessionalService").length, 1);
 assert.ok(schema.some((item) => item["@type"] === "FAQPage"));
 assert.equal(meta(preCall, "robots"), "noindex, nofollow");
@@ -237,7 +237,7 @@ for await (const path of files(dist)) {
   const visibleText = visible(html).replace(/\/get-a-mockup\/?/g, "");
   assert.ok(!/\b(?:997|mockup|founding)\b/i.test(visibleText), `Retired visible copy: ${path.pathname}`);
   const withoutPhoneDemo = visibleText.replace(/Free estimate tomorrow at 9:00 AM or 2:30 PM\?/g, "");
-  assert.ok(!/\b(?:free|roofing|hvac|trusted by|ohio state)\b|\$0|missed-jobs review/i.test(withoutPhoneDemo), `Stale consultation or niche wording: ${path.pathname}`);
+  assert.ok(!/\b(?:free|roofing|hvac|trusted by)\b|ohio[\s\u00a0]+state|\$0|missed-jobs review/i.test(withoutPhoneDemo), `Stale consultation or niche wording: ${path.pathname}`);
 }
 const png = await readFile(new URL("public/og-image.png", root));
 assert.equal(png.readUInt32BE(16), 1200);
