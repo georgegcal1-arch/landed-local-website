@@ -1,52 +1,34 @@
-# Landed Local Website
+# Landed Local website
 
-**Live site: [landedlocal.com](https://landedlocal.com)**
+The marketing site for Landed Local, a Columbus, Ohio company that builds AI systems for local service businesses: answering calls, following up on leads and clearing admin work off the owner's plate, so they land more jobs without new hires.
 
-Landed Local is a Columbus, Ohio business that builds AI systems for home-service companies, mainly roofing and HVAC. This repository holds the company's marketing website.
+## What's on the site
 
-<!-- Add a screenshot: upload a file named screenshot.png to this repo, then delete these comment markers around the next line -->
-<!-- ![Landed Local homepage](screenshot.png) -->
+- Five services: AI receptionist, speed-to-lead and lead reactivation, workflow automation, CRM buildout, and custom AI tools
+- What missed calls and slow follow-up cost a service business
+- How it works: find the leaks, build the fix, measure it
+- A 30-minute consultation, booked through a Cal.com calendar embedded on /book
 
-## What Landed Local offers
+## Tech
 
-- **AI Receptionist:** answers calls at any hour, qualifies callers, books appointments and passes urgent calls to the team.
-- **Speed-to-Lead and Reactivation:** calls new leads within a minute and follows up with past customers and old quotes.
-- **Workflow Automation:** invoices, estimates, follow-up texts, review requests and reports.
-- **CRM Buildout:** calls, texts, forms and jobs in one system with a dashboard.
-- **Custom AI Tools:** tailored tools such as quoting tools or an internal knowledge assistant.
+Astro, Tailwind CSS and a Cal.com embed. Built with Replit Agent.
 
-## What the site does
+## Run it locally
 
-- Explains each service to roofing and HVAC owners in plain language.
-- Shows an interactive example of a missed call turning into a booked estimate.
-- Books a free 30-minute "Missed-Jobs Review" call through an embedded Cal.com scheduler.
+From the repository root:
 
-## Tech stack
+```sh
+pnpm install
+pnpm --filter @workspace/landed-local run dev
+```
 
-| Part | Tool |
-| --- | --- |
-| Framework | [Astro](https://astro.build) |
-| Styling | [Tailwind CSS](https://tailwindcss.com) |
-| Booking | [Cal.com](https://cal.com) embed |
-| Built with | Replit Agent (AI coding agent) |
-| Hosting | Replit Deployments, custom domain |
+To build and preview the static site:
 
-## How it was built
-
-I'm a business student, not a trained software engineer. I built this site by directing an AI coding agent: writing the brief, reviewing each version, testing it in the browser and iterating until it was ready to publish. Deployments are versioned, so any release can be rolled back.
-
-## Running it locally
-
-This is a standard Astro project. Check `package.json` for the exact scripts; typically:
-
-```bash
-npm install
-npm run dev
+```sh
+pnpm --filter @workspace/landed-local run build
+pnpm --filter @workspace/landed-local run serve
 ```
 
 ## Contact
-George Callendine, Founder · 
-[george@landedlocal.com](mailto:george@landedlocal.com) · 
-[landedlocal.com](https://landedlocal.com)
 
-George Callendine, Founder · [george@landedlocal.com](mailto:george@landedlocal.com) · [landedlocal.com](https://landedlocal.com)
+George, george@landedlocal.com
